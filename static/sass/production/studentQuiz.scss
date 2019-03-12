@@ -1,0 +1,41 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../layout/footer";
+@import "../base/typography";
+@import "../layout/header";
+@import "../layout/heading";
+
+
+html{
+    height:100%;
+}
+
+body {
+    height:100%;
+    position:relative;
+}
+.main {
+    margin-top:2rem;
+    padding:2rem;
+    font-size:4rem;
+
+    &__heading {
+        font-size:4rem;
+    }
+}
+
+.form {
+    &__submit {
+        width:15%;
+        font-size:2rem;
+        border-radius:15px;
+    }
+}
+
+.footer {
+    @include media-breakpoint(sm){
+        position: absolute;
+        bottom:0;
+    }
+}

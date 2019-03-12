@@ -1,0 +1,26 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../layout/footer";
+@import "../base/typography";
+@import "../layout/main";
+@import "../layout/header";
+@import "../components/description";
+
+
+.main {
+    margin-top:2rem;
+    padding:2rem;
+
+    &__heading {
+        font-size:4rem;
+    }
+}
+
+
+.footer {
+    @include media-breakpoint(sm){
+        position: absolute;
+        bottom:0;
+    }
+}

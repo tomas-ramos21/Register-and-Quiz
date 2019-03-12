@@ -1,0 +1,49 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../base/typography";
+@import "../layout/main";
+@import "../layout/header";
+@import "../layout/heading";
+@import "../layout/footer";
+.main {
+
+    &__text {
+        text-transform: uppercase;
+        font-size:4rem;
+        margin-bottom: 2rem;
+    }
+
+    &__button {
+        width:80vw;
+        max-width: 400px;
+        padding:1rem;
+        font-size:1.5rem;
+        border-radius: 15px;
+        font-weight:600;
+
+        @include media-breakpoint(sm) {
+            width:600px;
+            font-size:2rem;
+        }
+    }
+
+    &__break {
+        @include media-breakpoint(sm) {
+            display:none;
+        }
+    }
+
+    &__icon {
+        font-size:1.5rem;
+        margin-right:1rem;
+    }
+}
+
+
+.footer {
+    @include media-breakpoint(sm) {
+        bottom: -300px;
+        justify-content: flex-start;
+    }
+}

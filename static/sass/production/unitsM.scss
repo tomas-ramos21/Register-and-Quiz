@@ -1,0 +1,33 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../base/typography";
+@import "../layout/header";
+@import "../layout/heading";
+@import "../components/cards";
+@import "../components/description";
+@import "../components/search";
+@import "../layout/footer";
+@import "../components/forms";
+.main {
+    margin-top:2rem;
+}
+.card {
+    @include media-breakpoint(sm) {
+        width:60%;
+    }
+}
+.footer {
+    @include media-breakpoint(sm) {
+        position:relative;
+        bottom: -500px;
+        justify-content: flex-start;
+    }
+}
+
+// .unitUpdate {
+
+//     &__text {
+//         width:55%;
+//     }
+// }

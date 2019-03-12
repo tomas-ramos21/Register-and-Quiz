@@ -1,0 +1,17 @@
+.form {
+    // &__column {
+    //     display:flex;
+    //     flex-direction: column;
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    &__input {
+        width:50%;
+        min-width:120px;
+    }
+
+    &__submit {
+        font-size:1.5rem;
+    }
+}

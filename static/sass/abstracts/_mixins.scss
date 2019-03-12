@@ -1,0 +1,28 @@
+@mixin media-breakpoint($point) {
+  
+    $xs: "(min-width: 576px)";
+    $sm: "(min-width: 768px)";
+    $md: "(min-width: 992px)";
+    $lg: "(min-width:1200px)";
+
+    @if $point ==  xs {
+      @media #{$xs} { @content; }
+    }
+    @else if $point == sm {
+      @media #{$sm} { @content; }
+    }
+    @else if $point == md {
+      @media #{$md}  { @content; }
+    }
+    @else if $point == lg {
+      @media #{$lg}  { @content; }
+    }
+  
+  }
+
+  @mixin flex-layout-middle($direction) {
+    display: flex;
+    flex-direction:$direction;
+    justify-content: center;
+    align-items: center;
+  }

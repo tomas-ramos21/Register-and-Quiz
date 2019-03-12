@@ -1,0 +1,56 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../base/typography";
+@import "../layout/main";
+@import "../layout/header";
+@import "../layout/heading";
+@import "../components/description";
+@import "../components/cards";
+@import "../layout/footer";
+
+.card {
+    @include media-breakpoint(sm) {
+        width:30%;
+    }
+
+    &__label {
+        font-size:2rem;
+    }
+
+    &__input {
+        width:40%;
+    }
+
+    &-header__button {
+        padding:1rem;
+        font-size:1.5rem;
+        font-weight: 500;
+    }
+
+
+    &-body {
+        min-width: 250px;
+        &__text {
+            text-align: left;
+            display:block;
+            font-size:1.5rem;
+            margin:2rem 2rem;
+        }
+    }
+
+
+}
+
+
+.main {
+    margin-top:2rem;
+    display:initial;
+}
+
+.footer {
+    @include media-breakpoint(sm) {
+        bottom: -300px;
+        justify-content: flex-start;
+    }
+}

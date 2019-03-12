@@ -1,0 +1,43 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../layout/footer";
+@import "../base/typography";
+@import "../components/loginForm";
+
+
+body {
+    font-family: $font-main;
+}
+
+// header components
+
+.header {
+    background:$login-brown;
+    padding:1.5rem 0;
+    text-align: center;
+
+    @include media-breakpoint(sm){
+        text-align: left;
+    }
+}
+
+
+.banner {
+    &__image {
+        display:none;
+        width:100%;
+
+        @include media-breakpoint(sm){
+            display:initial;
+        }
+    }
+}
+
+
+.footer {
+    @include media-breakpoint(sm){
+        position: absolute;
+        bottom:0;
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "finalyearproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "sass sass/production:public/stylesheets --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,27 @@
+.footer {
+    margin-top:2rem;
+    position: static;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+
+    @include media-breakpoint(sm) {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    &__text {
+        font-size: 2rem;
+
+        @include media-breakpoint(sm) {
+            margin-left: 2rem;
+        }
+    }
+    &__image {
+        @include media-breakpoint(sm) {
+            margin-left: 2rem;
+        }
+    }
+}

@@ -1,0 +1,13 @@
+.heading {
+  
+    &__main{
+        display:block;
+        margin:1rem 0;
+        font-size:3rem;
+    }
+
+    &__sub {
+        display:block;
+        font-size:2rem;
+    }
+}

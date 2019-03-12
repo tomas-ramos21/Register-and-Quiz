@@ -1,0 +1,129 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.footer {
+  margin-top: 2rem;
+  position: static;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+.footer__text {
+  font-size: 2rem;
+}
+@media (min-width: 768px) {
+  .footer__text {
+    margin-left: 2rem;
+  }
+}
+@media (min-width: 768px) {
+  .footer__image {
+    margin-left: 2rem;
+  }
+}
+
+.far, .fas {
+  font-size: 2rem;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  position: relative;
+}
+
+.main {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.navbar__icon {
+  margin-right: 2rem;
+  border-radius: 90px;
+}
+.navbar__name {
+  display: inline-block;
+}
+
+.drop-options {
+  font-size: 2rem;
+  color: black;
+  padding: 1.5rem;
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 1em solid;
+  border-right: 1em solid transparent;
+  border-bottom: 0;
+  border-left: 1em solid transparent;
+}
+
+.dropdown-menu {
+  min-width: 25rem;
+}
+
+.unit {
+  padding: 2rem;
+}
+.unit-text {
+  text-align: center;
+}
+.unit-text__main {
+  display: block;
+}
+.unit-text__sub {
+  display: block;
+}
+.unit__image {
+  width: 50%;
+  max-height: 132px;
+}
+
+.main {
+  margin-top: 2rem;
+  padding: 2rem;
+}
+.main__heading {
+  font-size: 4rem;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+/*# sourceMappingURL=student.css.map */
