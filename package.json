@@ -1,10 +1,10 @@
 {
-  "name": "finalyearproject",
+  "name": "regNQuiz",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "sass sass/production:public/stylesheets --watch"
+    "build": "sass static/sass/production:static/stylesheets --watch"
   },
   "keywords": [],
   "author": "",
