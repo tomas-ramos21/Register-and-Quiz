@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load staticfiles %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,10 +19,10 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
 
 
-    <link rel="stylesheet" href="../../static/stylesheets/addUsers.css">
+    <link rel="stylesheet" href="{% static "stylesheets/addUsers.css" %}">
 
     <!--Vendor input file styling-->
-    <link rel="stylesheet" href="../../static/input-file-master/input-file.css">
+    <link rel="stylesheet" href="{% static "input-file-master/input-file.css" %}">
 
 </head>
 
@@ -30,7 +30,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <section class="container">
-                <a class="navbar-brand" href="#"><img src="../public/images/murdochimage-dark.png" width="150"
+                <a class="navbar-brand" href="#"><img src="{% static "images/murdochimage-dark.png" %}" width="150"
                         alt="logo brand"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,19 +39,19 @@
                 <section class="collapse navbar-collapse " id="navbar-list">
                     <ul class="navbar-nav ml-auto text-center">
                         <li class="nav-item">
-                            <img src="../public/images/loginicon.png" class="navbar__icon" alt="">
+                            <img src="{% static "images/loginicon.png" %}" class="navbar__icon" alt="">
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <h1 class="navbar__name text-white display-5 mt-4">JOHN SMITH</h1>
+                                <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
                             </a>
 
                             <section class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <section>
                                     <a href="#" class="drop-options">
                                         <span><i class="far fa-user"></i></span>
-                                        <span>JOHN SMITH</span>
+                                        <span>{{name_menu}}</span>
                                     </a>
                                 </section>
                                 <section>
@@ -69,14 +69,15 @@
     </header>
 
     <main class="main">
-        <form action="/" class="upload">
+        <form method="post" class="upload" enctype="multipart/form-data">
+          {% csrf_token %}
             <h1>Upload CSV Files To Add Students</h1>
             <section class="form-group file">
                 <input type="file" name="files" accept=".csv" class="file__uploader">
             </section>
             <div class="form-group">
                 <div class="d-flex justify-content-center">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                    <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
                         Submit
                     </button>
                 </div>
@@ -84,7 +85,7 @@
         </form>
     </main>
     <footer class="footer">
-        <img class="footer__image" src="../public/images/Murdoch_University_Logo.svg.png" width="100" height="100"
+        <img class="footer__image" src="{% static "images/Murdoch_University_Logo.svg.png" %}" width="100" height="100"
             alt="">
         <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
     </footer>
@@ -100,8 +101,8 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 
-     <script src="../../static/input-file-master/input-file.min.js"></script>
-    <script src="../../static/js/validate.js"></script>
+     <script src="{% static "/input-file-master/input-file.min.js" %}"></script>
+    <script src="{% static "/js/validate.js" %}"></script>
     <script>
         new InputFile({
             // options
