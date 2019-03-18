@@ -28,6 +28,7 @@ MEDIA_URL = '/media/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '32ay1u!(pw)=094ijgcm_(!fwo2gn5uq^n_i5m6hka5gqg#jq7'
 
@@ -96,6 +97,11 @@ DATABASES = {
 	'PORT': '',
     }
 }
+
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
 
 
 # Password validation
