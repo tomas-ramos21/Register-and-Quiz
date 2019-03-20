@@ -1,17 +1,45 @@
+# Author: Tomas Ramos
+# Date: 20-03-2019
+# Purpose: Define functions providing extra utility to the administrative app.
+# Last Modified By: Tomas Ramos
+# Last Modified Date: 20-03-2019
+
 import os
 import csv
 from .models import Employee
 from django.contrib.auth import authenticate
 from django.contrib import admin
 from django.contrib.auth.models import User
-
 from django.contrib.auth import get_user_model
 from django.conf import settings
-User = get_user_model()
 
-def register_lecturer(csv_path):
+def register_employee(csv_path: str) -> None:
+    """
+        Registers lecturers in the platform.
 
-    columns = ['id', 'password', 'first_name', 'last_name', 'email', 'department', 'position']
+        Iterates over the rows of a CSV file
+        collecting the information to be used
+        for the account creation.
+
+        Parameters
+        ----------
+        csv_path: str
+            String containing the path to the
+            file.
+
+        TODO
+        ----------
+        1. Function do check the information
+        used during creation is accurate.
+    """
+
+    columns = ['id',
+               'password',
+               'first_name',
+               'last_name',
+               'email',
+               'department',
+               'position']
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
@@ -21,30 +49,56 @@ def register_lecturer(csv_path):
                 crt_dict = {}
                 for column in columns:
                     crt_dict[column] = row[column]
-                employee = User()
-                employee.set_password(crt_dict['password'])
-                employee.username = crt_dict['id']
-                employee.first_name = crt_dict['first_name']
-                employee.last_name = crt_dict['last_name']
-                employee.email = crt_dict['email']
-                employee.dpt = crt_dict['department']
-                employee.position = crt_dict['position']
+                user = User()
+                user.set_password(crt_dict['password'])
+                user.username = crt_dict['id']
+                user.first_name = crt_dict['first_name']
+                user.last_name = crt_dict['last_name']
+                user.email = crt_dict['email']
+                employee = Employee(user=user,
+                                    dpt=crt_dict['department'],
+                                    pstn=crt_dict['position'])
                 employee.save()
 
+def register_student(csv_path: str) -> None:
+    """
+        Registers students in the platform.
 
-                # Save Employee object into the database
-                # staff = Employee.objects.create()
+        Iterates over the rows of a CSV file
+        collecting the information to be used
+        for the account creation.
 
-    os.remove(csv_path)
+        Parameters
+        ----------
+        csv_path: str
+            String containing the path to the
+            file.
 
-def register_student(csv_path):
+        TODO
+        ----------
+        1. Function do check the information
+        used during creation is accurate.
+    """
 
-    columns = ['id', 'password', 'first_name', 'last_name', 'email']
+    columns = ['id',
+               'password',
+               'first_name',
+               'last_name',
+               'email']
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
 
         for idx, row in enumerate(reader):
             if idx != 0:
+                crt_dict = {}
                 for column in columns:
-                    print(row[column])
+                    crt_dict[column] = row[column]
+                user = User()
+                user.set_password(crt_dict['password'])
+                user.username = crt_dict['id']
+                user.first_name = crt_dict['first_name']
+                user.last_name = crt_dict['last_name']
+                user.email = crt_dict['email']
+                student = Student(user=user)
+                student.save()
