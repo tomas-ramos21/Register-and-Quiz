@@ -1,7 +1,7 @@
 # Author: Tomas Ramos
 # Date: 20-03-2019
 # Purpose: Log user into the website.
-# Last Modified By: Tomas Ramos
+# Last Modified By: Madyarini Grace Ariel
 # Last Modified Date: 20-03-2019
 
 # TODO
@@ -13,6 +13,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from student import views as student
 
 def index(request):
 	"""
@@ -23,7 +26,7 @@ def index(request):
 		request: HTTP request object
 			Contains the request type sent by the user.
 	"""
-	return render(request, 'login/index.html')
+	return HttpResponseRedirect(reverse('login:user_login'))
 
 @login_required
 def user_logout(request):
@@ -62,14 +65,18 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				name = request.user.first_name + ' ' + request.user.last_name
+				curr_user = User.objects.filter(username=username).first()
+				# curr_user = request.user.first_name + ' ' + request.user.last_name
 				# Conditional Redirections
-				if username[:3] == '123':
-					return render(request, 'student/student.html', name)
+				if username[:3] == '333':
+					# return redirect(reverse('student:student_dashboard', args=[curr_user]))
+					return student.student_dashboard(request, curr_user)
 				elif username[:3] == '456':
-					return render(request, 'Lecturer/Lecturer.html', name)
+					return render(request, 'Lecturer/Lecturer.html', curr_user)
 				elif username[:3] == '789':
-					return render(request, 'administrative/admin_home.html', name)
+					return render(request, 'administrative/admin_home.html', curr_user)
+				else:
+					return HttpResponse("Invalid account")
 			else:
 				return HttpResponse("Account Not Active")   # Need proper error page.
 		else:
