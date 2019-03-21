@@ -1,7 +1,9 @@
+{% extends 'student/navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -14,47 +16,10 @@
 
   <!--Student Css-->
   <link rel="stylesheet" href="{% static "stylesheets/Unitsview.css" %}">
+{% endblock head %}
 </head>
-
 <body>
-    <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <section class="container">
-                            <a class="navbar-brand" href="#"><img src="{% static "images/murdochimage-dark.png" %}" width="150"  alt="logo brand"></a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list" aria-controls="navbarNav"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <section class="collapse navbar-collapse " id="navbar-list">
-                                    <ul class="navbar-nav ml-auto text-center">
-                                        <li class="nav-item">
-                                                <img src="{% static "images/loginicon.png" %}" class="navbar__icon" alt="">
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
-                                                </a>
-                                  
-                                                <section class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <section>
-                                                         <a href="#" class="drop-options">
-                                                                    <span><i class="far fa-user"></i></span>
-                                                                    <span >{{name_menu}}</span>
-                                                         </a>
-                                                    </section>
-                                                    <section>
-                                                        <a href="#" class="drop-options">
-                                                                    <span><i class="fas fa-sign-out-alt"></i></span>
-                                                                    <span>Logout</span>
-                                                         </a>
-                                                    </section>
-                                                </section>
-                                        </li>
-                                    </ul>
-                            </section>
-                    </section>
-                </nav>
-    </header>
+{% block main %}
     <main class="main">
         <h1 class="text-center main__heading">DashBoard (Click On The Units To Start)</h1>
         <section class="container-fluid">
@@ -67,7 +32,7 @@
                                                 <section
                                                         class=" d-flex align-items-center justify-content-center flex-column">
                                                         <img class="unit__image mx-auto"
-                                                                src="../public/images/365728-636190610546181732-16x9.jpg"
+                                                                src="{% static "images/365728-636190610546181732-16x9.jpg" %}"
                                                                 alt="One of the unit images">
                                                         <h1 class="unit-text my-3 ">
                                                                 <span class="unit-text__main">ICT 302 IT
@@ -99,7 +64,7 @@
                                                 <section
                                                         class=" d-flex align-items-center justify-content-center flex-column">
                                                         <img class="unit__image"
-                                                                src="../public/images/Light-blue-pattern-seamless-background-vector-452x336.jpg"
+                                                                src="{% static "images/Light-blue-pattern-seamless-background-vector-452x336.jpg" %}"
                                                                 alt="this is a image for one of the units">
                                                         <h1 class="unit-text my-3 ">
                                                                 <span class="unit-text__main">WEB278 Web
@@ -130,7 +95,7 @@
                                                 <section
                                                         class=" d-flex align-items-center justify-content-center flex-column">
                                                         <img class="unit__image"
-                                                                src="../public/images/Light-blue-pattern-seamless-background-vector-452x336.jpg"
+                                                                src="{% static "images/blue_hexgrid_pattern-.jpg" %}"
                                                                 alt="this is a image for one of the units">
                                                         <h1 class="unit-text my-3 ">
                                                                 <span class="unit-text__main">ICT380 Information
@@ -162,7 +127,7 @@
                                                 <section
                                                         class=" d-flex align-items-center justify-content-center flex-column">
                                                         <img class="unit__image"
-                                                                src="../public/images/Light-blue-pattern-seamless-background-vector-452x336.jpg"
+                                                                src="{% static "images/blue.jpg" %}"
                                                                 alt="this is a image for one of the units">
                                                         <h1 class="unit-text my-3 ">
                                                                 <span class="unit-text__main">ICT301 Applied
@@ -189,6 +154,7 @@
                 </section>
         </section>
 </main>
+
     <!-- <main class="main">
             <h1 class="text-center main__heading">DashBoard</h1>
             <section class="container-fluid">
@@ -224,16 +190,9 @@
                 </section>
             </section>
         </main> -->
-        <footer class="footer">
-                <img class="footer__image" src="{% static "images/Murdoch_University_Logo.svg.png" %}" width="100" height="100" alt="">
-                <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
-        </footer>
-
-
-
-
+{% endblock main %}
 </body>
-
+{% block script %}
 <!--BootStrap Scripts-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -241,5 +200,5 @@
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-
+{% endblock script %}
 </html>
