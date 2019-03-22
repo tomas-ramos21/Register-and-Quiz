@@ -66,22 +66,19 @@
                         <img src="../public/images/365728-636190610546181732-16x9.jpg" class="card-img-top" alt="...">
                         <section class="card-body">
                                 <h1 class="unit-text my-3  unit">
-                                        <span class="unit-text__main">WEB278 Web Strategy</span>
-                                        <span class="unit-text__sub">(s1,2019)</span>
                                 </h1>
-                                <form action="" class="card__form">
+                                <form action="{% url 'student:student_codeinput' %}" class="card__form" method="POST">
+								{% csrf_token %}
+										{{form.as_p}}
+								<input type="submit"  class="btn btn-primary card__submit">
+										<!--
                                         <section class="card-submission">
                                                 <label class="mr-3 card__label" for="card__answer">Question Code:</label>
-                                                <input type="number" id="card__answer" required class="card__input form-control form-control-lg">
+                                                <input type="text" name="text" id="card__answer" required class="card__input form-control form-control-lg">
                                                 <input type="submit"  class="btn btn-primary card__submit">
                                         </section>
+										-->
                                 </form> 
-                        </section>
-                        <section class="card-footer text-center">
-                            <h1>Past Questions done</h1>
-                            <a href="#" class="card-footer__links">Question 1 - Introduction To Web Strategy (13/02/2019)</a>
-                            <a href="#" class="card-footer__links">Question 2 - Web History part 1 (13/02/2019)</a>
-                            <a href="#" class="card-footer__links">Question 3 - Social Media (14/02/2019)</a>
                         </section>
                 </section>
         </main>
