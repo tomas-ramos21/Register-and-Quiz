@@ -69,8 +69,9 @@ def user_login(request):
 				# curr_user = request.user.first_name + ' ' + request.user.last_name
 				# Conditional Redirections
 				if username[:3] == '333':
-					# return redirect(reverse('student:student_dashboard', args=[curr_user]))
-					return student.student_dashboard(request, curr_user)
+					return HttpResponseRedirect(reverse('student:student_index'))
+					#return redirect('student:student_dashboard', args=[curr_user])
+					# return student.student_dashboard(request, curr_user)
 				elif username[:3] == '456':
 					return render(request, 'Lecturer/Lecturer.html', curr_user)
 				elif username[:3] == '789':
