@@ -4,10 +4,6 @@
 # Last Modified By: Tomas Ramos
 # Last Modified Date: 20-03-2019
 
-
-# TODO:
-# 1. Discard the need for a default name argument when possible.
-
 import csv
 import io
 import os
@@ -16,7 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from generic.utils import register_employee, register_student
 from django.conf import settings
 
-def admin_home(request, name:str= 'Rodney') -> None:
+def admin_home(request):
 	"""
 		Renders administratives' staff home page.
 
@@ -28,10 +24,12 @@ def admin_home(request, name:str= 'Rodney') -> None:
 		name: Staff's name.
 			String with the staff's name.
 	"""
-	user_dict = {'name_header': name, 'name_menu': name}
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
 	return render(request, 'administrative/admin_home.html', user_dict)
 
-def acc_management(request, name:str= 'Rodney') -> None:
+def acc_management(request):
 	"""
 		Renders the account management options page.
 
@@ -43,11 +41,12 @@ def acc_management(request, name:str= 'Rodney') -> None:
 		name: Staff's name
 			String with teh staff's name.
 	"""
-
-	user_dict = {'name_header': name, 'name_menu': name}
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
 	return render(request, 'administrative/accountM.html', user_dict)
 
-def unit_management(request, name:str= 'Rodney') -> None:
+def unit_management(request):
 	"""
 		Renders the unit management options page.
 
@@ -59,11 +58,12 @@ def unit_management(request, name:str= 'Rodney') -> None:
 		name: Staff's name
 			String with teh staff's name.
 	"""
-
-	user_dict = {'name_header': name, 'name_menu':name}
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
 	return render(request, 'administrative/unitsM.html', user_dict)
 
-def space_management(request, name:str= 'Rodney') -> None:
+def space_management(request):
 	"""
 		Renders the space management options page.
 
@@ -75,11 +75,12 @@ def space_management(request, name:str= 'Rodney') -> None:
 		name: Staff's name
 			String with teh staff's name.
 	"""
-
-	user_dict = {'name_header': name, 'name_menu': name}
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
 	return render(request, 'administrative/teachingspace.html', user_dict)
 
-def lecturer_creation(request, name:str= 'Rodney') -> None:
+def lecturer_creation(request):
 	"""
 		Handles request sent by the user when using the
 		staff creation page. The page may be re-rendered or
@@ -93,9 +94,9 @@ def lecturer_creation(request, name:str= 'Rodney') -> None:
 		name: Staff's name
 			String with teh staff's name.
 	"""
-
-	user_dict = {'name_header': name, 'name_menu': name}
-
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
 	# Re-render the page
 	if request.method == "GET":
 		return render(request, 'administrative/lectAccAdd.html', user_dict)
@@ -110,7 +111,7 @@ def lecturer_creation(request, name:str= 'Rodney') -> None:
 
 	return render(request, 'administrative/lectAccAdd.html', user_dict)
 
-def student_creation(request, name:str= 'Rodney') -> None:
+def student_creation(request):
 	"""
 		Handles request sent by the user when using the
 		staff creation page. The page may be re-rendered or
@@ -124,8 +125,9 @@ def student_creation(request, name:str= 'Rodney') -> None:
 		name: Staff's name
 			String with teh staff's name.
 	"""
-
-	user_dict = {'name_header': name, 'name_menu': name}
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
 
 	# Process to render the page
 	if request.method == "GET":
