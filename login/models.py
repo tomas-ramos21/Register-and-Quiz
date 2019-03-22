@@ -63,12 +63,10 @@ class Employee(models.Model):
 		Django's Model to represent the staff
 		class in the MySQL database.
 	"""
-	# USERNAME_FIELD = 'user'
-	# REQUIRED_FIELDS = ('dpt', 'pstn')
 
 	user 	= models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', default='')
-	dpt		= models.CharField(max_length=30, blank=True, default='')		# Department
-	pstn	= models.CharField(max_length=20, blank=True, default='')		# Position
+	dpt		= models.CharField(max_length=29, blank=True, default='')		# Department
+	pstn	= models.CharField(max_length=19, blank=True, default='')		# Position
 
 class Class(models.Model):
 

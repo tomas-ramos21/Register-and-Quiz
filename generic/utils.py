@@ -6,7 +6,7 @@
 
 import os
 import csv
-from login.models import Employee
+from login.models import Employee, Student
 from django.contrib.auth import authenticate
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -57,6 +57,7 @@ def register_employee(csv_path: str) -> None:
                 user.first_name = crt_dict['first_name']
                 user.last_name = crt_dict['last_name']
                 user.email = crt_dict['email']
+                user.save()
                 employee = Employee(user=user,
                                     dpt=crt_dict['department'],
                                     pstn=crt_dict['position'])
@@ -102,6 +103,7 @@ def register_student(csv_path: str) -> None:
                 user.first_name = crt_dict['first_name']
                 user.last_name = crt_dict['last_name']
                 user.email = crt_dict['email']
+                user.save()
                 student = Student(user=user)
                 student.save()
 
