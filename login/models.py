@@ -21,6 +21,7 @@ class Unit(models.Model):
 	code	= models.CharField(primary_key=True, max_length=6)	# Unit's code
 	title 	= models.CharField(max_length=30)			# Unit Title
 	credits = models.PositiveIntegerField()				# Unit's max credits
+	image = models.CharField(max_length=50, default='default.jpg')
 
 class Building(models.Model):
 
@@ -63,10 +64,12 @@ class Employee(models.Model):
 		Django's Model to represent the staff
 		class in the MySQL database.
 	"""
+	# USERNAME_FIELD = 'user'
+	# REQUIRED_FIELDS = ('dpt', 'pstn')
 
 	user 	= models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', default='')
-	dpt		= models.CharField(max_length=29, blank=True, default='')		# Department
-	pstn	= models.CharField(max_length=19, blank=True, default='')		# Position
+	dpt		= models.CharField(max_length=30, blank=True, default='')		# Department
+	pstn	= models.CharField(max_length=20, blank=True, default='')		# Position
 
 class Class(models.Model):
 
@@ -96,6 +99,9 @@ class Question(models.Model):
 	ans_4	= models.TextField()					# Answer option 4
 	unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)	# Question's unit code
 	staff_id= models.ForeignKey(Employee, on_delete=models.PROTECT)	# Question's Creator
+	
+	class Meta:
+		unique_together = (('text', 'staff_id'),)
 
 class Student(models.Model):
 
@@ -133,3 +139,11 @@ class Answer(models.Model):
 	ans		= models.CharField(max_length=50)				# Answer Option
 	tm_stmp		= models.DateTimeField()					# Time Stamp
 	ip_t		= models.CharField(max_length=8)				# IP Type
+
+class Published_Question(models.Model):
+	id = models.CharField(primary_key = True, max_length=30) #qhdewsk_10:30:00
+	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	code = models.CharField(max_length=20) #qhdewsk
+	tm_stmp = models.DateTimeField() #10:30:00
+	seconds_limit = models.PositiveIntegerField() #240
+	
