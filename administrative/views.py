@@ -13,7 +13,7 @@ import io
 import os
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
-from .utils import register_employee, register_student
+from generic.utils import register_employee, register_student
 from django.conf import settings
 
 def admin_home(request, name:str= 'Rodney') -> None:

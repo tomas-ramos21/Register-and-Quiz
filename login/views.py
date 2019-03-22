@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from student import views as student
+from generic.utils import get_context
 
 def index(request):
 	"""
@@ -66,16 +67,13 @@ def user_login(request):
 			if user.is_active:
 				login(request, user)
 				curr_user = User.objects.filter(username=username).first()
-				# curr_user = request.user.first_name + ' ' + request.user.last_name
-				# Conditional Redirections
+				user_dict = get_context(curr_user)
 				if username[:3] == '333':
 					return HttpResponseRedirect(reverse('student:student_index'))
-					#return redirect('student:student_dashboard', args=[curr_user])
-					# return student.student_dashboard(request, curr_user)
 				elif username[:3] == '456':
-					return render(request, 'Lecturer/Lecturer.html', curr_user)
-				elif username[:3] == '789':
-					return render(request, 'administrative/admin_home.html', curr_user)
+					return render(request, 'Lecturer/Lecturer.html', user_dict)
+				elif username[:3] == '789' or username == 'admin':
+					return render(request, 'administrative/admin_home.html', user_dict)
 				else:
 					return HttpResponse("Invalid account")
 			else:

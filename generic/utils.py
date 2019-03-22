@@ -12,6 +12,8 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from typing import Dict
+
 
 def register_employee(csv_path: str) -> None:
     """
@@ -102,3 +104,8 @@ def register_student(csv_path: str) -> None:
                 user.email = crt_dict['email']
                 student = Student(user=user)
                 student.save()
+
+def get_context(user) -> Dict:
+    context_dict = {'name_header' : user.first_name,
+                    'name_menu'   : user.first_name + ' ' + user.last_name }
+    return context_dict
