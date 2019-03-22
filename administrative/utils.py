@@ -1,12 +1,12 @@
 # Author: Tomas Ramos
 # Date: 20-03-2019
 # Purpose: Define functions providing extra utility to the administrative app.
-# Last Modified By: Tomas Ramos
+# Last Modified By: Madyarini
 # Last Modified Date: 20-03-2019
 
 import os
 import csv
-from .models import Employee
+from login.models import Employee
 from django.contrib.auth import authenticate
 from django.contrib import admin
 from django.contrib.auth.models import User
