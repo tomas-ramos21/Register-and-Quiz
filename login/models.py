@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from django.db import models
-from django.contrib.auth.models import User
-
 class Course(models.Model):
 
 	"""
@@ -109,11 +106,7 @@ class Student(models.Model):
                 class in the MySQL Database.
         """
 
-        id      = models.PositiveIntegerField(primary_key=True) # Student ID
-        sha     = models.CharField(max_length=255)              # Password SHA
-        f_name  = models.CharField(max_length=50)               # First Name
-        l_name  = models.CharField(max_length=50)               # Last Name
-        email   = models.CharField(max_length=40, unique=True)  # Email
+        user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', default='')
         s_class = models.ManyToManyField(Class)                 # Many Students to Many Classes
         s_course= models.ManyToManyField(Course)                # Many Students to Many Courses
 
