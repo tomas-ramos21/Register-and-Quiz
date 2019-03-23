@@ -1,4 +1,4 @@
-{% extends 'student/navbar.html' %}
+{% extends 'student/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
@@ -21,9 +21,41 @@
 <body>
 {% block main %}
     <main class="main">
-        <h1 class="text-center main__heading">DashBoard (Click On The Units To Start)</h1>
+        <h1 class="text-center main__heading">Dashboard (Click On The Units To Start)</h1>
         <section class="container-fluid">
                 <section class="row">
+					{% for x in unit_list %}
+					{% for y in t_period %}
+					<section class="card my-3 col-12 col-sm-6  unit">
+						 <section class="card-body text-center text-sm-left">
+                                        <a data-toggle="collapse" class="text-dark text-decoration-none"
+                                                href="#collapseList" role="button" aria-expanded="false"
+                                                aria-controls="collapseList" data-target="#collapseList">
+                                                <section
+                                                        class=" d-flex align-items-center justify-content-center flex-column">
+                                                        <img class="unit__image mx-auto" src="{% static 'images/'|add:x.image %}" alt={{ x.unit_id }}>
+                                                        <h1 class="unit-text my-3 ">
+                                                                <span class="unit-text__main">{{ x.title }}</span>
+                                                                <span class="unit-text__sub">({{ y.id }})</span>
+                                                        </h1>
+                                                </section>
+                                        </a>
+                                </section>
+					</section>
+					<section class="collapse text-center" id="collapseList">
+                                        <form action="/">
+                                                <section class="text-center form-group">
+                                                        <input type="submit"
+                                                                class="btn btn-dark p-3 form__submit "
+                                                                value="Check Attendance">
+                                                </section>
+                                                <a href="{% url 'student:student_codeinput' %}" class="btn btn-dark p-3 form__submit">Verify
+                                                        Code</a>
+                                        </form>
+                    </section>
+					{% endfor %}
+					{% endfor %}
+				<!--
                         <section class="card my-3 col-12 col-sm-6  unit">
                                 <section class="card-body text-center text-sm-left">
                                         <a data-toggle="collapse" class="text-dark text-decoration-none"
@@ -151,6 +183,7 @@
                                 </section>
 
                         </section>
+						-->
                 </section>
         </section>
 </main>
