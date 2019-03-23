@@ -8,13 +8,11 @@ import csv
 import io
 import os
 from django.shortcuts import render
-from login.models import Student, Employee
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from generic.utils import register_employee, register_student
+from generic.utils import register_employee, register_student, find_user
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -80,10 +78,14 @@ def unit_management(request):
 		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
 		if None in info_tuple: # If information is incomplete
 			pass
+		user, obj_type = find_user(username)
 
 	if request.method == 'POST':
-		username	= request.POST.get('search_user')
-
+		username = request.POST.get('search_user')
+		if username is None:
+			pass
+		else:
+			user, obj_type = find_user(username)
 
 	return render(request, 'administrative/unitsM.html', user_dict)
 

@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from login.models import Employee, Student
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from typing import Dict
+from typing import Dict, Tuple
 
 
 def register_employee(csv_path: str) -> None:
@@ -109,3 +109,23 @@ def get_context(user) -> Dict:
     context_dict = {'name_header' : user.first_name,
                     'name_menu'   : user.first_name + ' ' + user.last_name }
     return context_dict
+
+def find_user(username:str) -> Tuple:
+
+    # Find user object
+    user = User.objects.filter(username=username).first()
+    # If user doesn't exist
+    if user is None:
+        return (None, None)
+
+    # Find student object
+    student	= Student.objects.filter(user=user).first()
+    # If student exists
+    if not student is None:
+        return (student, 'student')
+
+    # Find employee object
+    employee = Employee.objects.filter(user=user).first()
+    # if employee exists
+    if not student is None:
+        return (employee, 'employee')
