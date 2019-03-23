@@ -64,8 +64,6 @@ class Employee(models.Model):
 		Django's Model to represent the staff
 		class in the MySQL database.
 	"""
-	# USERNAME_FIELD = 'user'
-	# REQUIRED_FIELDS = ('dpt', 'pstn')
 
 	user 	= models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', default='')
 	dpt		= models.CharField(max_length=30, blank=True, default='')		# Department
@@ -99,7 +97,7 @@ class Question(models.Model):
 	ans_4	= models.TextField()					# Answer option 4
 	unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)	# Question's unit code
 	staff_id= models.ForeignKey(Employee, on_delete=models.PROTECT)	# Question's Creator
-	
+
 	class Meta:
 		unique_together = (('text', 'staff_id'),)
 
@@ -146,4 +144,3 @@ class Published_Question(models.Model):
 	code = models.CharField(max_length=20) #qhdewsk
 	tm_stmp = models.DateTimeField() #10:30:00
 	seconds_limit = models.PositiveIntegerField() #240
-	
