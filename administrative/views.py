@@ -12,7 +12,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building
+from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -86,6 +86,27 @@ def unit_management(request):
 			pass
 		else:
 			user, obj_type = find_user(username)
+
+	if request.method == "POST" and 'units_file' in request.FILES:
+		csv_file = request.FILES['units_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_units(file_path)
+
+	if request.method == "POST" and 'courses_file' in request.FILES:
+		csv_file = request.FILES['courses_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_courses(file_path)
+
+	if request.method == "POST" and 'teaching_period_file' in request.FILES:
+		csv_file = request.FILES['teaching_period_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_teaching_period(file_path)
 
 	return render(request, 'administrative/unitsM.html', user_dict)
 

@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
-from login.models import Student, Unit, Published_Question
+from lecturer.models import Published_Question
+from administrative.models import Unit
+from student.models import Student
 from datetime import datetime, timedelta, timezone
 from student.forms import codeForm
 
@@ -10,22 +12,22 @@ app_name = 'student'
 
 def index(request):
 	return HttpResponseRedirect(reverse('student:student_dashboard'))
-	
+
 def student_dashboard(request):
 	user = request.user
 	std = Student.objects.filter(user=user).first()
-	
+
 	if std != None:
 		"""
 		enrolled_class = list(std.s_class.all())
 
 		unit_id_list = [x.unit_id for x in enrolled_class]
 		unit_name_list = [x.title for x in unit_id_list]
-	
+
 		context = {key:value for key, value in zip(unit_id_list, unit_name_list)}
 		context['f_name'] = request.user.first_name
 		context['l_name'] = request.user.first_name + ' ' + request.user.last_name
-	
+
 		return render(request, 'student/student_dashboard.html', context)
 		"""
 		enrolled_class = std.s_class.all()
@@ -72,9 +74,7 @@ def student_codeinput(request):
 		form = codeForm()
 
 	return render(request, 'student/studentInput.html', {'form':form})
-	
+
 def student_question(request):
 	context = request.session.get('question_data')
 	return render(request, 'student/studentQuestion.html', context)
-
-
