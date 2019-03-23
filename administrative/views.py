@@ -86,7 +86,7 @@ def space_management(request):
 				 'name_menu': user.first_name + ' ' + user.last_name}
 	return render(request, 'administrative/teachingspace.html', user_dict)
 
-def lecturer_creation(request):
+def employee_creation(request):
 	"""
 		Handles request sent by the user when using the
 		staff creation page. The page may be re-rendered or
