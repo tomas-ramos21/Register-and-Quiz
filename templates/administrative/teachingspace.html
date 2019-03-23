@@ -75,10 +75,7 @@
             <section class="text-left">
 
             <form action="" class="search">
-                    <section class="form-group search__group">
-                            <label for="building" class="search__label">Building Name: </label>
-                            <input type="text" id="building" class="search__text" required>
-                    </section>
+                    {% csrf_token %}
                     <section class="form-group search__group">
                             <label for="building"  class="search__label">Building Code: </label>
                             <input type="number" id="building" class="search__text" required>
@@ -87,9 +84,6 @@
                             <input type="submit" class="btn btn-dark search__button">
                     </section>
             </form>
-            <a href="#" class="d-block text-decoration-none">List Building alphabetically based on building name</a>
-            <a href="#" class="d-block text-decoration-none">List Building alphabetically based on building code</a>
-
             </section>
              </section>
              <section class="card-body text-left">
@@ -102,6 +96,11 @@
                             <section class="text-left">
 
                     <form action="" class="search">
+                            {% csrf_token %}
+                            <section class="form-group search__group">
+                                    <label for="building"  class="search__label">Building Code: </label>
+                                    <input type="number" id="building" class="search__text" required>
+                            </section>
                             <section class="form-group search__group">
                                     <label for="building"  class="search__label">Room Code: </label>
                                     <input type="number" id="building" class="search__text" required>
@@ -112,6 +111,29 @@
                         </form>
                             </section>
                      </section>
+                     <section class="card-body text-left">
+            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3" role="button"
+                    aria-expanded="false" aria-controls="collapseList">
+             Create Buildings</a>
+            </section>
+            <section class="collapse text-center" id="collapseList3">
+            <section class="text-left">
+                    <form method="post" class="upload" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <section class="form-group file">
+                                    <label for="building"  class="search__label">Upload CSV</label>
+                                    <input type="file" name="files" accept=".csv" class="file__uploader">
+                            </section>
+                            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+            </section>
+             </section>
         </section>
 
     </main>
