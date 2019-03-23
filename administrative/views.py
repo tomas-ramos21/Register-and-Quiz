@@ -2,7 +2,7 @@
 # Date: 20-03-2019
 # Purpose: Render HTML pages for both static and dynamic types.
 # Last Modified By: Tomas Ramos
-# Last Modified Date: 20-03-2019
+# Last Modified Date: 23-03-2019
 
 import csv
 import io
@@ -67,6 +67,24 @@ def unit_management(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name}
+
+	if request.method == 'GET':
+		return render(request, 'administrative/unitsM.html', user_dict)
+
+	if request.method == 'POST':
+		radio		= request.POST.get('add/remove')
+		unit_code	= request.POST.get('unit')
+		unit_title	= request.POST.get('unitTitle')
+		acc_type	= request.POST.get('Accounts')
+		username	= request.POST.get('username')
+		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
+		if None in info_tuple: # If information is incomplete
+			pass
+
+	if request.method == 'POST':
+		username	= request.POST.get('search_user')
+
+
 	return render(request, 'administrative/unitsM.html', user_dict)
 
 def space_management(request):
@@ -84,6 +102,7 @@ def space_management(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name}
+
 	return render(request, 'administrative/teachingspace.html', user_dict)
 
 def employee_creation(request):

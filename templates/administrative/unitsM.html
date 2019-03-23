@@ -72,7 +72,8 @@
                     Add/remove unit</a>
             </section>
             <section class="collapse text-center" id="collapseList">
-                    <form action="" class="form">
+                    <form action="{% url 'administrative:unit_management' %}" class="form" method="post">
+                            {% csrf_token %}
                          <section class="container-fluid">
                             <section class="row">
                                     <section class="col-12 form-group ">
@@ -80,11 +81,11 @@
                                     </section>
                                     <section class="col-12 col-sm-6 form-group ">
                                         <label for="add" >Add</label>
-                                        <input type="radio" name="add/remove" id="add">
+                                        <input type="radio" name="add/remove" id="add" value="add" required>
                                     </section>
                                     <section class="col-12 col-sm-6  form-group ">
                                         <label for="remove" >Remove</label>
-                                        <input type="radio" name="add/remove" id="remove">
+                                        <input type="radio" name="add/remove" id="remove" value="remove" required>
                                     </section>
                                     <section class="col-12 form-group ">
                                             <h1>Enter Details</h1>
@@ -93,13 +94,13 @@
                                         <label for="#unit" >Unit Code:</label>
                                     </section>
                                     <section class="col-12  col-sm-6 form-group ">
-                                            <input type="number" id="unit" class="form__input">
+                                            <input type="text" id="unit" class="form__input" name="unit" required>
                                     </section>
                                     <section class="col-12 col-sm-6 form-group ">
                                             <label for="#unitTitle" >Unit Title:</label>
                                     </section>
                                      <section class="col-12  col-sm-6 form-group ">
-                                                <input type="text" id="unitTitle" class="form__input">
+                                                <input type="text" id="unitTitle" class="form__input" name="unitTitle" required>
                                     </section>
                                     <section class="col-12 col-sm-6 form-group ">
                                             <label for="#Accounts" >Account Type:</label>
@@ -114,7 +115,7 @@
                                             <label for="#username">Murdoch Username:</label>
                                     </section>
                                      <section class="col-12  col-sm-6 form-group ">
-                                            <input type="text" id="username" class="form__input">
+                                            <input type="text" id="username" class="form__input" name="username" required>
                                      </section>
                                      <section class="col-12 text-center form-group">
                                          <input type="submit" class="btn btn-dark p-3 form__submit">
@@ -130,6 +131,7 @@
             </section>
             <section class="collapse text-center" id="collapseList2">
                     <form action="" class="form">
+                            {% csrf_token %}
                          <section class="container-fluid">
                             <section class="row">
                                     <section class="col-12 form-group ">
@@ -180,7 +182,8 @@
                     Browse By Username </a>
             </section>
              <section class="collapse text-center" id="collapseList3">
-                    <form action="" class="form">
+                    <form action="{% url 'administrative:unit_management' %}" class="form" method="post">
+                            {% csrf_token %}
                          <section class="container-fluid">
                             <section class="row">
                                     <section class="col-12 form-group ">
@@ -190,7 +193,7 @@
                                             <label for="#username2">Murdoch Username:</label>
                                     </section>
                                      <section class="col-12  col-sm-6 form-group ">
-                                            <input type="text" id="username2" class="form__input">
+                                            <input type="text" id="username2" class="form__input" name="search_user" required>
                                      </section>
                                      <section class="col-12 text-center form-group">
                                             <input type="submit" class="btn btn-dark p-3 form__submit">

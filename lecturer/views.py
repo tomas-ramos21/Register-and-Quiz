@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 def lect_home(request):
 	lect_dict = {'name_header':'Rodney',
 		     'name_menu':'Rodney'}
-	return render(request, "Lecturer/Lecturer.html", lect_dict)
+	return render(request, "Lecturer/lecturerU.html", lect_dict)
 
 @login_required
 def user_logout(request):
