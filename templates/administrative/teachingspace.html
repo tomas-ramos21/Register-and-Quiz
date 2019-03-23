@@ -134,6 +134,29 @@
         </form>
             </section>
              </section>
+             <section class="card-body text-left">
+            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList4" role="button"
+                    aria-expanded="false" aria-controls="collapseList">
+             Create Rooms</a>
+            </section>
+            <section class="collapse text-center" id="collapseList4">
+            <section class="text-left">
+                    <form method="post" class="upload" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <section class="form-group file">
+                                    <label for="building"  class="search__label">Upload CSV</label>
+                                    <input type="file" name="files" accept=".csv" class="file__uploader">
+                            </section>
+                            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+            </section>
+             </section>
         </section>
 
     </main>
