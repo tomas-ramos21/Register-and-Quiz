@@ -8,7 +8,7 @@ class Building(models.Model):
 	"""
 
 	code	= models.CharField(primary_key=True, max_length=4)	# Building's Code
-	name	= models.CharField(max_length=20)			# Building's Name
+	name	= models.CharField(max_length=20)			        # Building's Name
 
 class Room(models.Model):
 

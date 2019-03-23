@@ -12,7 +12,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-from generic.utils import register_employee, register_student, find_user
+from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -76,7 +76,7 @@ def unit_management(request):
 		acc_type	= request.POST.get('Accounts')
 		username	= request.POST.get('username')
 		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
-		if None in info_tuple: # If information is incomplete
+		if None in info_tuple: # If information is incomplete3
 			pass
 		user, obj_type = find_user(username)
 
@@ -109,15 +109,32 @@ def space_management(request):
 	if request.method == "GET":
 		return render(request, 'administrative/teachingspace.html', user_dict)
 
-	# Process to obtain CSV & create accounts
-	if request.method == "POST":
+
+	# Process to obtain CSV - Rooms
+	if request.method == "POST" and 'room_file' in request.FILES:
 		csv_file = request.FILES['room_file']
-		print(csv_file.name)
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_employee(file_path)
+		register_room(file_path)
 
+	# Process to obtain CSV - Buildings
+	if request.method == "POST" and 'building_file' in request.FILES:
+		csv_file = request.FILES['building_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_building(file_path)
+
+	# Process to find Rooms
+	if request.method == "POST" and not request.POST.get('room_code') is None:
+		room_code = request.POST.get('room_code')
+		room = find_room(room_code)
+
+	# Process to find Buildings
+	if request.method == "POST" and not request.POST.get('building_code') is None:
+		building_code = request.POST.get('building_code')
+		building = find_building(building_code)
 
 	return render(request, 'administrative/teachingspace.html', user_dict)
 

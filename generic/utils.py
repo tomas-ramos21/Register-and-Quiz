@@ -146,8 +146,9 @@ def register_room(csv_path: str) -> None:
                 crt_dict = {}
                 for column in columns:
                     crt_dict[column] = row[column]
+                building = Building.objects.filter(code=crt_dict['building_code']).first()
                 room = Room(id=crt_dict['id'],
-                            bd_code=crt_dict['building_code'],
+                            bd_code=building,
                             level=crt_dict['level'],
                             capacity=crt_dict['capacity'])
                 room.save()
@@ -165,4 +166,10 @@ def register_building(csv_path:str) -> None:
                 for column in columns:
                     crt_dict[column] = row[column]
                 building = Building(code=crt_dict['code'], name=crt_dict['name'])
-                building.save() 
+                building.save()
+
+def find_room(room_code):
+    return Room.objects.filter(id=room_code).first()
+
+def find_building(building_code):
+    return Building.objects.filter(code=building_code).first()
