@@ -8,6 +8,7 @@ import os
 import csv
 from django.http import HttpResponseRedirect, HttpResponse
 from login.models import Employee, Student
+from administrative.models import Building, Room
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
@@ -129,3 +130,39 @@ def find_user(username:str) -> Tuple:
     # if employee exists
     if not student is None:
         return (employee, 'employee')
+
+def register_room(csv_path: str) -> None:
+
+    columns = ['id',
+               'building_code',
+               'level',
+               'capacity']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                room = Room(id=crt_dict['id'],
+                            bd_code=crt_dict['building_code'],
+                            level=crt_dict['level'],
+                            capacity=crt_dict['capacity'])
+                room.save()
+
+def register_building(csv_path:str) -> None:
+
+    columns = ['code','name']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                building = Building(code=crt_dict['code'], name=crt_dict['name'])
+                building.save() 

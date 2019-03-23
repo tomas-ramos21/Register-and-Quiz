@@ -105,6 +105,20 @@ def space_management(request):
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name}
 
+	# Re-render the page
+	if request.method == "GET":
+		return render(request, 'administrative/teachingspace.html', user_dict)
+
+	# Process to obtain CSV & create accounts
+	if request.method == "POST":
+		csv_file = request.FILES['room_file']
+		print(csv_file.name)
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_employee(file_path)
+
+
 	return render(request, 'administrative/teachingspace.html', user_dict)
 
 def employee_creation(request):

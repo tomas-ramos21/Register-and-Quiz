@@ -18,7 +18,6 @@ class Room(models.Model):
         """
 
         id      = models.CharField(primary_key=True, max_length=10)     # Room's ID
-        code    = models.PositiveIntegerField()                         # Room's Code
-        bd_code = models.ForeignKey(Building, on_delete=models.PROTECT)  # Building Code
+        bd_code = models.ForeignKey(Building, on_delete=models.PROTECT) # Building Code
         level   = models.IntegerField()                                 # Room's level/Floor
         capacity= models.PositiveIntegerField()                         # Room's Capacity
