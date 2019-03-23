@@ -6,12 +6,10 @@
 
 import os
 import csv
+from django.http import HttpResponseRedirect, HttpResponse
 from login.models import Employee, Student
-from django.contrib.auth import authenticate
-from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from django.conf import settings
 from typing import Dict
 
 

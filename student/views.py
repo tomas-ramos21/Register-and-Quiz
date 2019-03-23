@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from login.views import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect

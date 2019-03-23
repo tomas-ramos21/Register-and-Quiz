@@ -10,12 +10,10 @@
 
 from django.urls import reverse
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from student import views as student
 from generic.utils import get_context
 
 def index(request):
@@ -28,20 +26,6 @@ def index(request):
 			Contains the request type sent by the user.
 	"""
 	return HttpResponseRedirect(reverse('login:user_login'))
-
-@login_required
-def user_logout(request):
-	"""
-		Closes the current session of the user,
-		and redirects them to the login page.
-
-		Parameters
-		----------
-		request: HTTP request object
-			Contains the request type sent by the user.
-	"""
-	logout(request)
-	return HttpResponseRedirect(reverse('index'))
 
 def user_login(request):
 	"""

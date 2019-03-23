@@ -27,6 +27,8 @@ from lecturer import views as lecturer
 from administrative import views as administrative
 from student import views as student
 
+from generic import utils
+
 urlpatterns = [
 	url(r'^$', log.index, name='login'),
 	url(r'^$', lecturer.lect_home, name='Lect Home'),
@@ -36,6 +38,4 @@ urlpatterns = [
 	url(r'^administrative/', include('administrative.urls')),
 	url(r'^lecturer/', include('lecturer.urls')),
 	url(r'^student/', include('student.urls')),
-	url(r'^logout/$', log.user_logout, name='logout'),
 ]
-

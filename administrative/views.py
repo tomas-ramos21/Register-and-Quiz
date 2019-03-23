@@ -9,9 +9,13 @@ import io
 import os
 from django.shortcuts import render
 from login.models import Student, Employee
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from generic.utils import register_employee, register_student
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 def admin_home(request):
@@ -144,94 +148,16 @@ def student_creation(request):
 		register_student(file_path)
 	return render(request, 'administrative/stuAccAdd.html', user_dict)
 
-def register_employee(csv_path: str) -> None:
+@login_required
+def user_logout(request):
     """
-        Registers lecturers in the platform.
-
-        Iterates over the rows of a CSV file
-        collecting the information to be used
-        for the account creation.
+        Closes the current session of the user,
+        and redirects them to the login page.
 
         Parameters
         ----------
-        csv_path: str
-            String containing the path to the
-            file.
-
-        TODO
-        ----------
-        1. Function do check the information
-        used during creation is accurate.
+        request: HTTP request object
+            Contains the request type sent by the user.
     """
-
-    columns = ['id',
-               'password',
-               'first_name',
-               'last_name',
-               'email',
-               'department',
-               'position']
-
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-
-        for idx, row in enumerate(reader):  # For each row
-            if idx != 0:                    # If row isn't the header
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                user = User()
-                user.set_password(crt_dict['password'])
-                user.username = crt_dict['id']
-                user.first_name = crt_dict['first_name']
-                user.last_name = crt_dict['last_name']
-                user.email = crt_dict['email']
-                user.save()
-                employee = Employee(user=user,
-                                    dpt=crt_dict['department'],
-                                    pstn=crt_dict['position'])
-                employee.save()
-
-def register_student(csv_path: str) -> None:
-    """
-        Registers students in the platform.
-
-        Iterates over the rows of a CSV file
-        collecting the information to be used
-        for the account creation.
-
-        Parameters
-        ----------
-        csv_path: str
-            String containing the path to the
-            file.
-
-        TODO
-        ----------
-        1. Function do check the information
-        used during creation is accurate.
-    """
-
-    columns = ['id',
-               'password',
-               'first_name',
-               'last_name',
-               'email']
-
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                user = User()
-                user.set_password(crt_dict['password'])
-                user.username = crt_dict['id']
-                user.first_name = crt_dict['first_name']
-                user.last_name = crt_dict['last_name']
-                user.email = crt_dict['email']
-                user.save()
-                student = Student(user=user)
-                student.save()
+    logout(request)
+    return HttpResponseRedirect(reverse('administrative:user_logout'))
