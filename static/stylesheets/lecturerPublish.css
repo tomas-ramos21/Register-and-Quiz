@@ -136,6 +136,7 @@ body {
 }
 .form__submit {
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .main__text {
@@ -153,4 +154,4 @@ body {
   min-height: 30px;
 }
 
-/*# sourceMappingURL=lecturerpublish.css.map */
+/*# sourceMappingURL=lecturerPublish.css.map */
