@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Student</title>
+        <title>Lecturer</title>
         <!--Font Awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
                 integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
@@ -56,7 +56,7 @@
                                                                         </a>
                                                                 </section>
                                                                 <section>
-                                                                        <a href="#" class="drop-options">
+                                                                        <a href="{% url 'lecturer:user_logout' %}" class="drop-options">
                                                                                 <span><i
                                                                                                 class="fas fa-sign-out-alt"></i></span>
                                                                                 <span>Logout</span>
@@ -78,9 +78,9 @@
                                         <img class="unit__image"
                                                 src="{% static "images/365728-636190610546181732-16x9.jpg" %}"
                                                 alt="One of the unit images">
-                                        <h1 class="unit-text my-3 ">
-                                                <span class="unit-text__main">ICT 302 IT Professional Project</span>
-                                                <span class="unit-text__sub">(s1,2019)</span>
+                                        <h1 class="unit-text my-3">
+                                                <a href="{% url 'lecturer:lect_units'%}"><span class="unit-text__main">ICT 302 IT Professional Project</span>
+                                                <span class="unit-text__sub">(s1,2019)</span></a>
                                         </h1>
                                 </section>
                                 <section

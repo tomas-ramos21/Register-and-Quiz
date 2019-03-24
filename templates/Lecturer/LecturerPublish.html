@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load staticfiles %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../static/stylesheets/lecturerPublish.css">
+    <link rel="stylesheet" href="{% static "stylesheets/lecturerPublish.css" %}">
 
 
 </head>
@@ -27,7 +27,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <section class="container">
-                <a class="navbar-brand" href="#"><img src="../public/images/murdochimage-dark.png" width="150"
+                <a class="navbar-brand" href="#"><img src="{% static "images/murdochimage-dark.png" %}" width="150"
                         alt="logo brand"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,23 +36,23 @@
                 <section class="collapse navbar-collapse " id="navbar-list">
                     <ul class="navbar-nav ml-auto text-center">
                         <li class="nav-item">
-                            <img src="../public/images/loginicon.png" class="navbar__icon" alt="">
+                            <img src="{% static "images/loginicon.png" %}" class="navbar__icon" alt="">
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <h1 class="navbar__name text-white display-5 mt-4">JOHN SMITH</h1>
+                                <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
                             </a>
 
                             <section class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <section>
                                     <a href="#" class="drop-options">
                                         <span><i class="far fa-user"></i></span>
-                                        <span>JOHN SMITH</span>
+                                        <span>{{name_menu}}</span>
                                     </a>
                                 </section>
                                 <section>
-                                    <a href="#" class="drop-options">
+                                    <a href="{% url 'lecturer:user_logout' %}" class="drop-options">
                                         <span><i class="fas fa-sign-out-alt"></i></span>
                                         <span>Logout</span>
                                     </a>
@@ -67,24 +67,6 @@
     <main class="main">
         <h1 class="text-center main__text">xxxx question</h1>
         <form action="/" class="form">
-            <section class="form-group">
-                <label class="text-center d-block form__heading">Enter Answer1</label>
-                <input type="text" class="form-control p-3 text-center form__input " placeholder="Enter Answer1">
-            </section>
-            <section class="form-group">
-                <label class="text-center d-block  form__heading">Enter Answer2</label>
-                <input type="text" class="form-control p-3 text-center form__input" placeholder="Enter Answer2">
-            </section>
-            <section class="form-group">
-                <label class="text-center d-block  form__heading">Enter Answer3</label>
-                <input type="text" class="form-control d-block p-3 text-center form__input "
-                    placeholder="Enter Answer3">
-            </section>
-            <section class="form-group">
-                <label class="text-center d-block  form__heading">Enter Answer4</label>
-                <input type="text" class="form-control p-3  text-center form__input" placeholder="Enter Answer4">
-            </section>
-            <section class="form-group">
                 <label class="text-center d-block  form__heading">Enter Timer</label>
                 <input type="number" class="form-control p-3  text-center form__input"
                     placeholder="Enter Time In Minutes">
@@ -97,7 +79,7 @@
 
     </main>
     <footer class="footer">
-        <img class="footer__image" src="../public/images/Murdoch_University_Logo.svg.png" width="100" height="100"
+        <img class="footer__image" src="{% static "images/Murdoch_University_Logo.svg.png" %}" width="100" height="100"
             alt="">
         <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
     </footer>
