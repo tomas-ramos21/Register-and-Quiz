@@ -79,7 +79,7 @@ def space_management(request):
 			Contains the request type sent by the user.
 
 		name: Staff's name
-			String with teh staff's name.
+			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = {'name_header': user.first_name,
@@ -98,7 +98,7 @@ def lecturer_creation(request):
 			Contains the request type sent by the user.
 
 		name: Staff's name
-			String with teh staff's name.
+			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = {'name_header': user.first_name,
@@ -129,7 +129,7 @@ def student_creation(request):
 			Contains the request type sent by the user.
 
 		name: Staff's name
-			String with teh staff's name.
+			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = {'name_header': user.first_name,

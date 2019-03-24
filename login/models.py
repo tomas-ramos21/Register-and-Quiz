@@ -35,16 +35,16 @@ class Building(models.Model):
 
 class Room(models.Model):
 
-        """
-                Django's Model to represent the room
-                class in MySQL database.
-        """
+    """
+        Django's Model to represent the room
+        class in MySQL database.
+    """
 
-        id      = models.CharField(primary_key=True, max_length=10)     # Room's ID
-        code    = models.PositiveIntegerField()                         # Room's Code
-        bd_code = models.ForeignKey(Building, on_delete=models.PROTECT)  # Building Code
-        level   = models.IntegerField()                                 # Room's level/Floor
-        capacity= models.PositiveIntegerField()                         # Room's Capacity
+    id      = models.CharField(primary_key=True, max_length=10)     # Room's ID
+    code    = models.PositiveIntegerField()                         # Room's Code
+    bd_code = models.ForeignKey(Building, on_delete=models.PROTECT)  # Building Code
+    level   = models.IntegerField()                                 # Room's level/Floor
+    capacity= models.PositiveIntegerField()                         # Room's Capacity
 
 class Teaching_Period(models.Model):
 
@@ -105,42 +105,51 @@ class Question(models.Model):
 
 class Student(models.Model):
 
-        """
-                Django's Model to represent the student
-                class in the MySQL Database.
-        """
+    """
+            Django's Model to represent the student
+            class in the MySQL Database.
+    """
 
-        user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', default='')
-        s_class = models.ManyToManyField(Class)                 # Many Students to Many Classes
-        s_course= models.ManyToManyField(Course)                # Many Students to Many Courses
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', default='')
+    s_class = models.ManyToManyField(Class)                 # Many Students to Many Classes
+    s_course= models.ManyToManyField(Course)                # Many Students to Many Courses
 
 class Teaching_Day(models.Model):
 
-        """
-                Django's Model to represent the Teaching Day
-                class in the MySQL database.
-        """
-
-        r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
-        c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
-        st_time = models.DateTimeField()                                # Starting Time
-        en_time = models.DateTimeField()                                # Ending Time
+    """
+            Django's Model to represent the Teaching Day
+            class in the MySQL database.
+    """
+	
+    r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
+    c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
+    date_td  = models.DateField()
+    st_time = models.TimeField()                                # Starting Time
+    en_time = models.TimeField()                                # Ending Time
+	
+	class Meta:
+		unique_together = (('c_id', 'date_td'),)
 
 class Answer(models.Model):
 
 	"""
-		Django's Model to represent the Asnwer
+		Django's Model to represent the Answer
 		class in the MySQL.
 	"""
 
 	s_id		= models.ForeignKey(Student, on_delete=models.PROTECT)		# Student ID
 	q_id		= models.ForeignKey(Question, on_delete=models.PROTECT)		# Question ID
 	teach_day	= models.ForeignKey(Teaching_Day, on_delete=models.PROTECT)	# Teaching Day ID
-	ans		= models.CharField(max_length=50)				# Answer Option
+	ans		    = models.CharField(max_length=50)				# Answer Option
 	tm_stmp		= models.DateTimeField()					# Time Stamp
-	ip_t		= models.CharField(max_length=8)				# IP Type
+	ip_t		= models.CharField(max_length=8)	    	# IP Type
 
 class Published_Question(models.Model):
+
+	"""
+		Django's Model to represent the Published Question
+		class in the MySQL.
+	"""
 	id = models.CharField(primary_key = True, max_length=30) #qhdewsk_10:30:00
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
 	code = models.CharField(max_length=20) #qhdewsk
