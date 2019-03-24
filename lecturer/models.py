@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 from administrative.models import Unit, Course, Teaching_Period, Room, Employee
 
 class Question(models.Model):
@@ -38,8 +39,8 @@ class Teaching_Day(models.Model):
     en_time = models.DateTimeField()                                # Ending Time
 
 class Published_Question(models.Model):
-	id = models.CharField(primary_key = True, max_length=30) #qhdewsk_10:30:00
-	question = models.ForeignKey(Question, on_delete=models.CASCADE)
-	code = models.CharField(max_length=20) #qhdewsk
-	tm_stmp = models.DateTimeField() #10:30:00
-	seconds_limit = models.PositiveIntegerField() #240
+
+	code = models.PositiveIntegerField(primary_key=True)               # Code - 123-456-789
+	question = models.ForeignKey(Question, on_delete=models.PROTECT)   # Question object
+	tm_stmp = models.DateTimeField(auto_now_add=True)                  # Time automatically added
+	seconds_limit = models.PositiveIntegerField()                      # Time in seconds to answer

@@ -21,6 +21,7 @@ $(echo "sudo pip install -r requirements.txt")
 # Create database tables and perform migrations
 $(echo "python manage.py migrate auth")
 $(echo "python manage.py migrate --run-syncdb")
+$(echo "python manage.py migrate")
 $(echo "python manage.py makemigrations")
 
 # Create Django's Default Super User

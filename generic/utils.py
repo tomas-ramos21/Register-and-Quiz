@@ -9,7 +9,7 @@ import csv
 import random
 from django.http import HttpResponseRedirect, HttpResponse
 from student.models import Student
-from lecturer.models import Question
+from lecturer.models import Question, Published_Question
 from administrative.models import Building, Room, Employee, Unit, Course, Teaching_Period
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -259,4 +259,15 @@ def generate_random_code():
     # Generates random code for questions
     # Number has always 9 digits
     # So its easy to display like this      999-666-888
-    return random.randint(100000000, 999999999)
+    code = random.randint(100000000, 999999999)
+    if not Question.objects.filter(code=code).first() is None:
+        code = generate_random_code()
+    return code
+
+def publish_question(question, time:int) -> None:
+    code = generate_random_code()
+    seconds_limit = 60*time
+    publish = Published_Question(code=code,
+                                 question=question,
+                                 seconds_limit=seconds_limit)
+    publish.save()

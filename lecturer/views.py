@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from generic.utils import register_questions
+from generic.utils import register_questions, publish_question
 from django.conf import settings
 
 def lect_home(request):
@@ -18,6 +18,10 @@ def lect_publish(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name}
+
+	time = request.POST.get('max_time')
+	if not time is None:
+		publish_question(question, time) # NEED TO ADD THE QUESTION
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
 def lect_units(request):
