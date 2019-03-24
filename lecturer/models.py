@@ -22,7 +22,6 @@ class Class(models.Model):
         class in the MySQL database.
     """
     id = models.CharField(primary_key=True, max_length=9)
-    course_id = models.ForeignKey(Course, on_delete=models.PROTECT)
     unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)
     t_period = models.ForeignKey(Teaching_Period, on_delete=models.PROTECT)
     staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='lecturer_id')

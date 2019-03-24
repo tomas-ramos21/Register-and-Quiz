@@ -22,16 +22,10 @@
 		<script type="text/javascript">
 		function validateForm()
 		{
-			var flag1 = document.getElementById('answer-1').checked;
-			var flag2 = document.getElementById('answer-2').checked;
-			var flag3 = document.getElementById('answer-3').checked;
-			var flag4 = document.getElementById('answer-4').checked;
 			
-			if(flag1 == True || flag2 == True || flag3 == True || flag4 == True)
 				document.forms['answer_submission'].submit();
 				alert('Successfully submitted the answer for Question');
-			else
-				alert('Select an answer first');
+		
 		}
 </script>
 </head>
@@ -88,7 +82,7 @@
                                         </h1>
                                 </section>
                         </section>
-                        <form class="row form" name="answer_submission">
+                        <form action="{% url 'student:student_answer' %}" class="row form" name="answer_submission" method="post" >
 						{% csrf_token %}
 						{% if ans1 != '' %}
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">

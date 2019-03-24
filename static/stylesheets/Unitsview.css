@@ -1,3 +1,4 @@
+
 *,
 *::before,
 *::after {
@@ -30,6 +31,9 @@ body {
     justify-content: flex-start;
   }
 }
+
+
+
 /*
 .footer__text {
   font-size: 2rem;
@@ -46,18 +50,24 @@ body {
   }
 }
 
+
+
 .far, .fas {
   font-size: 2rem;
 }
 
 html {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
   position: relative;
 }
+
+
+
+
 
 .main {
   margin-top: 2rem;
