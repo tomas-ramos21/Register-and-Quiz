@@ -1,4 +1,5 @@
 from django.db import models
+<<<<<<< HEAD
 from django.contrib.auth.models import User
 
 class Course(models.Model):
@@ -156,3 +157,5 @@ class Published_Question(models.Model):
 	tm_stmp = models.DateTimeField() #10:30:00
 	seconds_limit = models.PositiveIntegerField() #240
 	
+=======
+>>>>>>> 09ec180253fc02967a9aa4516ed03cb70b930743

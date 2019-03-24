@@ -7,7 +7,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+<<<<<<< HEAD
 from login.models import Student, Unit, Class, Teaching_Day, Published_Question, Answer
+=======
+from django.shortcuts import redirect
+from lecturer.models import Published_Question
+from administrative.models import Unit
+from student.models import Student
+>>>>>>> 09ec180253fc02967a9aa4516ed03cb70b930743
 from datetime import datetime, timedelta, timezone
 from student.forms import codeForm
 from django.contrib.auth.decorators import login_required
@@ -28,7 +35,10 @@ def index(request):
 	"""
 	return HttpResponseRedirect(reverse('student:student_dashboard'))
 
+<<<<<<< HEAD
 @login_required
+=======
+>>>>>>> 09ec180253fc02967a9aa4516ed03cb70b930743
 def student_dashboard(request):
 	"""
 		Renders student's dashboard page.
@@ -40,8 +50,25 @@ def student_dashboard(request):
 	"""
 	user = request.user
 	std = Student.objects.filter(user=user).first()
+<<<<<<< HEAD
 	
 	if std is not None:
+=======
+
+	if std != None:
+		"""
+		enrolled_class = list(std.s_class.all())
+
+		unit_id_list = [x.unit_id for x in enrolled_class]
+		unit_name_list = [x.title for x in unit_id_list]
+
+		context = {key:value for key, value in zip(unit_id_list, unit_name_list)}
+		context['f_name'] = request.user.first_name
+		context['l_name'] = request.user.first_name + ' ' + request.user.last_name
+
+		return render(request, 'student/student_dashboard.html', context)
+		"""
+>>>>>>> 09ec180253fc02967a9aa4516ed03cb70b930743
 		enrolled_class = std.s_class.all()
 		unit_list  = [x.unit_id for x in enrolled_class]
 		t_period = [x.t_period for x in enrolled_class]
@@ -96,6 +123,7 @@ def student_codeinput(request):
 
 	return render(request, 'student/studentInput.html', {'form':form})
 
+<<<<<<< HEAD
 @login_required
 def student_answer(request):
 	"""
@@ -182,3 +210,8 @@ def user_logout(request):
     """
     logout(request)
     return HttpResponseRedirect(reverse('login:user_login'))
+=======
+def student_question(request):
+	context = request.session.get('question_data')
+	return render(request, 'student/studentQuestion.html', context)
+>>>>>>> 09ec180253fc02967a9aa4516ed03cb70b930743

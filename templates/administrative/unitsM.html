@@ -72,7 +72,8 @@
                     Add/remove unit</a>
             </section>
             <section class="collapse text-center" id="collapseList">
-                    <form action="" class="form">
+                    <form action="{% url 'administrative:unit_management' %}" class="form" method="post">
+                            {% csrf_token %}
                          <section class="container-fluid">
                             <section class="row">
                                     <section class="col-12 form-group ">
@@ -80,11 +81,11 @@
                                     </section>
                                     <section class="col-12 col-sm-6 form-group ">
                                         <label for="add" >Add</label>
-                                        <input type="radio" name="add/remove" id="add">
+                                        <input type="radio" name="add/remove" id="add" value="add" required>
                                     </section>
                                     <section class="col-12 col-sm-6  form-group ">
                                         <label for="remove" >Remove</label>
-                                        <input type="radio" name="add/remove" id="remove">
+                                        <input type="radio" name="add/remove" id="remove" value="remove" required>
                                     </section>
                                     <section class="col-12 form-group ">
                                             <h1>Enter Details</h1>
@@ -93,13 +94,13 @@
                                         <label for="#unit" >Unit Code:</label>
                                     </section>
                                     <section class="col-12  col-sm-6 form-group ">
-                                            <input type="number" id="unit" class="form__input">
+                                            <input type="text" id="unit" class="form__input" name="unit" required>
                                     </section>
                                     <section class="col-12 col-sm-6 form-group ">
                                             <label for="#unitTitle" >Unit Title:</label>
                                     </section>
                                      <section class="col-12  col-sm-6 form-group ">
-                                                <input type="text" id="unitTitle" class="form__input">
+                                                <input type="text" id="unitTitle" class="form__input" name="unitTitle" required>
                                     </section>
                                     <section class="col-12 col-sm-6 form-group ">
                                             <label for="#Accounts" >Account Type:</label>
@@ -114,7 +115,7 @@
                                             <label for="#username">Murdoch Username:</label>
                                     </section>
                                      <section class="col-12  col-sm-6 form-group ">
-                                            <input type="text" id="username" class="form__input">
+                                            <input type="text" id="username" class="form__input" name="username" required>
                                      </section>
                                      <section class="col-12 text-center form-group">
                                          <input type="submit" class="btn btn-dark p-3 form__submit">
@@ -123,64 +124,83 @@
                          </section>
                     </form>
             </section>
-            <section class="card-body text-center text-sm-left">
-                    <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList2" role="button"
+            <section class="card-body text-left">
+            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList2" role="button"
                     aria-expanded="false" aria-controls="collapseList">
-                    Update Units</a>
+             Create Units</a>
             </section>
             <section class="collapse text-center" id="collapseList2">
-                    <form action="" class="form">
-                         <section class="container-fluid">
-                            <section class="row">
-                                    <section class="col-12 form-group ">
-                                            <h1>Choose to add or remove units</h1>
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                            <label for="add" >Add</label>
-                                            <input type="radio" name="add/remove" id="add">
-                                    </section>
-                                     <section class="col-12 col-sm-6 form-group ">
-                                            <label for="remove" >Remove</label>
-                                            <input type="radio" name="add/remove" id="remove">
-                                    </section>
-                                    <section class="col-12 form-group ">
-                                            <h1>Enter Details</h1>
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                            <label for="#unitName" >Unit Name:</label>
-                                    </section>
-                                     <section class="col-12  col-sm-6 form-group ">
-                                                <input type="text" id="unitName" class="form__input">
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                            <label for="#unitCode" >Unit Code:</label>
-                                    </section>
-                                     <section class="col-12  col-sm-6 form-group ">
-                                                <input type="text" id="unitCode" class="form__input">
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                            <label for="#Accounts" >Account Type:</label>
-                                    </section>
-                                    <section class="col-12 col-sm-6  form-group ">
-                                            <select name="Accounts" id="Accounts">
-                                                    <option value="student">Student</option>
-                                                    <option value="Lecturers">Lecturers</option>
-                                           </select>
-                                     </section>
-                                    <section class="col-12 text-center form-group">
-                                            <input type="submit" class="btn btn-dark p-3 form__submit">
-                                    </section>
+            <section class="text-left">
+                    <form method="post" class="upload" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <section class="form-group file">
+                                    <label for="building"  class="search__label">Upload CSV</label>
+                                    <input type="file" name="units_file" accept=".csv" class="file__uploader">
                             </section>
-                         </section>
-                    </form>
+                            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
             </section>
+             </section>
+             <section class="card-body text-left">
+             <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3" role="button"
+                     aria-expanded="false" aria-controls="collapseList">
+              Create Courses</a>
+             </section>
+             <section class="collapse text-center" id="collapseList3">
+             <section class="text-left">
+                     <form method="post" class="upload" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <section class="form-group file">
+                                     <label for="building"  class="search__label">Upload CSV</label>
+                                     <input type="file" name="courses_file" accept=".csv" class="file__uploader">
+                             </section>
+                             <div class="form-group">
+                 <div class="d-flex justify-content-center">
+                     <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                         Submit
+                     </button>
+                 </div>
+             </div>
+         </form>
+             </section>
+              </section>
+              <section class="card-body text-left">
+              <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList4" role="button"
+                      aria-expanded="false" aria-controls="collapseList">
+               Create Teaching Periods</a>
+              </section>
+              <section class="collapse text-center" id="collapseList4">
+              <section class="text-left">
+                      <form method="post" class="upload" enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <section class="form-group file">
+                                      <label for="building"  class="search__label">Upload CSV</label>
+                                      <input type="file" name="teaching_period_file" accept=".csv" class="file__uploader">
+                              </section>
+                              <div class="form-group">
+                  <div class="d-flex justify-content-center">
+                      <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                          Submit
+                      </button>
+                  </div>
+              </div>
+          </form>
+              </section>
+               </section>
             <section class="card-body text-center text-sm-left">
-                    <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3" role="button"
+                    <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList5" role="button"
                     aria-expanded="false" aria-controls="collapseList">
                     Browse By Username </a>
             </section>
-             <section class="collapse text-center" id="collapseList3">
-                    <form action="" class="form">
+             <section class="collapse text-center" id="collapseList5">
+                    <form action="{% url 'administrative:unit_management' %}" class="form" method="post">
+                            {% csrf_token %}
                          <section class="container-fluid">
                             <section class="row">
                                     <section class="col-12 form-group ">
@@ -190,7 +210,7 @@
                                             <label for="#username2">Murdoch Username:</label>
                                     </section>
                                      <section class="col-12  col-sm-6 form-group ">
-                                            <input type="text" id="username2" class="form__input">
+                                            <input type="text" id="username2" class="form__input" name="search_user" required>
                                      </section>
                                      <section class="col-12 text-center form-group">
                                             <input type="submit" class="btn btn-dark p-3 form__submit">

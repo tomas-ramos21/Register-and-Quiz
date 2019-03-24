@@ -7,10 +7,11 @@
 import os
 import csv
 from django.http import HttpResponseRedirect, HttpResponse
-from login.models import Employee, Student
+from student.models import Student
+from administrative.models import Building, Room, Employee, Unit, Course, Teaching_Period
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from typing import Dict
+from typing import Dict, Tuple
 
 
 def register_employee(csv_path: str) -> None:
@@ -109,3 +110,117 @@ def get_context(user) -> Dict:
     context_dict = {'name_header' : user.first_name,
                     'name_menu'   : user.first_name + ' ' + user.last_name }
     return context_dict
+
+def find_user(username:str) -> Tuple:
+
+    # Find user object
+    user = User.objects.filter(username=username).first()
+    # If user doesn't exist
+    if user is None:
+        return (None, None)
+
+    # Find student object
+    student	= Student.objects.filter(user=user).first()
+    # If student exists
+    if not student is None:
+        return (student, 'student')
+
+    # Find employee object
+    employee = Employee.objects.filter(user=user).first()
+    # if employee exists
+    if not student is None:
+        return (employee, 'employee')
+
+def register_room(csv_path: str) -> None:
+
+    columns = ['id',
+               'building_code',
+               'level',
+               'capacity']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                building = Building.objects.filter(code=crt_dict['building_code']).first()
+                room = Room(id=crt_dict['id'],
+                            bd_code=building,
+                            level=crt_dict['level'],
+                            capacity=crt_dict['capacity'])
+                room.save()
+
+def register_building(csv_path:str) -> None:
+
+    columns = ['code','name']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                building = Building(code=crt_dict['code'], name=crt_dict['name'])
+                building.save()
+
+def register_units(csv_path:str) -> None:
+
+    columns = ['code','title','credits','image']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                unit = Unit(code=crt_dict['code'],
+                            title=crt_dict['title'],
+                            credits=crt_dict['credits'],
+                            image=crt_dict['image'])
+                unit.save()
+
+def register_courses(csv_path: str) -> None:
+
+    columns = ['id', 'title', 'school']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                course = Course(id=crt_dict['id'],
+                                title=crt_dict['title'],
+                                school=crt_dict['school'])
+                course.save()
+
+def register_teaching_period(csv_path: str) -> None:
+    columns = ['id', 'name', 'start_date', 'end_date']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                teaching_period = Teaching_Period(id=crt_dict['id'],
+                                                  name=crt_dict['name'],
+                                                  st_date=crt_dict['start_date'],
+                                                  en_date=crt_dict['end_date'])
+                teaching_period.save()
+
+def find_room(room_code):
+    return Room.objects.filter(id=room_code).first()
+
+def find_building(building_code):
+    return Building.objects.filter(code=building_code).first()

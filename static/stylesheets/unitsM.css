@@ -137,6 +137,9 @@ body {
 .form__submit {
   font-size: 1.5rem;
 }
+.form__heading {
+  font-size: 1.5rem;
+}
 
 .main {
   margin-top: 2rem;

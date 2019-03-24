@@ -2,19 +2,17 @@
 # Date: 20-03-2019
 # Purpose: Render HTML pages for both static and dynamic types.
 # Last Modified By: Tomas Ramos
-# Last Modified Date: 20-03-2019
+# Last Modified Date: 23-03-2019
 
 import csv
 import io
 import os
 from django.shortcuts import render
-from login.models import Student, Employee
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from generic.utils import register_employee, register_student
+from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -67,6 +65,49 @@ def unit_management(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name}
+
+	if request.method == 'GET':
+		return render(request, 'administrative/unitsM.html', user_dict)
+
+	if request.method == 'POST':
+		radio		= request.POST.get('add/remove')
+		unit_code	= request.POST.get('unit')
+		unit_title	= request.POST.get('unitTitle')
+		acc_type	= request.POST.get('Accounts')
+		username	= request.POST.get('username')
+		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
+		if None in info_tuple: # If information is incomplete3
+			pass
+		user, obj_type = find_user(username)
+
+	if request.method == 'POST':
+		username = request.POST.get('search_user')
+		if username is None:
+			pass
+		else:
+			user, obj_type = find_user(username)
+
+	if request.method == "POST" and 'units_file' in request.FILES:
+		csv_file = request.FILES['units_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_units(file_path)
+
+	if request.method == "POST" and 'courses_file' in request.FILES:
+		csv_file = request.FILES['courses_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_courses(file_path)
+
+	if request.method == "POST" and 'teaching_period_file' in request.FILES:
+		csv_file = request.FILES['teaching_period_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_teaching_period(file_path)
+
 	return render(request, 'administrative/unitsM.html', user_dict)
 
 def space_management(request):
@@ -84,9 +125,41 @@ def space_management(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name}
+
+	# Re-render the page
+	if request.method == "GET":
+		return render(request, 'administrative/teachingspace.html', user_dict)
+
+
+	# Process to obtain CSV - Rooms
+	if request.method == "POST" and 'room_file' in request.FILES:
+		csv_file = request.FILES['room_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_room(file_path)
+
+	# Process to obtain CSV - Buildings
+	if request.method == "POST" and 'building_file' in request.FILES:
+		csv_file = request.FILES['building_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		register_building(file_path)
+
+	# Process to find Rooms
+	if request.method == "POST" and not request.POST.get('room_code') is None:
+		room_code = request.POST.get('room_code')
+		room = find_room(room_code)
+
+	# Process to find Buildings
+	if request.method == "POST" and not request.POST.get('building_code') is None:
+		building_code = request.POST.get('building_code')
+		building = find_building(building_code)
+
 	return render(request, 'administrative/teachingspace.html', user_dict)
 
-def lecturer_creation(request):
+def employee_creation(request):
 	"""
 		Handles request sent by the user when using the
 		staff creation page. The page may be re-rendered or
