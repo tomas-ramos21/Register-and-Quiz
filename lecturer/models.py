@@ -27,6 +27,7 @@ class Class(models.Model):
     t_period = models.ForeignKey(Teaching_Period, on_delete=models.PROTECT)
     staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='lecturer_id')
     time_commi = models.CharField(max_length=2)
+    code = models.CharField(max_length=1)
 
 class Teaching_Day(models.Model):
     """

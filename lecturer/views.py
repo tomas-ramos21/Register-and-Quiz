@@ -22,6 +22,7 @@ def lect_publish(request):
 	time = request.POST.get('max_time')
 	if not time is None:
 		publish_question(question, time) # NEED TO ADD THE QUESTION
+										 # RENDER THE QUESTION PAGE
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
 def lect_units(request):
