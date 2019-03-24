@@ -6,8 +6,10 @@
 
 import os
 import csv
+import random
 from django.http import HttpResponseRedirect, HttpResponse
 from student.models import Student
+from lecturer.models import Question
 from administrative.models import Building, Room, Employee, Unit, Course, Teaching_Period
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -219,8 +221,42 @@ def register_teaching_period(csv_path: str) -> None:
                                                   en_date=crt_dict['end_date'])
                 teaching_period.save()
 
+def register_questions(csv_path: str) -> None:
+    columns = ['unit',
+               'staff_id',
+               'question',
+               'answer_1',
+               'answer_2',
+               'answer_3',
+               'answer_4']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                unit = Unit.objects.filter(code=crt_dict['unit']).first()
+                user = User.objects.filter(username=crt_dict['staff_id']).first()
+                lecturer = Employee.objects.filter(user=user).first()
+                question = Question(text=crt_dict['question'],
+                                    ans_1=crt_dict['answer_1'],
+                                    ans_2=crt_dict['answer_2'],
+                                    ans_3=crt_dict['answer_3'],
+                                    ans_4=crt_dict['answer_4'],
+                                    unit_id=unit,
+                                    staff_id=lecturer)
+                question.save()
+
 def find_room(room_code):
     return Room.objects.filter(id=room_code).first()
 
 def find_building(building_code):
     return Building.objects.filter(code=building_code).first()
+
+def generate_random_code():
+    # Generates random code for questions
+    # Number has always 9 digits
+    # So its easy to display like this      999-666-888
+    return random.randint(100000000, 999999999)
