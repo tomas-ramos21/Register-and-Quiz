@@ -28,16 +28,14 @@ class Class(models.Model):
     time_commi = models.CharField(max_length=2)
 
 class Teaching_Day(models.Model):
-
-        """
-                Django's Model to represent the Teaching Day
-                class in the MySQL database.
-        """
-
-        r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
-        c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
-        st_time = models.DateTimeField()                                # Starting Time
-        en_time = models.DateTimeField()                                # Ending Time
+    """
+        Django's Model to represent the Teaching Day
+        class in the MySQL database.
+    """
+    r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
+    c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
+    st_time = models.DateTimeField()                                # Starting Time
+    en_time = models.DateTimeField()                                # Ending Time
 
 class Published_Question(models.Model):
 	id = models.CharField(primary_key = True, max_length=30) #qhdewsk_10:30:00
