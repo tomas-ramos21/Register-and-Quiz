@@ -1,12 +1,14 @@
+{% extends 'student/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
 
 <head>
+{% block head %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Lecturer</title>
+        <title>Dashboard</title>
         <!--Font Awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
                 integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
@@ -19,11 +21,12 @@
 
         <!--Student Css-->
         <link rel="stylesheet" href="{% static "stylesheets/Unitsview.css" %}">
-
+{% endblock head %}
 
 </head>
-
+{% block main %}
 <body>
+<!--
         <header>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                         <section class="container">
@@ -45,14 +48,13 @@
                                                                 role="button" data-toggle="dropdown"
                                                                 aria-haspopup="true" aria-expanded="true">
                                                                 <h1 class="navbar__name text-white display-5 mt-4">
-                                                                        {{name_header}}</h1>
+                                                                        {{f_name}}</h1>
                                                         </a>
-
                                                         <section class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                                 <section>
                                                                         <a href="#" class="drop-options">
                                                                                 <span><i class="far fa-user"></i></span>
-                                                                                <span>{{name_menu}}</span>
+                                                                                <span>{{fl_name}}</span>
                                                                         </a>
                                                                 </section>
                                                                 <section>
@@ -69,11 +71,22 @@
                         </section>
                 </nav>
         </header>
+-->
         <main class="main">
-                <h1 class="text-center main__heading">DashBoard</h1>
+                <h1 class="text-center main__heading">Dashboard</h1>
                 <section class="container-fluid">
                         <section class="row">
+						{% for unit, t_period in class_display %}
                                 <section
+                                        class="my-3 col-12 col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
+                                        <img class="unit__image" src="{% static 'images/'|add:unit.image %}" alt="One of the unit images">     
+                                        <h1 class="unit-text my-3">
+                                                <a href="{% url 'lecturer:lect_units'%}"><span class="unit-text__main">{{unit.code}} {{unit.title}}</span>
+                                                <span class="unit-text__sub">{{t_period}}</span></a>
+                                        </h1>
+                                </section>
+						{% endfor %}	<!--
+						<section
                                         class="my-3 col-12 col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
                                         <img class="unit__image"
                                                 src="{% static "images/365728-636190610546181732-16x9.jpg" %}"
@@ -83,6 +96,10 @@
                                                 <span class="unit-text__sub">(s1,2019)</span></a>
                                         </h1>
                                 </section>
+					
+						
+					
+						
                                 <section
                                         class="col-xs-12 my-3  col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
                                         <img class="unit__image"
@@ -93,6 +110,7 @@
                                                 <span class="unit-text__sub">(s1,2019)</span>
                                         </h1>
                                 </section>
+								
                                 <section
                                         class="col-xs-12  my-3  col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
                                         <img class="unit__image" src="{% static "images/blue_hexgrid_pattern-.jpg" %}"
@@ -112,22 +130,16 @@
                                                         ICT</span>
                                                 <span class="unit-text__sub">(s1,2019)</span>
                                         </h1>
-                                </section>
+                                </section>-->
+						
                         </section>
                 </section>
         </main>
-        <footer class="footer">
-                <img class="footer__image" src="{% static "images/Murdoch_University_Logo.svg.png" %}" width="100"
-                        height="100" alt="">
-                <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
-        </footer>
-
-
-
-
+		{% endblock main %}
 </body>
 
 <!--BootStrap Scripts-->
+{% block script %}
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -137,7 +149,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-
+{% endblock script %}
 
 
 </html>

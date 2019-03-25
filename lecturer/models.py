@@ -22,7 +22,6 @@ class Class(models.Model):
         class in the MySQL database.
     """
     id = models.CharField(primary_key=True, max_length=9)
-    course_id = models.ForeignKey(Course, on_delete=models.PROTECT)
     unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)
     t_period = models.ForeignKey(Teaching_Period, on_delete=models.PROTECT)
     staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='lecturer_id')
@@ -36,8 +35,12 @@ class Teaching_Day(models.Model):
     """
     r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
     c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
-    st_time = models.DateTimeField()                                # Starting Time
-    en_time = models.DateTimeField()                                # Ending Time
+    date_td = models.DateField()
+    st_time = models.TimeField()                                # Starting Time
+    en_time = models.TimeField()                                # Ending Time
+
+    class Meta:
+	    unique_together = (('c_id', 'date_td'),)
 
 class Published_Question(models.Model):
 

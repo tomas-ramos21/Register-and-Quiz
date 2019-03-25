@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 
 class Student(models.Model):
 
-        """
-                Django's Model to represent the student
-                class in the MySQL Database.
-        """
+    """
+        Django's Model to represent the student
+		class in the MySQL Database.
+    """
 
-        user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', default='')
-        s_class = models.ManyToManyField(Class)                 # Many Students to Many Classes
-        s_course= models.ManyToManyField(Course)                # Many Students to Many Courses
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', default='')
+    s_class = models.ManyToManyField(Class)                 # Many Students to Many Classes
+    s_course= models.ManyToManyField(Course)                # Many Students to Many Courses
 
 class Answer(models.Model):
 

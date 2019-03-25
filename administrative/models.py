@@ -24,15 +24,15 @@ class Building(models.Model):
 
 class Room(models.Model):
 
-        """
+    """
                 Django's Model to represent the room
                 class in MySQL database.
-        """
+    """
 
-        id      = models.CharField(primary_key=True, max_length=255)     # Room's ID
-        bd_code = models.ForeignKey(Building, on_delete=models.PROTECT) # Building Code
-        level   = models.IntegerField()                                 # Room's level/Floor
-        capacity= models.PositiveIntegerField()                         # Room's Capacity
+    id      = models.CharField(primary_key=True, max_length=255)     # Room's ID
+    bd_code = models.ForeignKey(Building, on_delete=models.PROTECT) # Building Code
+    level   = models.IntegerField()                                 # Room's level/Floor
+    capacity= models.PositiveIntegerField()                         # Room's Capacity
 
 class Course(models.Model):
 
@@ -54,7 +54,8 @@ class Unit(models.Model):
 	code	= models.CharField(primary_key=True, max_length=255)		# Unit's code
 	title 	= models.CharField(max_length=255)						# Unit Title
 	credits = models.PositiveIntegerField()							# Unit's max credits
-	image = models.CharField(max_length=255, default='default.jpg')
+	image   = models.CharField(max_length=255, default='default.jpg')
+	course_id = models.ManyToManyField(Course)
 
 class Teaching_Period(models.Model):
 

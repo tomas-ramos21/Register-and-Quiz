@@ -55,7 +55,7 @@ def user_login(request):
 				if username[:3] == '333':
 					return HttpResponseRedirect(reverse('student:student_index'))
 				elif username[:3] == '456':
-					return render(request, 'Lecturer/lecturerHome.html', user_dict)
+					return HttpResponseRedirect(reverse('lecturer:lect_home'))
 				elif username[:3] == '789' or username == 'admin':
 					return render(request, 'administrative/admin_home.html', user_dict)
 				else:

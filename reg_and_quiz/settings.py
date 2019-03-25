@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'reg_and_quiz.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-	'NAME': 'reg_and_quiz',
-	'USER': 'regquiz',
-	'PASSWORD': 'password',
-	'HOST': '127.0.0.1',
-	'PORT': '',
+		'NAME': 'reg_and_quiz',
+		'USER': 'regquiz',
+		'PASSWORD': 'password',
+		'HOST': '127.0.0.1',
+		'PORT': '',
     }
 }
 
