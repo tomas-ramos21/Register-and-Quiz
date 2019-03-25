@@ -69,14 +69,17 @@ def lect_class(request):
 			 'name_menu': user.first_name + ' ' + user.last_name}
 
 	if request.method == "POST" and 'class_file' in request.FILES and 'student_file' in request.FILES:
-		csv_files = [request.FILES['class_file'], request.FILES['student_file']]
+		csv_file = request.FILES['class_file']
 		fs = FileSystemStorage()
-		for file in csv_files:
-			filename = fd.save(csv_file.name, csv_file)
-			file_path = os.path.join(settings.MEDIA_ROOT, filename)
-			new_class = register_class(file_path)
-			if csv_file.name == 'student_file':
-				add_students(file_path, new_class)
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		new_class = register_class(file_path)
+
+		csv_file = request.FILES['student_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		add_students(file_path, new_class)
 
 
 	return render(request, "Lecturer/lecturerClass.html", user_dict)

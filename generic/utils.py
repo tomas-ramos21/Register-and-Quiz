@@ -9,7 +9,7 @@ import csv
 import random
 from django.http import HttpResponseRedirect, HttpResponse
 from student.models import Student
-from lecturer.models import Question, Published_Question
+from lecturer.models import Question, Published_Question, Class
 from administrative.models import Building, Room, Employee, Unit, Course, Teaching_Period
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
