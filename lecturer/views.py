@@ -51,8 +51,7 @@ def lect_publish(request):
 
 def lect_units(request):
 	user = request.user
-	user_dict = 
-	{
+	user_dict = {
 		'f_name': user.first_name,
 		'fl_name': user.first_name + ' ' + user.last_name
 		
