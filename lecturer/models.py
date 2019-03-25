@@ -21,7 +21,6 @@ class Question(models.Model):
     topic_id = models.ForeignKey(Topic, on_delete=models.PROTECT)
     staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT)
 
-
 class Class(models.Model):
     """
         Django's Model to represent the Class

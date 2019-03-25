@@ -18,7 +18,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from lecturer.models import Class
 
 @login_required
-def index(request):
+def student_index(request):
 	"""
 		Redirects to student's dashboard page.
 
@@ -194,8 +194,4 @@ def user_logout(request):
     """
     logout(request)
     return HttpResponseRedirect(reverse('login:user_login'))
-
-def student_question(request):
-	context = request.session.get('question_data')
-	return render(request, 'student/studentQuestion.html', context)
 

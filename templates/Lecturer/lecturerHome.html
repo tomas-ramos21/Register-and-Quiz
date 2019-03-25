@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
-
 <head>
 {% block head %}
         <meta charset="UTF-8">
@@ -22,10 +21,11 @@
         <!--Student Css-->
         <link rel="stylesheet" href="{% static "stylesheets/Unitsview.css" %}">
 {% endblock head %}
-
 </head>
-{% block main %}
+
 <body>
+{% block main %}
+<div id="space" style="height:50px"></div>
         <main class="main">
                 <h1 class="text-center main__heading">Dashboard</h1>
                 <section class="container-fluid">
@@ -35,7 +35,7 @@
                                         class="my-3 col-12 col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
                                         <img class="unit__image" src="{% static 'images/'|add:unit.image %}" alt="One of the unit images">
                                         <h1 class="unit-text my-3">
-                                                <a href="{% url 'lecturer:lect_units'%}"><span class="unit-text__main">{{unit.code}} {{unit.title}}</span>
+                                                <a href="{% url 'lecturer:lect_units' unit_code=unit.code %}"><span class="unit-text__main">{{unit.code}} {{unit.title}}</span>
                                                 <span class="unit-text__sub">{{t_period}}</span></a>
                                         </h1>
                                 </section>
@@ -45,7 +45,6 @@
         </main>
 		{% endblock main %}
 </body>
-
 <!--BootStrap Scripts-->
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

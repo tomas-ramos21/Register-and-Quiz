@@ -7,15 +7,16 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from generic.utils import register_questions, publish_question, register_class, add_students
 from django.conf import settings
-from administrative.models import Employee
-from lecturer.models import Class
+from administrative.models import Unit, Employee
+from lecturer.models import Class, Question, Topic
 
+@login_required
 def lect_home(request):
 	user = request.user
 	lect = Employee.objects.filter(user=user).first()
 
 	if lect is not None:
-		class_taught = Class.objects.filter(staff_id=lect)
+		class_taught = Class.objects.filter(staff_id=lect) # year?
 		unit_list = [x.unit_id for x in class_taught]
 
 		period_display = []
@@ -38,6 +39,7 @@ def lect_home(request):
 	else:
 		return HttpResponse('Unexpected error')
 
+@login_required
 def lect_publish(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
@@ -49,19 +51,67 @@ def lect_publish(request):
 										 # RENDER THE QUESTION PAGE
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
-def lect_units(request):
+@login_required
+def lect_units(request, unit_code):
 	user = request.user
-	user_dict = {'f_name': user.first_name,
-				 'fl_name': user.first_name + ' ' + user.last_name}
+<<<<<<< HEAD
+	empl = Employee.objects.filter(user=user).first()
+	unit = Unit.objects.filter(code=unit_code).first()
 
-	if request.method == 'POST' and 'question_file' in request.FILES:
-		csv_file = request.FILES['question_file']
+	if unit is not None :
+		topic_list = Topic.objects.filter(unit_id=unit).order_by('number')
+		
+		question_list = []
+		for x in topic_list:
+			query = Question.objects.filter(topic_id=x)
+			for y in query:
+				question_list.append(y)
+			
+		t_period = Class.objects.filter(unit_id=unit, staff_id=empl).first().t_period
+
+		user_dict = {
+			'f_name': user.first_name,
+			'fl_name': user.first_name + ' ' + user.last_name,
+			'unit_code' : unit_code,
+			'unit_title' : unit.title,
+			'question_list' : question_list,
+			'topic_list' : topic_list,
+			't_period' : t_period,
+		}
+		if request.method == 'POST' and 'question_file' in request.FILES:
+			csv_file = request.FILES['question_file']
+			fs = FileSystemStorage()
+			filename = fs.save(csv_file.name, csv_file)
+			file_path = os.path.join(settings.MEDIA_ROOT, filename)
+			register_questions(file_path)
+
+		return render(request, "Lecturer/LecturerUnits.html", user_dict)
+	else:
+		return HttpResponse('Invalid unit code')
+
+def lect_class(request):
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+			 'name_menu': user.first_name + ' ' + user.last_name}
+
+	if request.method == "POST" and 'class_file' in request.FILES and 'student_file' in request.FILES:
+		csv_file = request.FILES['class_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_questions(file_path)
+		new_class = register_class(file_path)
+=======
+	user_dict = {'f_name': user.first_name,
+				 'fl_name': user.first_name + ' ' + user.last_name}
+>>>>>>> e27bbda69fca42b33fc62afc428b0a24c0d80b09
 
-	return render(request, "Lecturer/LecturerUnits.html", user_dict)
+		csv_file = request.FILES['student_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		add_students(file_path, new_class)
+
+	return render(request, "Lecturer/lecturerClass.html", user_dict)
 
 def lect_class(request):
 	user = request.user
