@@ -9,7 +9,7 @@ import csv
 import random
 from django.http import HttpResponseRedirect, HttpResponse
 from student.models import Student
-from lecturer.models import Question, Published_Question
+from lecturer.models import Question, Published_Question, Class
 from administrative.models import Building, Room, Employee, Unit, Course, Teaching_Period
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -271,3 +271,47 @@ def publish_question(question, time:int) -> None:
                                  question=question,
                                  seconds_limit=seconds_limit)
     publish.save()
+
+def register_class(csv_path: str):
+    columns = ['unit',
+               'teaching_period',
+               'staff_id',
+               'time_commitment',
+               'class_code']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+        for idx, row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+
+                # Get Foreign Keys
+                unit = Unit.objects.filter(code=crt_dict['unit']).first()
+                t_period = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
+                user = User.objects.filter(username=crt_dict['staff_id']).first()
+                staff = Employee.objects.filter(user=user).first()
+
+                # Create class
+                new_class = Class(unit_id=unit,
+                                  t_period=t_period,
+                                  staff_id=staff,
+                                  time_commi=crt_dict['time_commitment'],
+                                  code=crt_dict['class_code'])
+                new_class.save()
+    return new_class
+
+def add_students(csv_path: str, new_class):
+    columns = ['id']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+        for idx ,row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                user = User.objects.filter(username=crt_dict['id']).first()
+                student = Student.objects.filter(user=user).first()
+                student.s_class.add(new_class)

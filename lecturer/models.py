@@ -26,7 +26,7 @@ class Class(models.Model):
         Django's Model to represent the Class
         class in the MySQL database.
     """
-    id = models.CharField(primary_key=True, max_length=9)
+    id = models.AutoField(primary_key=True)
     unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)
     t_period = models.ForeignKey(Teaching_Period, on_delete=models.PROTECT)
     staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='lecturer_id')
@@ -41,8 +41,8 @@ class Teaching_Day(models.Model):
     r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
     c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
     date_td = models.DateField()
-    st_time = models.TimeField()                                # Starting Time
-    en_time = models.TimeField()                                # Ending Time
+    st_time = models.TimeField()                                    # Starting Time
+    en_time = models.TimeField()                                    # Ending Time
 
     class Meta:
 	    unique_together = (('c_id', 'date_td'),)

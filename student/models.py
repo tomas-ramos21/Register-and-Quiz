@@ -18,7 +18,7 @@ class Answer(models.Model):
 
 	"""
 		Django's Model to represent the Asnwer
-		class in the MySQL.
+		class in the MySQL. 
 	"""
 
 	s_id		= models.ForeignKey(Student, on_delete=models.PROTECT)		# Student ID

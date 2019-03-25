@@ -10,5 +10,5 @@ urlpatterns = [
 	path('units/<str:unit_code>/', views.lect_units, name='lect_units'),
 	url(r'^publish/$', views.lect_publish, name='lect_publish'),
 	url('user_login', views.user_logout, name='user_logout'),
-	url(r'^class/$', views.lect_class, name='lect_class'),
-]
+	url(r'^class/$', views.lect_class, name='lect_class')
+

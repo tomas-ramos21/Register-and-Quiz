@@ -18,6 +18,24 @@ body {
   font-size: 2rem;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  position: relative;
+}
+
+.main {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
 .navbar__icon {
   margin-right: 2rem;
   border-radius: 90px;
@@ -55,50 +73,6 @@ body {
 .heading__sub {
   display: block;
   font-size: 2rem;
-}
-
-.card {
-  width: 25%;
-  min-width: 300px;
-  position: static;
-  display: block;
-  margin: 2rem auto;
-  font-size: 2rem;
-}
-
-.unit {
-  padding: 2rem;
-}
-.unit-text {
-  text-align: center;
-}
-.unit-text__main {
-  display: block;
-}
-.unit-text__sub {
-  display: block;
-}
-.unit__image {
-  width: 50%;
-  max-height: 132px;
-}
-
-.search {
-  padding: 1.5rem;
-}
-.search__text {
-  width: 25%;
-  min-width: 150px;
-}
-.search__group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.search__button {
-  padding: 0.5rem;
-  font-size: 1.5rem;
 }
 
 .footer {
@@ -139,22 +113,14 @@ body {
   cursor: pointer;
 }
 
-.main {
-  margin-top: 2rem;
+.main__text {
+  font-size: 4rem;
+  margin-bottom: 2rem;
 }
 
-@media (min-width: 768px) {
-  .card {
-    width: 60%;
-  }
+.form__label {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-@media (min-width: 768px) {
-  .footer {
-    position: relative;
-    bottom: -500px;
-    justify-content: flex-start;
-  }
-}
-
-/*# sourceMappingURL=unitsM.css.map */
+/*# sourceMappingURL=lecturerProject.css.map */
