@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from generic.utils import register_questions, publish_question
+from generic.utils import register_questions, publish_question, register_class, add_students
 from django.conf import settings
 from administrative.models import Employee
 from lecturer.models import Class
@@ -67,6 +67,18 @@ def lect_class(request):
 	user = request.user
 	user_dict = {'name_header': user.first_name,
 			 'name_menu': user.first_name + ' ' + user.last_name}
+
+	if request.method == "POST" and 'class_file' in request.FILES and 'student_file' in request.FILES:
+		csv_files = [request.FILES['class_file'], request.FILES['student_file']]
+		fs = FileSystemStorage()
+		for file in csv_files:
+			filename = fd.save(csv_file.name, csv_file)
+			file_path = os.path.join(settings.MEDIA_ROOT, filename)
+			new_class = register_class(file_path)
+			if csv_file.name == 'student_file':
+				add_students(file_path, new_class)
+
+
 	return render(request, "Lecturer/lecturerClass.html", user_dict)
 
 @login_required
