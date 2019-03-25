@@ -49,8 +49,9 @@ def lect_publish(request, q_id):
 
 	if request.method == "POST":
 		time = request.POST.get('max_time')
-		print("Time: {}".format(time))
 		code = publish_question(question, time)
+		code = str(code)
+		code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
 		user_dict = {'name_header': user.first_name,
 					 'name_menu': user.first_name + ' ' + user.last_name,
 					 'question_text' : question.text,

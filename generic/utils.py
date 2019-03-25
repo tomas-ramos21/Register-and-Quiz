@@ -274,6 +274,7 @@ def publish_question(question, time:int) -> None:
                                  question=question,
                                  seconds_limit=time)
     publish.save()
+    return code
 
 def register_class(csv_path: str):
     columns = ['unit',
