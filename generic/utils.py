@@ -9,7 +9,7 @@ import csv
 import random
 from django.http import HttpResponseRedirect, HttpResponse
 from student.models import Student
-from lecturer.models import Question, Published_Question, Class
+from lecturer.models import Question, Published_Question, Class, Topic
 from administrative.models import Building, Room, Employee, Unit, Course, Teaching_Period
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -224,11 +224,13 @@ def register_teaching_period(csv_path: str) -> None:
 def register_questions(csv_path: str) -> None:
     columns = ['unit',
                'staff_id',
+               'title',
                'question',
                'answer_1',
                'answer_2',
                'answer_3',
-               'answer_4']
+               'answer_4',
+               'topic']
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
@@ -238,6 +240,7 @@ def register_questions(csv_path: str) -> None:
                 for column in columns:
                     crt_dict[column] = row[column]
                 unit = Unit.objects.filter(code=crt_dict['unit']).first()
+                topic = Topic.objects.filter(number=crt_dict['topic']).filter(unit_id=unit).first()
                 user = User.objects.filter(username=crt_dict['staff_id']).first()
                 lecturer = Employee.objects.filter(user=user).first()
                 question = Question(text=crt_dict['question'],
@@ -245,7 +248,8 @@ def register_questions(csv_path: str) -> None:
                                     ans_2=crt_dict['answer_2'],
                                     ans_3=crt_dict['answer_3'],
                                     ans_4=crt_dict['answer_4'],
-                                    unit_id=unit,
+                                    title=crt_dict['title'],
+                                    topic_id=topic,
                                     staff_id=lecturer)
                 question.save()
 
@@ -315,3 +319,19 @@ def add_students(csv_path: str, new_class):
                 user = User.objects.filter(username=crt_dict['id']).first()
                 student = Student.objects.filter(user=user).first()
                 student.s_class.add(new_class)
+
+def register_topics(csv_path:str) -> None:
+    columns = ['number', 'name', 'unit']
+
+    with open(csv_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=columns)
+        for idx ,row in enumerate(reader):
+            if idx != 0:
+                crt_dict = {}
+                for column in columns:
+                    crt_dict[column] = row[column]
+                unit = Unit.objects.filter(code=crt_dict['unit']).first()
+                topic = Topic(number=crt_dict['number'],
+                              name=crt_dict['name'],
+                              unit_id=unit)
+                topic.save()

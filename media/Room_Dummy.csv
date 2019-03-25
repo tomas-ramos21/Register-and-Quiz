@@ -1,0 +1,9 @@
+id,building_code,level,capacity
+PM406,PM,4,20
+PM606,PM,6,30
+PM903,PM,9,100
+PM804,PM,8,40
+WE510,WE,5,20
+WE512,WE,5,40
+WE504,WE,5,10
+WE507,WE,5,60

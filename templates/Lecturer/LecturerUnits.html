@@ -1,4 +1,4 @@
-{% extends 'lecturer/base.html' %}
+{% extends 'Lecturer/base.html' %}
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
@@ -55,107 +55,22 @@
 					{% if question.topic_id.number == topic.number %}
                             <section class="collapse text-center" id="collapseList">
                                 <section class="text-left">
-                                    <a href="{% url 'lecturer:lect_publish' %}" class="card-body__text text-dark text-decoration-none">{{question.title}}</a>
+                                    <a href="{% url 'lecturer:lect_publish' q_id=question.id %}" class="card-body__text text-dark text-decoration-none">{{question.title}}</a>
                                 </section>
                             </section>
 					{% endif %}
-				{% endfor %}		
+				{% endfor %}
                         </section>
                     </li>
 				{% endfor %}
-			<!--
-                    <li class="list-group-item">
-                        <section class="text-left">
-                            <a data-toggle="collapse" class='text-dark text-decoration-none' href="#collapseList"
-                                role="button" aria-expanded="false" aria-controls="collapseList">
-                                Topic 1 - Introduction to the Web
-                            </a>
-                            <section class="collapse text-center" id="collapseList">
-                                <section class="text-left">
-                                    <a href="{% url 'lecturer:lect_publish' %}" class="card-body__text text-dark text-decoration-none">Question 1 -
-                                        Introduction to Web Strategy</a>
-                                </section>
-                            </section>
-                        </section>
-                    </li>
-                    <li class="list-group-item">
-                        <section class="text-left">
-                            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList2"
-                                role="button" aria-expanded="false" aria-controls="collapseList">
-                                Topic 2 - History of Web Communications </a>
-                            <section class="collapse text-center" id="collapseList2">
-                                <section class="text-left">
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 2 - Web
-                                        History part 1 <i class="fas fa-pen"></i> <i class="far fa-trash-alt"></i></a>
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 3 - Web
-                                        History part 2 <i class="fas fa-pen"></i> <i class="far fa-trash-alt"></i></a>
-                                </section>
-                            </section>
-                        </section>
-                    </li>
-                    <li class="list-group-item">
-                        <section class="text-left">
-                            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3"
-                                role="button" aria-expanded="false" aria-controls="collapseList">
-                                Topic 3 - Social, Mobile and Interactive Media </a>
-                            <section class="collapse text-center" id="collapseList3">
-                                <section class="text-left">
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 4 -
-                                        Social
-                                        Media <i class="fas fa-pen"></i> <i class="far fa-trash-alt"></i></a>
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 5 -
-                                        Mobile
-                                        Media part 1 <i class="fas fa-pen"></i> <i class="far fa-trash-alt"></i></a>
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 6 -
-                                        Mobile
-                                        Media part 2 <i class="fas fa-pen"></i> <i class="far fa-trash-alt"></i></a>
-                                </section>
-                            </section>
-                        </section>
-                    </li>
-                    <li class="list-group-item">
-                        <section class="text-left">
-                            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList4"
-                                role="button" aria-expanded="false" aria-controls="collapseList">
-                                Topic 4 - Search Engine Optimization </a>
-                            <section class="collapse text-center" id="collapseList4">
-                                <section class="text-left">
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 7 -
-                                        History
-                                        of Search Engines <i class="fas fa-pen"></i> <i
-                                            class="far fa-trash-alt"></i></a>
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 8 -
-                                        Content
-                                        Management System <i class="fas fa-pen"></i> <i
-                                            class="far fa-trash-alt"></i></a>
-                                    <a href="#" class="card-body__text text-dark text-decoration-none">Question 9 -
-                                        Black
-                                        Hat SEM approaches <i class="fas fa-pen"></i> <i
-                                            class="far fa-trash-alt"></i></a>
-                                </section>
-                            </section>
-                        </section>
-                    </li>
-                    <li class="list-group-item">
-                        <section class="text-left">
-                            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList5"
-                                role="button" aria-expanded="false" aria-controls="collapseList">
-                                Topic 5 - Working With Clients </a>
-                            <section class="collapse text-center" id="collapseList5">
-                                <section class="text-left">
-                                </section>
-                            </section>
-                        </section>
-                    </li>
-					-->
                 </ul>
             </section>
-            <a data-toggle="collapse" class='text-dark text-decoration-none p-3' href="#collapseAdd" role="button"
+            <a data-toggle="collapse" class='text-dark text-decoration-none p-3' href="#collapseAdd2" role="button"
                 aria-expanded="false">
                 Add Questions (+)
             </a>
-            <section data-toggle="collapse text-center" id="collapseAdd">
-                <form method="post" class="upload" enctype="multipart/form-data">
+            <section data-toggle="collapse text-center" id="collapseAdd2">
+                <form method="post" class="upload" enctype="multipart/form-data" href="#collapseAdd2">
                     {% csrf_token %}
                     <h1>Upload CSV Files To Add Questions</h1>
                     <section class="form-group file">
@@ -170,13 +85,33 @@
                     </div>
                 </form>
             </section>
+            <a data-toggle="collapse" class='text-dark text-decoration-none p-3' href="#collapseAdd" role="button"
+                aria-expanded="false">
+                Add Topics (+)
+            </a>
+            <section data-toggle="collapse text-center" id="collapseAdd3">
+                <form method="post" class="upload" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h1>Upload CSV Files To Add Topics</h1>
+                    <section class="form-group file">
+                        <input type="file" name="topic_file" accept=".csv" class="file__uploader">
+                    </section>
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </section>
     </main>
 
 {% endblock main %}
-    
 
-    
+
+
 </body>
 {% block script %}
 <!--BootStrap Scripts-->
