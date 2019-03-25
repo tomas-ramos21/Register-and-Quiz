@@ -63,6 +63,12 @@ def lect_units(request):
 
 	return render(request, "Lecturer/LecturerUnits.html", user_dict)
 
+def lect_class(request):
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+			 'name_menu': user.first_name + ' ' + user.last_name}
+	return render(request, "Lecturer/lecturerClass.html", user_dict)
+
 @login_required
 def user_logout(request):
     """
