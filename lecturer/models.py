@@ -2,19 +2,24 @@ from django.db import models
 import datetime
 from administrative.models import Unit, Course, Teaching_Period, Room, Employee
 
+class Topic(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    number = models.PositiveIntegerField()
+    name = models.CharField(max_length=255)
+    unit_id = models.ForeignKey(Unit, on_delete=models.PROTECT)
+
 class Question(models.Model):
 
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
     text = models.CharField(max_length=255)
     ans_1 = models.CharField(max_length=255)
     ans_2 = models.CharField(max_length=255)
     ans_3 = models.CharField(max_length=255)
     ans_4 = models.CharField(max_length=255)
-    unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)
+    topic_id = models.ForeignKey(Topic, on_delete=models.PROTECT)
     staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT)
-
-    class Meta:
-        unique_together = (('text', 'staff_id'),)
-
 
 class Class(models.Model):
     """

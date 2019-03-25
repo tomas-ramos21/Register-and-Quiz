@@ -1,80 +1,95 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<head>{% block head %}{% endblock head %}
+<head>
+{% block head %}{% endblock head %}
 <link rel="shortcut icon" href="https://moodleprod.murdoch.edu.au/pluginfile.php/1/theme_essential/favicon/1550717801/favicon%20%281%29.ico"/>
 <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i|Open+Sans:400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-<link rel="stylesheet" href="{% static "stylesheets/origin.css" %}">
-
+<link rel="stylesheet" href="{% static "stylesheets/navbar.css" %}">
+<link rel="stylesheet" href="{% static "stylesheets/footer.css" %}">
 </head>
 <body>
+<div class="content0">
 <header role="banner">
-    <nav id="essentialnavbar" role="navigation" class="moodle-has-zindex nologo">
+    <nav id="essentialnavbar0" role="navigation" class="moodle-has-zindex nologo">
         <div class="navbar0">
             <div class="container-fluid0 navbar-inner0">
-                <div class="row-fluid">
-                    <div class="custommenus pull-left">
-                        <a class="btn btn-navbar" data-toggle="collapse" data-target="#essentialmenus">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
+                <div class="row-fluid0">
+                    <div class="custommenus0 pull-left0">
+                        <a class="btn0 btn-navbar0" data-toggle="collapse0" data-target="#essentialmenus0">
+                            <span class="icon-bar0"></span>
+                            <span class="icon-bar0"></span>
+                            <span class="icon-bar0"></span>
+                            <span class="icon-bar0"></span>
                         </a>
-                        <a class="brand" href="{% url 'student:student_index' %}">LMS</a>                    
-						<div class="pull-right">
-                        <div class="usermenu navbarrightitem">
-                            <ul class="nav">
+                        <a class="brand" href="{% url 'student:student_dashboard' %}">LMS</a>                    
+						<div class="pull-right0">
+                        <div class="usermenu0 navbarrightitem0">
+                            <ul class="nav0">
 							<li class="dropdown0">
-							<a class="dropdown-toggle0" data-toggle="dropdown" href="https://moodleprod.murdoch.edu.au/my/index.php">
+							<a class="dropdown-toggle0" data-toggle="dropdown0" href="{% url 'student:student_dashboard' %}">
 							<img src="https://secure.gravatar.com/avatar/be234c274f6e8aa4759777b2a94b4ee7?s=64&amp;d=mm" alt="Picture of {{fl_name}}" title="Picture of {{fl_name}}" class="userpicture defaultuserpic" width="64" height="64" />
 							<span class="profilename">{{f_name}}</span>
-							<span aria-hidden="true" class="fa fa-caret-right"></span></a>
-							<ul class="dropdown-menu0 pull-right">
-							<li><a href="#"><em><span aria-hidden="true" class="fa fa-user"></span>{{fl_name}}</em></a></li><hr class="sep" />
+							<span aria-hidden="true" class="fa0 fa-caret-right0"></span></a>
+							<ul class="dropdown-menu0 pull-right0">
+							<li><a href=#><em><span aria-hidden="true" class="fa0 fa-user0"></span>{{fl_name}}</em></a></li><hr class="sep0" />
 							<li>
-						<a href="{% url 'student:user_logout' %}"><em><span aria-hidden="true" class="fa fa-sign-out"></span>Log out</em></a></li></ul></li></ul>                        </div>
-                       <div class="messagemenu navbarrightitem">
-                            <div class="popover-region collapsed popover-region-messages"
-    id="nav-message-popover-container" data-userid="122972"
-    data-region="popover-region">
+						<a href="{% url 'student:user_logout' %}"><em><span aria-hidden="true" class="fa0 fa-sign-out0"></span>Log out</em></a></li></ul></li></ul>                        </div>
+                       <div class="messagemenu0 navbarrightitem0">
+                            <div class="popover-region0 collapsed0 popover-region-messages0"
+    id="nav-message-popover-container0" 
+    data-region="popover-region0">
 </div>                   </div>
-                        <div class="navbarrightitem">
+                        <div class="navbarrightitem0">
                                                     </div>
-                        <div class="navbarrightitem">
+                        <div class="navbarrightitem0">
                                                     </div>
                     </div>
+                        <div id="essentialmenus0" class="nav-collapse0 collapse0 pull-left0">
+                            <div id="custom_menu_language" class="custom_menu0 dropdownmenuscroll0"><ul class="nav0"></ul></div>
+							<div id="custom_menu_courses" class="custom_menu0 dropdownmenuscroll0"><ul class="nav0"><li class="dropdown0">
+							<a href="{% url 'student:student_dashboard' %}" class="dropdown-toggle0" data-toggle="dropdown0" title="My units">
+							<span aria-hidden="true" class="fa0 fa-briefcase0"></span>My units
+							<span aria-hidden="true" class="fa0 fa-caret-right0"></span></a>
+							<div class="dropdown-menu0"><ul><li><a title="Dashboard" href="{% url 'student:student_dashboard' %}">
+							<span><span aria-hidden="true" class="fa0 fa-home0"></span>
+							<span> Dashboard</span></span></a></li><!--<li>
+							
+							<a title="ICT302tja_19" href="https://moodleprod.murdoch.edu.au/course/view.php?id=12790"><span><span aria-hidden="true" class="fa0 fa-graduation-cap0"></span>ICT302 IT Professional Practice Project (tja, 2019)</span></a></li>
+							<li><a title="WEB278tja_19" href="https://moodleprod.murdoch.edu.au/course/view.php?id=12464"><span><span aria-hidden="true" class="fa0 fa-graduation-cap0"></span>WEB278 Web Strategy (tja, 2019)</span></a></li>-->
+							</ul></div></li></ul></div>	
                     </div>
                 </div>
             </div>
         </div>
+		</div>
     </nav>
-    <div id="page-header" class="clearfix nologo">
+    <div id="page-header0" class="clearfix0 nologo0">
         <div class="container-fluid0">
-            <div class="row-fluid">
+            <div class="row-fluid0">
                 <!-- HEADER: LOGO AREA -->
-<div class="pull-left"><a class="textlogo" href="{% url 'student:student_index' %}"><span id="headerlogo" aria-hidden="true" class="fa fa-laptop"></span><div class="titlearea"><h1 id="title">LMS</h1></div></a>                </div>
+<div class="pull-left0"><a class="textlogo0" href="{% url 'student:student_dashboard' %}"><span id="headerlogo0" aria-hidden="true" class="fa0 fa-laptop0"></span><div class="titlearea0"><h1 id="title">LMS</h1></div></a>                </div>
                             </div>
         </div>
     </div>
 </header>
-<div id="space"></div>
 {% block main %}{% endblock main %}
- <footer role="contentinfo" id="page-footer">
+</div>
+ <footer role="contentinfo" id="page-footer0" class="footer0">
         <div class="container-fluid0">
-
-            <div class="row-fluid">
+            <div class="row-fluid0">
                 <div class="tool_usertours-resettourcontainer span12"></div>
             </div>
         </div>
-            <div class="footerlinks row-fluid">
+            <div class="footerlinks0 row-fluid0">
                 <hr/>
-                <span class="helplink"></span>
-                <span class="footer-login-info"><div class="logininfo">You are logged in as {{fl_name}} (<a href="{% url 'student:user_logout' %}">Log out</a>)</div></span>
-                                <div class="footnote span12"><div id="footer">
-<div id="footer-content">
-<div class="container-fluid">
- <div class="row-fluid">
-<div id="footer-logo"><img alt="Murdoch University footer logo" src="https://static.murdoch.edu.au/lms/img/mu-port-white-284.png" width="85" height="85"></div>
-<div id="footer-legal">
+                <span class="helplink0"></span>
+                <span class="footer-login-info0"><div class="logininfo0">You are logged in as {{fl_name}} (<a href="{% url 'student:user_logout' %}">Log out</a>)</div></span>
+                                <div class="footnote0 span12"><div id="footer0">
+<div id="footer-content0">
+<div class="container-fluid0">
+ <div class="row-fluid0">
+<div id="footer-logo0"><img alt="Murdoch University footer logo" src="https://static.murdoch.edu.au/lms/img/mu-port-white-284.png" width="85" height="85"></div>
+<div id="footer-legal0">
 <ul>
 <li>© 2019 Murdoch University</li>
 <li>Copyright &amp; Disclaimer</li>
@@ -82,7 +97,8 @@
 <li>CRICOS Code: 00125J</li>
 </ul>
 </div>
-</div></div></div> 
+</div></div></div> </div></div></div>
+
 	</footer>
 </body>
 {% block script%}{% endblock script %}
