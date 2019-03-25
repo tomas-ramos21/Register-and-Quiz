@@ -264,16 +264,15 @@ def generate_random_code():
     # Number has always 9 digits
     # So its easy to display like this      999-666-888
     code = random.randint(100000000, 999999999)
-    if not Question.objects.filter(code=code).first() is None:
+    if not Published_Question.objects.filter(code=code).first() is None:
         code = generate_random_code()
     return code
 
 def publish_question(question, time:int) -> None:
     code = generate_random_code()
-    seconds_limit = 60*time
     publish = Published_Question(code=code,
                                  question=question,
-                                 seconds_limit=seconds_limit)
+                                 seconds_limit=time)
     publish.save()
 
 def register_class(csv_path: str):

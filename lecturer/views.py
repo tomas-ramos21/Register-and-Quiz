@@ -47,10 +47,25 @@ def lect_publish(request, q_id):
 				 'name_menu': user.first_name + ' ' + user.last_name,
 				 'question_title' : question.title}
 
-	time = request.POST.get('max_time')
-	if not time is None:
-		publish_question(question, time)
+	if request.method == "POST":
+		time = request.POST.get('max_time')
+		print("Time: {}".format(time))
+		code = publish_question(question, time)
+		user_dict = {'name_header': user.first_name,
+					 'name_menu': user.first_name + ' ' + user.last_name,
+					 'question_text' : question.text,
+					 'q_code': code}
+		return render(request, "Lecturer/lecturerProject.html", user_dict)
+
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
+
+@login_required
+def lect_project(request):
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name,
+				 'question_text' : question.text,
+				 'q_code': code}
+	return render(request, "Lecturer/lecturerProject.html", user_dict)
 
 @login_required
 def lect_units(request, unit_code):

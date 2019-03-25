@@ -38,6 +38,7 @@ class Teaching_Day(models.Model):
         Django's Model to represent the Teaching Day
         class in the MySQL database.
     """
+
     r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
     c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
     date_td = models.DateField()
@@ -52,4 +53,4 @@ class Published_Question(models.Model):
 	code = models.PositiveIntegerField(primary_key=True)               # Code - 123-456-789
 	question = models.ForeignKey(Question, on_delete=models.PROTECT)   # Question object
 	tm_stmp = models.DateTimeField(auto_now_add=True)                  # Time automatically added
-	seconds_limit = models.PositiveIntegerField()                      # Time in seconds to answer
+	seconds_limit = models.CharField(max_length=255)                      # Time in seconds to answer
