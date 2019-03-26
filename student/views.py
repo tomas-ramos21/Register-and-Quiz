@@ -86,12 +86,12 @@ def student_codeinput(request):
 			if item is not None:
 				diff = datetime.now(timezone.utc) - item.tm_stmp
 				seconds_passed = diff.total_seconds()
-				if seconds_passed > item.seconds_limit:
+				if seconds_passed > int(item.seconds_limit):
 					return HttpResponse('Question has expired.')
 				else:
 					context = {
-					'unit_code' : item.question.unit_id.code,
-					'unit_title' : item.question.unit_id.title,
+					'unit_code' : item.question.topic_id.unit_id.code,
+					'unit_title' : item.question.topic_id.unit_id.title,
 					'ans1' : item.question.ans_1,
 					'ans2' : item.question.ans_2,
 					'ans3' : item.question.ans_3,
@@ -125,6 +125,9 @@ def student_answer(request):
 			# Get the student object who submitted the answer
 			user = request.user
 			std = Student.objects.filter(user=user).first()
+			
+			if std is None:
+				return HttpResponse('No student found')
 			
 			# Get the details of the question answered
 			context = request.session.get('question_data')

@@ -131,10 +131,14 @@ body {
 }
 
 .main {
+
+}
+/*
+.main {
   margin-top: 2rem;
   display: initial;
 }
-
+*/
 .card__label {
   font-size: 2rem;
 }
