@@ -52,5 +52,5 @@ class Published_Question(models.Model):
 
 	code = models.PositiveIntegerField(primary_key=True)               # Code - 123-456-789
 	question = models.ForeignKey(Question, on_delete=models.PROTECT)   # Question object
-	tm_stmp = models.DateTimeField(auto_now_add=True)                  # Time automatically added
+	tm_stmp = models.DateTimeField(auto_now=True)                  # Time automatically added
 	seconds_limit = models.CharField(max_length=255)                      # Time in seconds to answer
