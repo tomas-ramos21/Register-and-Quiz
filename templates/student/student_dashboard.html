@@ -25,11 +25,11 @@
 <body>
 {% block main %}
 <main class="main">
+<div id="page-content">
                 <h1 class="text-center main__heading">Dashboard</h1>
                 <section class="container-fluid">
                         <section class="row">
-                                 <section
-                                        class="my-3 col-12 d-flex align-items-center justify-content-center flex-column unit">
+                                 <section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column unit">
                                                 <form action="{% url 'student:student_codeinput' %}">
                                                         <section class="text-center form-group">
                                                                 <input type="submit"
@@ -113,6 +113,7 @@
 								-->
                         </section>
                 </section>
+</div>
         </main>
 {% endblock main %}
 </body>
