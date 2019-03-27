@@ -30,7 +30,6 @@
 <body>
   {% block main %}
     <main class="main">
-	<div id="space" style="height:100px"></div>
         <section class="card">
             <section class="card-header text-center">
                 <h1 class="unit-text my-3  unit">
@@ -89,14 +88,25 @@
                 aria-expanded="false">
                 Add Topics (+)
             </a>
-          
+            <section data-toggle="collapse text-center" id="collapseAdd3">
+                <form method="post" class="upload" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h1>Upload CSV Files To Add Topics</h1>
+                    <section class="form-group file">
+                        <input type="file" name="topic_file" accept=".csv" class="file__uploader">
+                    </section>
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </section>
     </main>
-
 {% endblock main %}
-
-
-
 </body>
 {% block script %}
 <!--BootStrap Scripts-->
