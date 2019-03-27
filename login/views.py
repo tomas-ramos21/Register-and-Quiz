@@ -57,7 +57,7 @@ def user_login(request):
 				elif username[:3] == '456':
 					return HttpResponseRedirect(reverse('lecturer:lect_home'))
 				elif username[:3] == '789' or username == 'admin':
-					return HttpResponseRedirect(reverse('admin:admin_home'))
+					return HttpResponseRedirect(reverse('administrative:admin_home'))
 				else:
 					return HttpResponse("Invalid account")
 			else:
