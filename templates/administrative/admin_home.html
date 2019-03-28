@@ -28,7 +28,7 @@
         <section class="main__choices  d-flex align-items-center justify-content-center flex-column">
         <h1 class="mb-3 main__text">Features</h1>
         <a href="{% url 'administrative:space_management' %}" class="btn btn-warning my-3 main__button"><i class="fas fa-chart-bar main__icon"></i>Teaching Space Management</a>
-        <a href="#" class="btn btn-warning my-3 main__button" ><i class="fas fa-check-circle  main__icon"></i>Attendance Monitoring</a>
+        <a href="{% url 'administrative:attendance_stats' %}" class="btn btn-warning my-3 main__button" ><i class="fas fa-check-circle  main__icon"></i>Attendance Monitoring</a>
         <a href="{% url 'administrative:unit_management' %}" class="btn btn-warning my-3 main__button"><i class="fas fa-book-open main__icon"></i>Units <span class="main__break"><br></span> Management</a>
         <a href="{% url 'administrative:acc_management' %}" class="btn btn-warning my-3 main__button" ><i class="fas fa-user main__icon"></i>Accounts Management</a>
         </section>
