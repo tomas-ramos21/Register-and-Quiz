@@ -20,6 +20,8 @@
 
     <!--Student Quiz-->
     <link rel="stylesheet" href="../public/stylesheets/studentInput.css">
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 {% endblock head %}
 </head>
 <body>
@@ -30,8 +32,12 @@
                         <section class="card-body">
                                 <h1 class="unit-text my-3  unit">
                                 </h1>
-                                <form action="{% url 'student:student_codeinput' %}" class="card__form" method="POST">
+                                <form class="card__form" id=code-form"" method="POST">
 								{% csrf_token %}
+								<script type="text/javascript">
+									// using jQuery
+								var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+								</script>
 										{{form.as_p}}
 								<center><input type="submit" class="btn btn-primary card__submit" id="submit_code"></center>
 										<!--
@@ -48,22 +54,98 @@
 {% endblock main %}
 {% block script %}
 <!--BootStrap Scripts-->
+<!--
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+		-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    
+	<!-- <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script> -->
 	<script>
-	$(document).ready(function()
-	{
-		$("#submit-code").click(function()
-		{
+	$(document).ready(function(){
+		$("#submit_code").click(function(){
+			alert("Text: ");
+			
+			event.preventDefault();
+			
+			var myform = document.getElementById("code-form");
+			var form = new FormData(this);
+			
+			form.append('csrfmiddlewaretoken', csrftoken);
+			
+			$.ajax({
+			data : form,
+			dataType:'json',
+			type: 'POST',
+			method: 'POST',
+			url: '{% url 'student:process_code' %}',
+			
+			contentType: false,
+			processData: false,
+			
+			success: function(context) {
+				alert(context.msg);
+			},
+			error: function(context) {
+				alert(context.msg);
+			}
+			});
+			
+			
+			
+			/*
+			$.ajax
+			({
+				url: '{% url 'student:process_code' %}',
+			
+				data: form.serialize(),
+				dataType:'json','
+				
+				success: function(context) 
+				{
+					alert(context.msg);
+				}
+			});
+			*/
 			
 		});
 	});
-	</script>
+	
+	
+	
+	 /*$(document).ready(function()
+	{
+		
+		alert('hi2');
+		$("#submit_code").on('submit', function(event)
+		{
+			alert('hi');
+			
+			var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+			event.preventDefault();
+			var form = $(this).closest("form");
+			console.log( $(this).val() );
+			$.ajax
+			({
+				url: form.attr("submit-answer-url"),
+			
+				data: form.serialize(),
+				dataType: 'json','
+				
+				success: function(response) 
+				{
+					result = JSON.parse(response);
+					alert(result.msg);
+				}
+			});
+			
+		});});
+		*/
+    
+  </script>
 {% endblock script %}
 </body>
 
