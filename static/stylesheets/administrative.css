@@ -13,7 +13,7 @@ html {
 body {
   box-sizing: border-box;
 }
-
+/*
 .footer {
   margin-top: 2rem;
   position: static;
@@ -23,6 +23,7 @@ body {
   align-items: center;
   width: 100%;
 }
+*/
 @media (min-width: 768px) {
   .footer {
     flex-direction: row;
@@ -62,9 +63,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
 }
-
+/*
 .navbar__icon {
   margin-right: 2rem;
   border-radius: 90px;
@@ -72,7 +72,7 @@ body {
 .navbar__name {
   display: inline-block;
 }
-
+*/
 .drop-options {
   font-size: 2rem;
   color: black;

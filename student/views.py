@@ -57,7 +57,7 @@ def student_dashboard(request):
 				period += letter
 			period_display.append(period)
 			
-		class_display = zip(unit_list, period_display)
+		class_display = list(zip(unit_list, period_display))
 		context = {
 		'f_name' : user.first_name,
 		'fl_name' : user.first_name + ' ' + user.last_name,

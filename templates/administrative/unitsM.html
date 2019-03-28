@@ -1,8 +1,10 @@
+{% extends 'administrative/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
 
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -21,52 +23,12 @@
 
     <!--CSS-->
     <link rel="stylesheet" href="{% static 'stylesheets/unitsM.css' %}">
-
     <!--Vendor input file styling-->
     <link rel="stylesheet" href="../../static/input-file-master/input-file.css">
-
+{% endblock head %}
 </head>
-
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <section class="container">
-                <a class="navbar-brand" href="#"><img src="{% static 'images/murdochimage-dark.png' %}" width="150" alt="logo brand"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list" aria-controls="navbarNav"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <section class="collapse navbar-collapse " id="navbar-list">
-                    <ul class="navbar-nav ml-auto text-center">
-                        <li class="nav-item">
-                            <img src="{% static 'images/loginicon.png' %}" class="navbar__icon" alt="">
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="true">
-                                <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
-                            </a>
-
-                            <section class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <section>
-                                    <a href="#" class="drop-options">
-                                        <span><i class="far fa-user"></i></span>
-                                        <span>{{name_menu}}</span>
-                                    </a>
-                                </section>
-                                <section>
-                                    <a href="{% url 'administrative:user_logout' %}" class="drop-options">
-                                        <span><i class="fas fa-sign-out-alt"></i></span>
-                                        <span>Logout</span>
-                                    </a>
-                                </section>
-                            </section>
-                        </li>
-                    </ul>
-                </section>
-            </section>
-        </nav>
-    </header>
+{% block main %}
     <main class="main">
         <h1 class="text-center">Quick Update</h1>
         <section class="card">
@@ -90,57 +52,6 @@
                               </div>
                           </div>
                       </form>
-                <!-- <form action="{% url 'administrative:unit_management' %}" class="form" method="post">
-                            {% csrf_token %}
-                         <section class="container-fluid">
-                            <section class="row">
-                                    <section class="col-12 form-group ">
-                                            <h1>Choose to add or remove units</h1>
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                        <label for="add" >Add</label>
-                                        <input type="radio" name="add/remove" id="add" value="add" required>
-                                    </section>
-                                    <section class="col-12 col-sm-6  form-group ">
-                                        <label for="remove" >Remove</label>
-                                        <input type="radio" name="add/remove" id="remove" value="remove" required>
-                                    </section>
-                                    <section class="col-12 form-group ">
-                                            <h1>Enter Details</h1>
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                        <label for="#unit" >Unit Code:</label>
-                                    </section>
-                                    <section class="col-12  col-sm-6 form-group ">
-                                            <input type="text" id="unit" class="form__input" name="unit" required>
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                            <label for="#unitTitle" >Unit Title:</label>
-                                    </section>
-                                     <section class="col-12  col-sm-6 form-group ">
-                                                <input type="text" id="unitTitle" class="form__input" name="unitTitle" required>
-                                    </section>
-                                    <section class="col-12 col-sm-6 form-group ">
-                                            <label for="#Accounts" >Account Type:</label>
-                                    </section>
-                                     <section class="col-12  col-sm-6 form-group ">
-                                            <select name="Accounts" id="Accounts">
-                                                    <option value="student">Student</option>
-                                                    <option value="Lecturers">Lecturers</option>
-                                           </select>
-                                     </section>
-                                     <section class="col-12 col-sm-6 form-group ">
-                                            <label for="#username">Murdoch Username:</label>
-                                    </section>
-                                     <section class="col-12  col-sm-6 form-group ">
-                                            <input type="text" id="username" class="form__input" name="username" required>
-                                     </section>
-                                     <section class="col-12 text-center form-group">
-                                         <input type="submit" class="btn btn-dark p-3 form__submit">
-                                     </section>
-                            </section>
-                         </section>
-                    </form> -->
             </section>
             <section class="card-body text-left">
                 <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList2" role="button" aria-expanded="false"
@@ -238,15 +149,10 @@
                 </form>
             </section>
         </section>
-
-
     </main>
-    <footer class="footer">
-        <img class="footer__image" src="{% static 'images/Murdoch_University_Logo.svg.png' %}" width="100" height="100" alt="">
-        <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
-    </footer>
-
-    <!--BootStrap Scripts-->
+{% endblock main %}
+{% block script %}
+<!--BootStrap Scripts-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
@@ -260,5 +166,6 @@
         });
     </script>
 </body>
-
-</html>
+{% endblock script %}
+</body>
+</html

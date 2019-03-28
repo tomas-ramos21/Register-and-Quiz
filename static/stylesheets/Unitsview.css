@@ -31,9 +31,6 @@ body {
     justify-content: flex-start;
   }
 }
-
-
-
 /*
 .footer__text {
   font-size: 2rem;
@@ -64,27 +61,13 @@ body {
   min-height: 100%;
   position: relative;
 }
-
-
-
-.main {
-  margin-top: 1000px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-/*
 .main {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
 }
-*/
 /*
 .navbar__icon {
   margin-right: 2rem;
@@ -131,18 +114,11 @@ body {
   width: 50%;
   max-height: 132px;
 }
-
-.main {
-  margin-top: 0px;
-  padding: 2rem;
-  padding-top: 80px;
-}
-/*
 .main {
   margin-top: 2rem;
   padding: 2rem;
 }
-*/
+
 .main__heading {
   font-size: 4rem;
 }

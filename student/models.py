@@ -26,4 +26,4 @@ class Answer(models.Model):
 	teach_day	= models.ForeignKey(Teaching_Day, on_delete=models.PROTECT)	# Teaching Day ID
 	ans		= models.CharField(max_length=50)				# Answer Option
 	tm_stmp		= models.DateTimeField()					# Time Stamp
-	ip_t		= models.CharField(max_length=8)				# IP Type
+	ip_addr		= models.CharField(max_length=15)				# IP Type
