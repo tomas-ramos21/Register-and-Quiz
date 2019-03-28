@@ -25,13 +25,12 @@
                         <div class="usermenu0 navbarrightitem0">
                             <ul class="nav0">
 							<li class="dropdown0">
-							<a class="dropdown-toggle0" data-toggle="dropdown0" href="{% url 'lecturer:lect_home' %}">
+							<a class="dropdown-toggle0" data-toggle="dropdown0" href="{% url 'student:student_dashboard' %}">
 							<img src="{% static 'images/loginicon.png' %}" alt="Picture of {{fl_name}}" title="Picture of {{fl_name}}" class="userpicture defaultuserpic" width="64" height="64" />
 							<span class="profilename">{{f_name}}</span>
 							<span aria-hidden="true" class="fa0 fa-caret-right0"></span></a>
 							<ul class="dropdown-menu0 pull-right0">
-                            <li><a href="{% url 'lecturer:lect_class' %}"><em><span aria-hidden="true" class="fa0 fa-create-class0"></span>Create Class</em></a></li>
-							<li><a href="{% url 'lecturer:user_logout' %}"><em><span aria-hidden="true" class="fa0 fa-sign-out0"></span>Log out</em></a></li></ul></li></ul>
+							<li><a href="{% url 'student:user_logout' %}"><em><span aria-hidden="true" class="fa0 fa-sign-out0"></span>Log out</em></a></li></ul></li></ul>
                                                 </div>
                        <div class="messagemenu0 navbarrightitem0">
                             <div class="popover-region0 collapsed0 popover-region-messages0" id="nav-message-popover-container0" data-region="popover-region0">
@@ -47,11 +46,11 @@
 							<a href="{% url 'lecturer:lect_home' %}" class="dropdown-toggle0" data-toggle="dropdown0" title="My units">
 							<span aria-hidden="true" class="fa0 fa-briefcase0"></span>My units
 							<span aria-hidden="true" class="fa0 fa-caret-right0"></span></a>
-							<div class="dropdown-menu0"><ul><li><a title="Dashboard" href="{% url 'lecturer:lect_home' %}">
+							<div class="dropdown-menu0"><ul><li><a title="Dashboard" href="{% url 'student:student_dashboard' %}">
 							<span><span aria-hidden="true" class="fa0 fa-home0"></span>
 							<span> Dashboard</span></span></a></li>
 							{% for unit, t_period in class_display %}
-							<li><a title="{{unit.code}}{{t_period}}" href="{% url 'lecturer:lect_units' unit_code=unit.code %}"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
+							<li><a title="{{unit.code}}{{t_period}}" href="#"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
 							{% endfor %}
 							</ul></div></li></ul></div>
                     </div>
@@ -64,7 +63,7 @@
         <div class="container-fluid0">
             <div class="row-fluid0">
                 <!-- HEADER: LOGO AREA -->
-<div class="pull-left0"><a class="textlogo0" href="{% url 'lecturer:lect_home' %}"><span id="headerlogo0" aria-hidden="true" class="fa0 fa-laptop0"></span><div class="titlearea0"><h1 id="title0">LMS</h1></div></a>                </div>
+<div class="pull-left0"><a class="textlogo0" href="{% url 'student:student_dashboard' %}"><span id="headerlogo0" aria-hidden="true" class="fa0 fa-laptop0"></span><div class="titlearea0"><h1 id="title0">LMS</h1></div></a>                </div>
                             </div>
         </div>
     </div>
@@ -80,7 +79,7 @@
             <div class="footerlinks0 row-fluid0">
                 <hr/>
                 <span class="helplink0"></span>
-                <span class="footer-login-info0"><div class="logininfo0">You are logged in as {{fl_name}} (<a href="{% url 'lecturer:user_logout' %}">Log out</a>)</div></span>
+                <span class="footer-login-info0"><div class="logininfo0">You are logged in as {{fl_name}} (<a href="{% url 'student:user_logout' %}">Log out</a>)</div></span>
                                 <div class="footnote0 span12"><div id="footer0">
 <div id="footer-content0">
 <div class="container-fluid0">
@@ -96,6 +95,6 @@
 </div>
 </div></div></div> </div></div></div>
 </footer>
-</body>
 {% block script%}{% endblock script %}
+</body>
 </html>

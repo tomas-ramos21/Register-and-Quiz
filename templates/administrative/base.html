@@ -63,7 +63,7 @@
         <div class="container-fluid0">
             <div class="row-fluid0">
                 <!-- HEADER: LOGO AREA -->
-<div class="pull-left0"><a class="textlogo0" href="{% url 'lecturer:lect_home' %}"><span id="headerlogo0" aria-hidden="true" class="fa0 fa-laptop0"></span><div class="titlearea0"><h1 id="title0">LMS</h1></div></a>                </div>
+<div class="pull-left0"><a class="textlogo0" href="{% url 'administrative:admin_home' %}"><span id="headerlogo0" aria-hidden="true" class="fa0 fa-laptop0"></span><div class="titlearea0"><h1 id="title0">LMS</h1></div></a>                </div>
                             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
             <div class="footerlinks0 row-fluid0">
                 <hr/>
                 <span class="helplink0"></span>
-                <span class="footer-login-info0"><div class="logininfo0">You are logged in as {{fl_name}} (<a href="{% url 'lecturer:user_logout' %}">Log out</a>)</div></span>
+                <span class="footer-login-info0"><div class="logininfo0">You are logged in as {{fl_name}} (<a href="{% url 'administrative:user_logout' %}">Log out</a>)</div></span>
                                 <div class="footnote0 span12"><div id="footer0">
 <div id="footer-content0">
 <div class="container-fluid0">
@@ -96,6 +96,6 @@
 </div>
 </div></div></div> </div></div></div>
 </footer>
-</body>
 {% block script%}{% endblock script %}
+</body>
 </html>
