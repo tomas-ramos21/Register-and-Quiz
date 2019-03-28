@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from generic.utils import get_context
+from administrative.models import Employee
+from student.models import Student
 
 def index(request):
 	"""
@@ -51,6 +53,8 @@ def user_login(request):
 			if user.is_active:
 				login(request, user)
 				curr_user = User.objects.filter(username=username).first()
+				
+				"""
 				user_dict = get_context(curr_user)
 				if username[:3] == '333':
 					return HttpResponseRedirect(reverse('student:student_index'))
@@ -60,6 +64,20 @@ def user_login(request):
 					return HttpResponseRedirect(reverse('administrative:admin_home'))
 				else:
 					return HttpResponse("Invalid account")
+				"""
+				emp = Employee.objects.filter(user=curr_user).first()
+				if emp is not None:
+					position = emp.pstn.upper()
+					if position == 'LECTURER' or position == 'UNIT COORDINATOR':
+						return HttpResponseRedirect(reverse('lecturer:lect_home'))
+					else:
+						return HttpResponseRedirect(reverse('administrative:admin_home'))
+				else:
+					std = Student.objects.filter(user=curr_user).first()
+					if std is not None:
+						return HttpResponseRedirect(reverse('student:student_index'))
+					else:
+						return HttpResponse("Invalid account")
 			else:
 				return HttpResponse("Account Not Active")   # Need proper error page.
 		else:
