@@ -221,6 +221,18 @@ def student_creation(request):
 		register_student(file_path)
 	return render(request, 'administrative/stuAccAdd.html', user_dict)
 
+def attendance_stats(request):
+	user = request.user
+	user_dict = {'name_header':user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
+	return render(request, 'administrative/statistics.html', user_dict)
+
+def user_view(request):
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
+	return render(request, 'administrative/userView.html', user_dict)
+
 @login_required
 def user_logout(request):
     """

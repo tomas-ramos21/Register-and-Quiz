@@ -54,7 +54,7 @@
 					{% if question.topic_id.number == topic.number %}
                             <section class="collapse text-center" id="collapseList">
                                 <section class="text-left">
-                                    <a href="{% url 'lecturer:lect_publish' q_id=question.id %}" class="card-body__text text-dark text-decoration-none">{{question.title}}</a>
+                                    <a href="{% url 'lecturer:lect_publish' q_id=question.id topic_id=question.topic_id.id period_id=t_period.id %}" class="card-body__text text-dark text-decoration-none">{{question.title}}</a>
                                 </section>
                             </section>
 					{% endif %}

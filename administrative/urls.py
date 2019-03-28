@@ -13,5 +13,7 @@ urlpatterns = [
 	url(r'^teaching-space-management/$', views.space_management, name='space_management'),
 	url(r'^create-lecturer/$', views.employee_creation, name='employee_creation'),
 	url(r'^create-student/$', views.student_creation, name='student_creation'),
+	url(r'^attendance-stats/$', views.attendance_stats, name='attendance_stats'),
+	url(r'^user-view/$', views.user_view, name='user_view'),
 	url('user_login', views.user_logout, name='user_logout'),
 ]

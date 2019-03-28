@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from generic.utils import register_questions, publish_question, register_class, add_students, register_topics
 from django.conf import settings
-from administrative.models import Unit, Employee
-from lecturer.models import Class, Question, Topic
+from administrative.models import Unit, Employee, Teaching_Period, Room
+from lecturer.models import Class, Question, Topic, Teaching_Day
+import datetime
 
 @login_required
 def lect_home(request):
@@ -40,16 +41,30 @@ def lect_home(request):
 		return HttpResponse('Unexpected error')
 
 @login_required
-def lect_publish(request, q_id):
+def lect_publish(request, q_id, topic_id, period_id):
+
 	user = request.user
 	question = Question.objects.filter(id=q_id).first()
+	topic = Topic.objects.filter(id=topic_id).first()
+	period = Teaching_Period.objects.filter(id=period_id).first()
+
 	user_dict = {'name_header': user.first_name,
 				 'name_menu': user.first_name + ' ' + user.last_name,
 				 'question_title' : question.title}
 
 	if request.method == "POST":
 		time = request.POST.get('max_time')
+		class_code = request.POST.get('current_class')
+		room = request.POST.get('current_room')
+		room = Room.objects.filter(id=room).first()
+		curr_class = Class.objects.filter(unit_id=topic.unit_id).filter(t_period=period).filter(code=class_code).first()
+
+		if Teaching_Day.objects.filter(c_id=curr_class).filter(date_td=datetime.datetime.now().date()).first() is None:
+			t_day = Teaching_Day(r_id=room, c_id=curr_class)
+			t_day.save()
+
 		code = publish_question(question, time)
+
 		code = str(code)
 		code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
 		user_dict = {'name_header': user.first_name,

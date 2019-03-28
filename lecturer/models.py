@@ -39,14 +39,10 @@ class Teaching_Day(models.Model):
         class in the MySQL database.
     """
 
+    id      = models.AutoField(primary_key=True)
     r_id    = models.ForeignKey(Room, on_delete=models.PROTECT)     # Room ID
     c_id    = models.ForeignKey(Class, on_delete=models.PROTECT)    # Class ID
-    date_td = models.DateField()
-    st_time = models.TimeField()                                    # Starting Time
-    en_time = models.TimeField()                                    # Ending Time
-
-    class Meta:
-	    unique_together = (('c_id', 'date_td'),)
+    date_td = models.DateField(default=datetime.date.today)
 
 class Published_Question(models.Model):
 

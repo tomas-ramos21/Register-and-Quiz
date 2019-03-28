@@ -1,0 +1,41 @@
+@import "../abstracts/mixins";
+@import "../base/reset";
+@import "../abstracts/variables";
+@import "../base/typography";
+@import "../layout/main";
+@import "../layout/header";
+@import "../layout/heading";
+@import "../components/cards";
+@import "../components/description";
+@import "../layout/footer";
+
+.stats {
+
+    &__heading {
+        margin-bottom: 2rem;
+    }
+
+    &__img {
+        max-width: 800px;
+        width:100%;
+    }
+
+    &__dropdown {
+        margin-top:2rem;
+    }
+
+    &__item {
+        padding-bottom: 1rem;
+    }
+}
+
+.dropdown-btn::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
