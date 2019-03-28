@@ -27,14 +27,13 @@
 <div class="space" style="height:100px"></div>
         <main class="main">
                 <section class="card">
-                        <img src="../public/images/365728-636190610546181732-16x9.jpg" class="card-img-top" alt="...">
                         <section class="card-body">
                                 <h1 class="unit-text my-3  unit">
                                 </h1>
                                 <form action="{% url 'student:student_codeinput' %}" class="card__form" method="POST">
 								{% csrf_token %}
 										{{form.as_p}}
-								<input type="submit"  class="btn btn-primary card__submit">
+								<center><input type="submit" class="btn btn-primary card__submit" id="submit_code"></center>
 										<!--
                                         <section class="card-submission">
                                                 <label class="mr-3 card__label" for="card__answer">Question Code:</label>
@@ -47,7 +46,6 @@
                 </section>
         </main>
 {% endblock main %}
-</body>
 {% block script %}
 <!--BootStrap Scripts-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -56,5 +54,17 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<script>
+	$(document).ready(function()
+	{
+		$("#submit-code").click(function()
+		{
+			
+		});
+	});
+	</script>
 {% endblock script %}
+</body>
+
 </html>

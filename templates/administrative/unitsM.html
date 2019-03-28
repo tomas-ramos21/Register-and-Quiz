@@ -1,7 +1,9 @@
+{% extends 'administrative/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -20,49 +22,10 @@
 
     <!--CSS-->
     <link rel="stylesheet" href="{% static 'stylesheets/unitsM.css' %}">
-
+{% endblock head %}
 </head>
-
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <section class="container">
-                <a class="navbar-brand" href="#"><img src="{% static 'images/murdochimage-dark.png' %}" width="150" alt="logo brand"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <section class="collapse navbar-collapse " id="navbar-list">
-                    <ul class="navbar-nav ml-auto text-center">
-                        <li class="nav-item">
-                            <img src="{% static 'images/loginicon.png' %}" class="navbar__icon" alt="">
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="true">
-                                <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
-                            </a>
-
-                            <section class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <section>
-                                    <a href="#" class="drop-options">
-                                        <span><i class="far fa-user"></i></span>
-                                        <span>{{name_menu}}</span>
-                                    </a>
-                                </section>
-                                <section>
-                                    <a href="{% url 'administrative:user_logout' %}" class="drop-options">
-                                        <span><i class="fas fa-sign-out-alt"></i></span>
-                                        <span>Logout</span>
-                                    </a>
-                                </section>
-                            </section>
-                        </li>
-                    </ul>
-                </section>
-            </section>
-        </nav>
-    </header>
+{% block main %}
     <main class="main">
         <h1 class="text-center">Quick Update</h1>
         <section class="card">
@@ -220,21 +183,16 @@
                     </form>
             </section>
         </section>
-
-
     </main>
-    <footer class="footer">
-        <img class="footer__image" src="{% static 'images/Murdoch_University_Logo.svg.png' %}" width="100" height="100" alt="">
-        <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
-    </footer>
-
-    <!--BootStrap Scripts-->
+{% endblock main %}
+{% block script %}
+<!--BootStrap Scripts-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+{% endblock script %}
 </body>
-
 </html>

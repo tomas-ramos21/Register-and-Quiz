@@ -29,8 +29,8 @@ def admin_home(request):
 			String with the staff's name.
 	"""
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = {'f_name': user.first_name,
+				 'fl_name': user.first_name + ' ' + user.last_name}
 	return render(request, 'administrative/admin_home.html', user_dict)
 
 def acc_management(request):

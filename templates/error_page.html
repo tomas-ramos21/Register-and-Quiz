@@ -25,23 +25,14 @@
 <body>
 {% block main %}
         <main class="main">
-                <h1 class="text-center main__heading">Dashboard</h1>
                 <section class="container-fluid">
-                        <section class="row">
-						{% for unit, t_period in class_display %}
-                                <section
-                                        class="my-3 col-12 col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
-                                        <img class="unit__image" src="{% static 'images/'|add:unit.image %}" alt="One of the unit images">
-                                        <h1 class="unit-text my-3">
-                                                <a href="{% url 'lecturer:lect_units' unit_code=unit.code %}"><span class="unit-text__main">{{unit.code}} {{unit.title}}</span>
-                                                <span class="unit-text__sub">({{t_period}})</span></a>
-                                        </h1>
-                                </section>
-						{% endfor %}
-                        </section>
+				<br><br>
+                        <h3>{{msg}}</h3>
+				<br><br>
                 </section>
         </main>
 		{% endblock main %}
+</body>
 <!--BootStrap Scripts-->
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -54,5 +45,6 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 {% endblock script %}
-</body>
+
+
 </html>
