@@ -130,30 +130,8 @@ body {
   }
 }
 
-.search {
-  padding: 1.5rem;
-}
-.search__text {
-  width: 25%;
-  min-width: 150px;
-}
-.search__group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.search__button {
-  padding: 0.5rem;
+.table {
   font-size: 1.5rem;
 }
 
-@media (min-width: 768px) {
-  .footer {
-    position: relative;
-    bottom: -500px;
-    justify-content: flex-start;
-  }
-}
-
-/*# sourceMappingURL=teachingSpace.css.map */
+/*# sourceMappingURL=userView.css.map */

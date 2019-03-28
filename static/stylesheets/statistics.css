@@ -130,30 +130,29 @@ body {
   }
 }
 
-.search {
-  padding: 1.5rem;
+.stats__heading {
+  margin-bottom: 2rem;
 }
-.search__text {
-  width: 25%;
-  min-width: 150px;
+.stats__img {
+  max-width: 800px;
+  width: 100%;
 }
-.search__group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.stats__dropdown {
+  margin-top: 2rem;
 }
-.search__button {
-  padding: 0.5rem;
-  font-size: 1.5rem;
+.stats__item {
+  padding-bottom: 1rem;
 }
 
-@media (min-width: 768px) {
-  .footer {
-    position: relative;
-    bottom: -500px;
-    justify-content: flex-start;
-  }
+.dropdown-btn::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
 }
 
-/*# sourceMappingURL=teachingSpace.css.map */
+/*# sourceMappingURL=statistics.css.map */

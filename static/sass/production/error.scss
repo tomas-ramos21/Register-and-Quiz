@@ -8,12 +8,13 @@
 @import "../components/cards";
 @import "../components/description";
 @import "../layout/footer";
-@import "../components/search";
 
-.footer {
-    @include media-breakpoint(sm){
-        position: relative;
-        bottom:-500px;
-        justify-content: flex-start;
+.table {
+    min-width: 400px;
+    max-width: 500px;
+
+    &__body {
+        min-width: 400px;
+        min-height: 500px;
     }
 }
