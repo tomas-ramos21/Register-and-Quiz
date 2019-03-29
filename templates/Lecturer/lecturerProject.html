@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Administrator</title>
+    <title>Lecturer</title>
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
@@ -24,7 +24,9 @@
     <main class="main">
             <h1 class="text-center main__text">{{question_text}}</h1>
             <h5 class="text-center main__text">{{q_code}}</h5>
-            <button class="btn btn-secondary">Stop Now</button>
+            <a href="{% url 'lecturer:lect_q_stats' published_id=q_code %}">
+                    <button type="submit" class="btn btn-secondary">Stop Now</button>
+            </a>
     </main>
 {% endblock main %}
 {% block script %}
