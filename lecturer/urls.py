@@ -11,5 +11,6 @@ urlpatterns = [
 	path('publish/<int:q_id>/<int:topic_id>/<str:period_id>/', views.lect_publish, name='lect_publish'),
 	url('user_login', views.user_logout, name='user_logout'),
 	url(r'^class/$', views.lect_class, name='lect_class'),
+	url(r'^qstats/$', views.lect_q_stats, name='lect_q_stats'),
 	url(r'^project/$', views.lect_project, name='lect_project'),
 ]

@@ -148,6 +148,12 @@ def lect_class(request):
 
 	return render(request, "Lecturer/lecturerClass.html", user_dict)
 
+def lect_q_stats(request):
+	user = request.user
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name}
+	return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
+
 @login_required
 def user_logout(request):
     """
