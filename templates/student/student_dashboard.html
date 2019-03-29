@@ -35,7 +35,6 @@
                                                                 <input type="submit"
                                                                         class="btn btn-dark p-2 form__submit "
                                                                         value="Verify Quiz Code">
-																
                                                         </section>
                                                 </form>
                                         </h1>
@@ -47,7 +46,7 @@
                                         <h1 class="unit-text my-3 ">
                                                 <span class="unit-text__main">{{unit.code}} {{unit.title}}</span>
                                                 <span class="unit-text__sub">({{t_period}})</span>
-                                                <form action="/">
+                                                <form action="{% url 'student:student_stats' unit_t=unit.code period=t_period%}">
                                                         <section class="text-center form-group">
                                                                 <input type="submit"
                                                                         class="btn btn-dark p-2 form__submit "
@@ -57,60 +56,6 @@
                                         </h1>
                                 </section>
 								{% endfor %}
-								
-								<!--
-                                <section
-                                        class="col-xs-12 my-3  col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
-                                        <img class="unit__image"
-                                                src="{% static "images/Light-blue-pattern-seamless-background-vector-452x336.jpg" %}"
-                                                alt="this is a image for one of the units">
-                                        <h1 class="unit-text my-3 ">
-                                                <span class="unit-text__main">WEB278 Web Strategy</span>
-                                                <span class="unit-text__sub">(s1,2019)</span>
-                                                <form action="/">
-                                                        <section class="text-center form-group">
-                                                                <input type="submit"
-                                                                        class="btn btn-dark p-2 form__submit "
-                                                                        value="Check Attendance">
-                                                        </section>
-                                                </form>
-                                        </h1>
-                                </section>
-                                <section
-                                        class="col-xs-12  my-3  col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
-                                        <img class="unit__image" src="{% static "images/blue_hexgrid_pattern-.jpg" %}"
-                                                alt="this is a image for one of the units">
-                                        <h1 class="unit-text my-3 ">
-                                                <span class="unit-text__main text-center">ICT380 Information Policy and
-                                                        Governance</span>
-                                                <span class="unit-text__sub">(s1,2019)</span>
-                                                <form action="/">
-                                                        <section class="text-center form-group">
-                                                                <input type="submit"
-                                                                        class="btn btn-dark p-2 form__submit "
-                                                                        value="Check Attendance">
-                                                        </section>
-                                                </form>
-                                        </h1>
-                                </section>
-                                <section
-                                        class="col-xs-12 my-3  col-sm-6 d-flex align-items-center justify-content-center flex-column unit">
-                                        <img class="unit__image" src="{% static "images/blue.jpg" %}"
-                                                alt="this is a image for one of the units">
-                                        <h1 class="unit-text my-3 ">
-                                                <span class="unit-text__main">ICT301 Applied Research Skills on
-                                                        ICT</span>
-                                                <span class="unit-text__sub">(s1,2019)</span>
-                                                <form action="/">
-                                                        <section class="text-center form-group">
-                                                                <input type="submit"
-                                                                        class="btn btn-dark p-2 form__submit "
-                                                                        value="Check Attendance">
-                                                        </section>
-                                                </form>
-                                        </h1>
-                                </section>
-								-->
                         </section>
                 </section>
 </div>

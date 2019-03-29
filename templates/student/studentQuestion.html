@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Student Quiz</title>
+        <title>Student</title>
         <!--Font Awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
                 crossorigin="anonymous">
@@ -20,13 +20,14 @@
 
         <!--Student Quiz-->
         <link rel="stylesheet" href="{% static "stylesheets/studentQuiz.css" %}">	
+
 		<script type="text/javascript">
 		function validateForm()
 		{
-			
+
 				document.forms['answer_submission'].submit();
 				alert('Successfully submitted the answer for Question');
-		
+
 		}
 </script>
 </head>
@@ -51,7 +52,7 @@
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-1" name='choice' aria-label="Radio button for following text input" value="{{ans1}}"><label class="mr-3 form__label" for="answer-1" >{{ans1}}</label>
-                                                
+
                                         </section>
                         </section>
 						{% endif %}
@@ -59,7 +60,7 @@
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-2" name='choice' aria-label="Radio button for following text input" value="{{ans2}}"><label class="mr-3 form__label" for="answer-2" >{{ans2}}</label>
-                                                
+
                                         </section>
                         </section>
 						{% endif %}
@@ -67,7 +68,7 @@
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-3" name='choice' aria-label="Radio button for following text input" value="{{ans3}}"><label class="mr-3 form__label" for="answer-3" >{{ans3}}</label>
-                                                
+
                                         </section>
                         </section>
 						{% endif %}
@@ -75,10 +76,10 @@
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-4" name='choice' aria-label="Radio button for following text input" value="{{ans4}}"><label class="mr-3 form__label" for="answer-4" >{{ans4}}</label>
-                                                
+
                                         </section>
                         </section>
-						{% endif %} 
+						{% endif %}
 						<section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column">
                         <input type="button" aria-label="Submit Button" class="btn btn-primary btn-lg form__submit"
                         data-toggle="modal" data-target="#exampleModal" onclick=validateForm()>
@@ -127,3 +128,4 @@
 {% endblock script %}
 </body>
 </html>
+
