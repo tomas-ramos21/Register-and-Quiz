@@ -12,7 +12,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period
+from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period, extract_info_student, extract_info_lecturer
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -229,8 +229,33 @@ def attendance_stats(request):
 
 def user_view(request):
 	user = request.user
+	username = request.POST.get('search_user')
+	searched_user = User.objects.get(username=username)
+
+	if searched_user is None:
+		return HttpResponse('User does not exist.')
+
+	student = Student.objects.filter(user=searched_user).first()
+	lecturer = Employee.objects.filter(user=searched_user).first()
+
+	classes = None
+	units = None
+	courses = None
+	user_object = None
+	if student is not None:
+		classes, courses, units = extract_info_student(student)
+		user_object = student
+	else:
+		classes, units = extract_info_lecturer(lecturer)
+		user_object = lecturer
+
 	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+				 'name_menu': user.first_name + ' ' + user.last_name,
+				 'user_object': user_object,
+				 'classes': classes,
+				 'units': units,
+				 'courses':courses}
+
 	return render(request, 'administrative/userView.html', user_dict)
 
 @login_required
