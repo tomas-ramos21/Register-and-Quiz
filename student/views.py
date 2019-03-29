@@ -6,24 +6,24 @@
 
 from django.urls import reverse
 from django.shortcuts import render, redirect
-
 from student.models import Student, Answer
 from lecturer.models import Question, Published_Question, Teaching_Day
 from administrative.models import Unit
-
 from datetime import datetime, timedelta, timezone
 from student.forms import codeForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth import logout
 from ipware import get_client_ip
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseRedirect
 from lecturer.models import Class
+from generic.decorator import is_student
+
 
 @login_required
+@is_student
 def student_index(request):
 	"""
 		Redirects to student's dashboard page.
-
 		Parameters
 		----------
 		request: HTTP request object.
@@ -35,7 +35,6 @@ def student_index(request):
 def student_dashboard(request):
 	"""
 		Renders student's dashboard page.
-
 		Parameters
 		----------
 		request: HTTP request object.
@@ -69,72 +68,42 @@ def student_dashboard(request):
 	else:
 		return HttpResponse('Not registered as a student')
 
-
-def process_code(request):
-	context = {}
-	print('huhu')
-	
-	if request.method == 'POST':
-		print('bubu')
-		form = codeForm(request.POST)
-		if form.is_valid():
-			
-			cd = form.cleaned_data
-			code = cd.get('code')
-			print('yay')
-			if code.isdigit():
-				item = Published_Question.objects.filter(code=code).first()
-				context['is_valid'] = True
-				context['msg'] = 'Successfully submitted the answer'
-				
-				"""
-				if item is not None:
-					context['exist'] = True
-					diff = datetime.now(timezone.utc) - item.tm_stmp
-					seconds_passed = diff.total_seconds()
-					if seconds_passed > int(item.seconds_limit):
-						context['is_valid'] = False,
-						context['msg'] = 'Question has expired'
-					else:
-						context['is_valid'] = True,
-						context['msg'] = 'Successfully submitted the answer'
-						
-						user_dict = {
-						'unit_code' : item.question.topic_id.unit_id.code,
-						'unit_title' : item.question.topic_id.unit_id.title,
-						'ans1' : item.question.ans_1,
-						'ans2' : item.question.ans_2,
-						'ans3' : item.question.ans_3,
-						'ans4' : item.question.ans_4,
-						'question_code' : code
-						}
-						request.session['question_data'] = user_dict
-				"""
-						
-			else:
-				context['is_valid'] = False
-				context['msg'] = 'Invalid question code.'
-			
-		else:
-			context['is_valid'] = False
-			context['msg'] = 'Invalid form'
-		return JsonResponse(context)	
-	else:
-		context['msg'] = 'tidak bisa'
-		return JsonResponse(context)
-			
 @login_required
 def student_codeinput(request):
 	"""
 		Renders the form for question code input.
-
 		Parameters
 		----------
 		request: HTTP request object.
 			Contains the request type sent by the user.
 	"""
-
-	form = codeForm()
+	if request.method == 'POST':
+		form = codeForm(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			code = cd.get('code')
+			item = Published_Question.objects.filter(code=code).first()
+			if item is not None:
+				diff = datetime.now(timezone.utc) - item.tm_stmp
+				seconds_passed = diff.total_seconds()
+				if seconds_passed > int(item.seconds_limit):
+					return HttpResponse('Question has expired.')
+				else:
+					context = {
+					'unit_code' : item.question.topic_id.unit_id.code,
+					'unit_title' : item.question.topic_id.unit_id.title,
+					'ans1' : item.question.ans_1,
+					'ans2' : item.question.ans_2,
+					'ans3' : item.question.ans_3,
+					'ans4' : item.question.ans_4,
+					'question_code' : code
+					}
+					request.session['question_data'] = context
+					return HttpResponseRedirect(reverse('student:student_answer'))
+			else:
+				return HttpResponse('No matching question code.')
+	else:
+		form = codeForm()
 
 	return render(request, 'student/studentInput.html', {'form':form})
 
@@ -142,7 +111,6 @@ def student_codeinput(request):
 def student_answer(request):
 	"""
 		Renders the answer page for the student to submit answer. 
-
 		Parameters
 		----------
 		request: HTTP request object.
@@ -220,7 +188,6 @@ def user_logout(request):
     """
         Closes the current session of the user,
         and redirects them to the login page.
-
         Parameters
         ----------
         request: HTTP request object
@@ -228,4 +195,3 @@ def user_logout(request):
     """
     logout(request)
     return HttpResponseRedirect(reverse('login:user_login'))
-

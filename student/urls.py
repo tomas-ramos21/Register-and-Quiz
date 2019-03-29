@@ -8,7 +8,6 @@ urlpatterns = [
 	path('', views.student_index, name='student_index'),
 	path('my/', views.student_dashboard, name='student_dashboard'),	
 	path('code-input/', views.student_codeinput, name='student_codeinput'),
-	path('ajax-url/', views.process_code, name='process_code'),
 	path('submit-answer/', views.student_answer, name='student_answer'),
 	path('user_logout', views.user_logout, name='user_logout'),
 ]

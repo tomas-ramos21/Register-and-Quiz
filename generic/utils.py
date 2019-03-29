@@ -15,6 +15,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
 
+def get_std_data(user):
+	std = Student.objects.filter(user=user).first()
+	user_dict = {
+	'f_name' : user.first_name,
+	}
+
+
+
 
 def register_employee(csv_path: str) -> None:
     """
