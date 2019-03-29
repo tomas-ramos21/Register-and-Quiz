@@ -9,7 +9,11 @@
 @import "../components/description";
 @import "../layout/footer";
 
-.table {
-    font-size:1.5rem;
-    margin:2rem 0;
+.barchart {
+    &__img {
+        max-width: 800px;
+        width:100%;
+    }
+
+    
 }
