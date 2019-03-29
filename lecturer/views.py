@@ -1,4 +1,5 @@
 import os
+import re
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.urls import reverse
@@ -6,6 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from generic.utils import register_questions, publish_question, register_class, add_students, register_topics
+from generic.graphs import answer_graph
 from django.conf import settings
 from administrative.models import Unit, Employee, Teaching_Period, Room
 from lecturer.models import Class, Question, Topic, Teaching_Day
@@ -148,10 +150,13 @@ def lect_class(request):
 
 	return render(request, "Lecturer/lecturerClass.html", user_dict)
 
-def lect_q_stats(request):
+def lect_q_stats(request, published_id):
 	user = request.user
+	code = int(re.sub('[^0-9]', '', published_id))
+
 	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+				 'name_menu': user.first_name + ' ' + user.last_name,
+				 'graph': answer_graph(code)}
 	return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
 
 @login_required

@@ -1,6 +1,6 @@
 from django.db import models
 from administrative.models import Course
-from lecturer.models import Question, Class, Teaching_Day
+from lecturer.models import Published_Question, Class, Teaching_Day
 from django.contrib.auth.models import User
 
 class Student(models.Model):
@@ -24,6 +24,6 @@ class Answer(models.Model):
 	s_id		= models.ForeignKey(Student, on_delete=models.PROTECT)		# Student ID
 	q_id		= models.ForeignKey(Published_Question, on_delete=models.PROTECT)		# Question ID
 	teach_day	= models.ForeignKey(Teaching_Day, on_delete=models.PROTECT)	# Teaching Day ID
-	ans		= models.CharField(max_length=50)				# Answer Option
+	ans		= models.CharField(max_length=255)				# Answer Option
 	tm_stmp		= models.DateTimeField()					# Time Stamp
 	ip_addr		= models.CharField(max_length=15)				# IP Type

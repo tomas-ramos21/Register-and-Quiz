@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
+{% load markup_tags %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +62,9 @@
     <main class="main">
             <section class=" d-flex align-items-center justify-content-center flex-column barchart">
             <h1 class="text-center">Bar Chart </h1>
-            <img src="{% static 'dummy_images/dummyImage.png' %}" alt="This is a pie chart or bar chart of the data shown" class="barchart__img">
+            <div>
+            {{graph|safe}}
+    </div>
             </section>
 
     </main>
