@@ -7,15 +7,15 @@
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from student.models import Student, Answer
-from lecturer.models import Question, Published_Question, Teaching_Day
-from administrative.models import Unit
+from lecturer.models import Question, Published_Question, Teaching_Day, Class
+from administrative.models import Unit, Teaching_Period
 from datetime import datetime, timedelta, timezone
 from student.forms import codeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from ipware import get_client_ip
 from django.http import HttpResponse, HttpResponseRedirect
-from lecturer.models import Class
+from generic.graphs import attendance_graph
 
 @login_required
 def student_index(request):
@@ -183,6 +183,22 @@ def student_answer(request):
 			return render(request, 'student/studentQuestion.html', context)
 		else:
 			return HttpResponseRedirect(reverse('student:student_codeinput'))
+
+@login_required
+def student_stats(request, unit_t, period):
+	user = request.user
+	period = "".join(period.split()).upper().replace(',','-')
+	unit = Unit.objects.filter(code=unit_t).first()
+	student = Student.objects.filter(user=user).first()
+	period = Teaching_Period.objects.filter(id=period).first()
+	unit_period = unit.code + ' - ' + period.id
+
+	user_dict = {'name_header': user.first_name,
+				 'name_menu': user.first_name + ' ' + user.last_name,
+				 'graph': attendance_graph(unit, period, student),
+				 'unit_and_period': unit_period}
+
+	return render(request, 'student/studentStats.html', user_dict)
 
 @login_required
 def user_logout(request):

@@ -53,18 +53,9 @@ def user_login(request):
 			if user.is_active:
 				login(request, user)
 				curr_user = User.objects.filter(username=username).first()
-				
-				"""
-				user_dict = get_context(curr_user)
-				if username[:3] == '333':
-					return HttpResponseRedirect(reverse('student:student_index'))
-				elif username[:3] == '456':
-					return HttpResponseRedirect(reverse('lecturer:lect_home'))
-				elif username[:3] == '789' or username == 'admin':
+				if user.username == 'admin':
 					return HttpResponseRedirect(reverse('administrative:admin_home'))
-				else:
-					return HttpResponse("Invalid account")
-				"""
+
 				emp = Employee.objects.filter(user=curr_user).first()
 				if emp is not None:
 					position = emp.pstn.upper()
