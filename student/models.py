@@ -18,11 +18,11 @@ class Answer(models.Model):
 
 	"""
 		Django's Model to represent the Asnwer
-		class in the MySQL. 
+		class in the MySQL.
 	"""
 
 	s_id		= models.ForeignKey(Student, on_delete=models.PROTECT)		# Student ID
-	q_id		= models.ForeignKey(Question, on_delete=models.PROTECT)		# Question ID
+	q_id		= models.ForeignKey(Published_Question, on_delete=models.PROTECT)		# Question ID
 	teach_day	= models.ForeignKey(Teaching_Day, on_delete=models.PROTECT)	# Teaching Day ID
 	ans		= models.CharField(max_length=50)				# Answer Option
 	tm_stmp		= models.DateTimeField()					# Time Stamp

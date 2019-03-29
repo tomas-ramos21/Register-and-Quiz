@@ -41,13 +41,13 @@ def student_dashboard(request):
 	"""
 	user = request.user
 	std = Student.objects.filter(user=user).first()
-	
+
 	if std is not None:
 		enrolled_class = std.s_class.all()
 		unit_list  = [x.unit_id for x in enrolled_class]
-		
+
 		period_display = []
-		
+
 		t_period = [x.t_period.id.lower() for x in enrolled_class]
 		for y in t_period:
 			period = ''
@@ -56,7 +56,7 @@ def student_dashboard(request):
 					letter = ', '
 				period += letter
 			period_display.append(period)
-			
+
 		class_display = list(zip(unit_list, period_display))
 		context = {
 		'f_name' : user.first_name,
@@ -110,46 +110,46 @@ def student_codeinput(request):
 @login_required
 def student_answer(request):
 	"""
-		Renders the answer page for the student to submit answer. 
+		Renders the answer page for the student to submit answer.
 
 		Parameters
 		----------
 		request: HTTP request object.
 			Contains the request type sent by the user.
 	"""
-	
+
 	if request.method == 'POST':
 		if 'choice' in request.POST:
 			selection = request.POST.get('choice')
-			
+
 			# Get the student object who submitted the answer
 			user = request.user
 			std = Student.objects.filter(user=user).first()
-			
+
 			if std is None:
 				return HttpResponse('No student found')
-			
+
 			# Get the details of the question answered
 			context = request.session.get('question_data')
-			question_answered = Published_Question.objects.filter(code=context['question_code']).first().question
-			
+			question_answered = Published_Question.objects.filter(code=context['question_code']).first()
+
 			# Get the details of the Teaching Day when the question was answered
 			t_period = ''
 			lecturer = None
 			class_item = None
-			
+
 			enrolled_class = std.s_class.all()
 			for x in enrolled_class:
 				if x.unit_id.code == context['unit_code']:
 					class_item = x
 					lecturer = x.staff_id
 					break
-			
+
 			print(class_item)
 			t_day = Teaching_Day.objects.filter(c_id=class_item, date_td=datetime.today()).first()
 			if t_day is None:
 				return HttpResponse('Unexpected error')
-			
+
 			# Get IP address of student
 			client_ip, is_routable = get_client_ip(request)
 			if client_ip is None:
@@ -169,13 +169,13 @@ def student_answer(request):
 					print(client_ip)
 					print(ip_type)
 				else:
-					ip_type = 'private'		
+					ip_type = 'private'
 					print(ip_type)
-			
+
 			# Create a new Answer object and save it to the database
 			new_answer = Answer(s_id=std, q_id=question_answered, teach_day=t_day, ans=selection, tm_stmp=datetime.now(timezone.utc))
 			new_answer.save()
-			
+
 			return HttpResponseRedirect(reverse('student:student_index'))
 	else:
 		context = request.session.get('question_data')
@@ -197,4 +197,3 @@ def user_logout(request):
     """
     logout(request)
     return HttpResponseRedirect(reverse('login:user_login'))
-
