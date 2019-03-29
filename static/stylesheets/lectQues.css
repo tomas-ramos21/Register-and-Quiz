@@ -130,9 +130,9 @@ body {
   }
 }
 
-.table {
-  font-size: 1.5rem;
-  margin: 2rem 0;
+.barchart__img {
+  max-width: 800px;
+  width: 100%;
 }
 
-/*# sourceMappingURL=userView.css.map */
+/*# sourceMappingURL=lectQues.css.map */
