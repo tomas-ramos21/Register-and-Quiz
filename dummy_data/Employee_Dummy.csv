@@ -9,3 +9,7 @@ id,password,first_name,last_name,email,department,position
 789839,admin4,Rowan,Andrade,ra@murdoch.com,Engineering,Administrative
 456656,lecturer5,Tobias,Pierce,tp@murdoch.com,Engineering,Lecturer
 789244,admin5,Maxim,Ward,mw@murdoch.com,Engineering,Administrative
+837037,unitcoord1,Samuel,Acorn,sm@murdoch.com,Veterinary,Coordinator
+495174,unitcoord2,Heather,Raspberry,hr@murdoch.com,Arts,Coordinator
+205174,unitcoord3,Paul,Manning,pm@murdoch.com,Science,Coordinator
+109583,unitcoord4,Hayden,Conner,hc@murdoch.com,Engineering,Coordinator
