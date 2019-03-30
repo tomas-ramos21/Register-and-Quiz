@@ -42,16 +42,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>example1</td>
-                        <td>example2</td>
-                        <td>example3</td>
-                        <td>example4</td>
-                    </tr>
-                    <tr>
-                        <td>example1</td>
-                        <td>example2</td>
-                        <td>example3</td>
-                        <td>example4</td>
+                        <td>{{ user_object.user.username }}</td>
+                        <td>{{ user_object.user.first_name }}</td>
+                        <td>{{ user_object.user.last_name }}</td>
+                        <td>{{ user_object.user.email }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -69,20 +63,15 @@
                     </tr>
                 </thead>
                 <tbody>
+				{% for class in classes %}
                     <tr>
-                        <td>example1</td>
-                        <td>example2</td>
-                        <td>example3</td>
-                        <td>example4</td>
-                        <td>example5</td>
+                        <td>{{ class.unit_id.code }}</td>
+                        <td>{{ class.t_period.id }}</td>
+                        <td>{{ class.staff_id.user.username }}</td>
+                        <td>{{ class.time_commi }}</td>
+                        <td>{{ class.code }}</td>
                     </tr>
-                    <tr>
-                        <td>example1</td>
-                        <td>example2</td>
-                        <td>example3</td>
-                        <td>example4</td>
-                        <td>example5</td>
-                    </tr>
+				{% endfor %}
                 </tbody>
             </table>
             <table class="table">
@@ -97,16 +86,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                 {% for unit in units %}
                     <tr>
-                        <td>example1</td>
-                        <td>example2</td>
-                        <td>example3</td>
+                        <td>{{ unit.code }}</td>
+                        <td>{{ unit.title }}</td>
+                        <td>{{ unit.credits }}</td>
                     </tr>
-                    <tr>
-                        <td>example1</td>
-                        <td>example2</td>
-                        <td>example3</td>
-                    </tr>
+				{% endfor %}
                 </tbody>
             </table>
         </section>
