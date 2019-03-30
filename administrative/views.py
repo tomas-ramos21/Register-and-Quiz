@@ -77,16 +77,10 @@ def unit_management(request):
 		acc_type	= request.POST.get('Accounts')
 		username	= request.POST.get('username')
 		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
-		if None in info_tuple: # If information is incomplete
-			pass
 		user, obj_type = find_user(username)
-
-	if request.method == 'POST':
-		username = request.POST.get('search_user')
-		if username is None:
-			pass
-		else:
-			user, obj_type = find_user(username)
+		if user == None or obj_type == None:
+			user_dict['msg'] = 'No user was found with the given ID.'
+			return render(request, 'error_page.html', user_dict)
 
 	if request.method == "POST" and 'units_file' in request.FILES:
 		csv_file = request.FILES['units_file']
@@ -135,7 +129,6 @@ def space_management(request):
 	# Re-render the page
 	if request.method == "GET":
 		return render(request, 'administrative/teachingspace.html', user_dict)
-
 
 	# Process to obtain CSV - Rooms
 	if request.method == "POST" and 'room_file' in request.FILES:
@@ -245,7 +238,7 @@ def user_view(request):
 	user_dict = get_admin_context(user)
 
 	if searched_user is None:
-		user_dict['msg'] = 'No user was found with the given username.'
+		user_dict['msg'] = 'No user was found with the given ID.'
 		return render(request, 'error_page.html', user_dict)
 
 	student = Student.objects.filter(user=searched_user).first()
