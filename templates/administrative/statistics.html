@@ -55,17 +55,63 @@
         </header>
     <main class="main">
         <section class="stats d-flex align-items-center justify-content-center flex-column">
-            <h1 class="stats__heading">Choose Statistics To View</h1>
+            <h1 class="stats__heading">Statistics Menu</h1>
             <img src="{% static 'dummy_images/dummyImage.png' %}" alt="" class="stats__img">
             <section class="dropdown stats__dropdown">
                 <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Choose Statistics
+                  Information
                 </button>
+
+                <!-- PICKS STATS FOR SPACE USAGE OR ATTENDANCE (CONDITION 1)-->
                 <section class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item stats__item" href="#">Statistics One</a>
-                  <a class="dropdown-item stats__item" href="#">Statistics Two</a>
-                  <a class="dropdown-item stats__item" href="#">Statistics Three</a>
-                  <a class="dropdown-item stats__item" href="#">Statistics Four</a>
+                  <a class="dropdown-item stats__item" href="#">Student Attendance</a>
+                  <a class="dropdown-item stats__item" href="#">Resource Usage</a>
+                </section>
+
+                <!-- PICKS TEACHING PERIOD TO GENERATE STATS FROM (GENERAL)-->
+                <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Teaching Period
+                </button>
+                <section class="dropdown-menu " aria-labelledby="dropdownMenuButton2">
+                  <a class="dropdown-item stats__item" href="#">All</a>
+                  <a class="dropdown-item stats__item" href="#">TSA-2019</a>
+                </section>
+
+                <!-- PICKS LEVEL OF GRANULARITY - (CONDITION 1 = ATTENDANCE)  - (CONDITION 2)-->
+                <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Granularity
+                </button>
+                <section class="dropdown-menu " aria-labelledby="dropdownMenuButton3">
+                  <a class="dropdown-item stats__item" href="#">Course</a>
+                  <a class="dropdown-item stats__item" href="#">Unit</a>
+                  <a class="dropdown-item stats__item" href="#">Class</a>
+                </section>
+
+                <!-- PICKS LEVEL OF GRANULARITY - (CONDITION 1 = RESOURCE USAGE)  - (CONDITION 3)-->
+                <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Granularity
+                </button>
+                <section class="dropdown-menu " aria-labelledby="dropdownMenuButton3">
+                  <a class="dropdown-item stats__item" href="#">Building</a>
+                  <a class="dropdown-item stats__item" href="#">Room</a>
+                </section>
+
+                <!-- CAN PICK ALL COURSES, UNITS OR CLASSES OR A SPECIFIC ONE - (CONDITION 2 DETERMINES THE OPTIONS TO BE RENDERED AND TEACHING PERIOD)-->
+                <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select
+                </button>
+                <section class="dropdown-menu " aria-labelledby="dropdownMenuButton4">
+                  <a class="dropdown-item stats__item" href="#">All</a>
+                  <a class="dropdown-item stats__item" href="#">Display all Course/Unit/Class options here</a>
+                </section>
+
+                <!-- CAN PICK ALL BUILDINGS, ROOMS OR A SPECIFIC ONE - (CONDITION 3 DETERMINES THE OPTIONS TO BE RENDERED AND TEACHING PERIOD)-->
+                <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select
+                </button>
+                <section class="dropdown-menu " aria-labelledby="dropdownMenuButton4">
+                  <a class="dropdown-item stats__item" href="#">All</a>
+                  <a class="dropdown-item stats__item" href="#">Display all Building/Room options here</a>
                 </section>
             </section>
             <form action="/">

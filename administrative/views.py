@@ -77,7 +77,7 @@ def unit_management(request):
 		acc_type	= request.POST.get('Accounts')
 		username	= request.POST.get('username')
 		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
-		if None in info_tuple: # If information is incomplete3
+		if None in info_tuple: # If information is incomplete
 			pass
 		user, obj_type = find_user(username)
 
@@ -228,9 +228,11 @@ def user_view(request):
 	user = request.user
 	username = request.POST.get('search_user')
 	searched_user = User.objects.filter(username=username).first()
+	user_dict = get_admin_context(user)
 
 	if searched_user is None:
-		return HttpResponse('User does not exist.')
+		user_dict['msg'] = 'No user was found with the given username.'
+		return render(request, 'error_page.html', user_dict)
 
 	student = Student.objects.filter(user=searched_user).first()
 	lecturer = Employee.objects.filter(user=searched_user).first()
@@ -246,7 +248,6 @@ def user_view(request):
 		classes, units = extract_info_lecturer(lecturer)
 		user_object = lecturer
 
-	user_dict = get_admin_context(user)
 	user_dict['user_object'] = user_object
 	user_dict['classes'] = classes
 	user_dict['units'] = units
