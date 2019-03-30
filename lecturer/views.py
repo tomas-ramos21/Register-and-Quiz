@@ -83,19 +83,23 @@ def lect_units(request, unit_code):
 		user_dict['topic_list'] = topic_list
 		user_dict['t_period'] = t_period
 
-		if request.method == 'POST' and 'question_file' in request.FILES:
-			csv_file = request.FILES['question_file']
-			fs = FileSystemStorage()
-			filename = fs.save(csv_file.name, csv_file)
-			file_path = os.path.join(settings.MEDIA_ROOT, filename)
-			register_questions(file_path)
-
 		if request.method == 'POST' and 'topic_file' in request.FILES:
 			csv_file = request.FILES['topic_file']
 			fs = FileSystemStorage()
 			filename = fs.save(csv_file.name, csv_file)
 			file_path = os.path.join(settings.MEDIA_ROOT, filename)
-			register_topics(file_path)
+			status, user_dict = register_topics(user_dict, file_path)
+			if status == False:
+				return render(request, 'error_page.html', user_dict)
+
+		if request.method == 'POST' and 'question_file' in request.FILES:
+			csv_file = request.FILES['question_file']
+			fs = FileSystemStorage()
+			filename = fs.save(csv_file.name, csv_file)
+			file_path = os.path.join(settings.MEDIA_ROOT, filename)
+			status, user_dict = register_questions(user_dict, file_path)
+			if status == False:
+				return render(request, 'error_page.html', user_dict)
 
 		return render(request, "Lecturer/LecturerUnits.html", user_dict)
 	else:
@@ -110,13 +114,17 @@ def lect_class(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		new_class = register_class(file_path)
+		new_class, user_dict = register_class(user_dict, file_path)
+		if new_class == False:
+			return render(request, 'error_page.html', user_dict)
 
 		csv_file = request.FILES['student_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		add_students(file_path, new_class)
+		status, user_dict = add_students(file_path, new_class)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	return render(request, "Lecturer/lecturerClass.html", user_dict)
 
