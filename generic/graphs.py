@@ -57,8 +57,9 @@ def attendance_graph(unit, period, student):
         if ans != None:
             answer_count[date] += 1
 
-    x = []
-    y = []
+    x = []       # Dates
+    y = []       # Answer Percentage
+
     for (key1,val1), (key2,val2) in zip(question_count.items(), answer_count.items()):
         x.append(key1)
         y.append(val1/val2)

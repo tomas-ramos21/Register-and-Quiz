@@ -343,3 +343,18 @@ def register_topics(csv_path:str) -> None:
                               name=crt_dict['name'],
                               unit_id=unit)
                 topic.save()
+
+def extract_info_student(student):
+    classes = list(student.s_class.all())
+    courses = list(student.s_course.all())
+    units = []
+    for cls in classes:
+        units.append(cls.unit_id)
+    return classes, courses, units
+
+def extract_info_lecturer(lecturer):
+    classes = list(Class.objects.filter(staff_id=lecturer))
+    units = []
+    for cls in classes:
+        units.append(cls.unit_id)
+    return classes, units
