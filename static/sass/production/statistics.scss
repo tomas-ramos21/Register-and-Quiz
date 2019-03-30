@@ -21,11 +21,19 @@
     }
 
     &__dropdown {
-        margin-top:2rem;
+        margin:2rem 0;
     }
 
     &__item {
         padding-bottom: 1rem;
+    }
+
+    &__btn {
+        font-size: 1.5rem;
+    }
+
+    &__text{
+        font-size: 1.5rem;
     }
 }
 

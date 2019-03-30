@@ -138,10 +138,16 @@ body {
   width: 100%;
 }
 .stats__dropdown {
-  margin-top: 2rem;
+  margin: 2rem 0;
 }
 .stats__item {
   padding-bottom: 1rem;
+}
+.stats__btn {
+  font-size: 1.5rem;
+}
+.stats__text {
+  font-size: 1.5rem;
 }
 
 .dropdown-btn::after {
