@@ -64,5 +64,5 @@ def attendance_graph(unit, period, student):
         x.append(key1)
         y.append(val1/val2)
 
-    plot_div = plot([Scatter(x=x, y=y, line=dict(color='rgba(204,0,0)'))])
+    plot_div = plot([Scatter(x=x, y=y, line=dict(color='rgba(204,0,0)'))], output_type='div')
     return plot_div
