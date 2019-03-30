@@ -32,46 +32,6 @@
 	<div id="page-content">
         <h1 class="text-center">Select a task</h1>
         <section class="card">
-            <section class="card-body text-left">
-            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList" role="button"
-                    aria-expanded="false" aria-controls="collapseList">
-             Find A Building</a>
-            </section>
-            <section class="collapse text-center" id="collapseList">
-            <section class="text-left">
-            <form class="search" method="post">
-                    {% csrf_token %}
-                    <section class="form-group search__group">
-                            <label for="building"  class="search__label">Building Code: </label>
-                            <input type="text" id="building" class="search__text" name="building_code" required>
-                    </section>
-                    <section class="form-group text-center">
-                            <input type="submit" class="btn btn-dark search__button">
-                    </section>
-            </form>
-            </section>
-             </section>
-             <section class="card-body text-left">
-                    <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList2" role="button"
-                            aria-expanded="false" aria-controls="collapseList">
-                     Find A Room</a>
-                    </section>
-
-                    <section class="collapse text-center" id="collapseList2">
-                            <section class="text-left">
-
-                    <form class="search" method="post">
-                            {% csrf_token %}
-                            <section class="form-group search__group">
-                                    <label for="building"  class="search__label">Room Code: </label>
-                                    <input type="text" id="room" class="search__text" name="room_code" required>
-                            </section>
-                            <section class="form-group text-center">
-                                    <input type="submit" class="btn btn-dark search__button">
-                            </section>
-                        </form>
-                            </section>
-                     </section>
                      <section class="card-body text-left">
             <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3" role="button"
                     aria-expanded="false" aria-controls="collapseList">
