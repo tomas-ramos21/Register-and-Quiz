@@ -20,7 +20,7 @@ def get_admin_context(user) -> Dict:
 	if admin is not None:
 		user_dict = {
 		'f_name' : user.first_name,
-		'fl_name': user.first_name + ' ' + user.last_name 
+		'fl_name': user.first_name + ' ' + user.last_name
 		}
 		return user_dict
 	else:
@@ -31,11 +31,11 @@ def get_lecturer_context(user) -> Dict:
 	if lect is not None:
 		class_taught = Class.objects.filter(staff_id=lect) # year?
 		unit_list = [x.unit_id for x in class_taught]
-	
+
 		period_display = []
-		
+
 		t_period = [x.t_period.id.lower() for x in class_taught]
-		
+
 		for y in t_period:
 			period = ''
 			for letter in y:
@@ -63,7 +63,7 @@ def get_std_context(user):
 		period_display = []
 
 		t_period = [x.t_period.id.lower() for x in enrolled_class]
-		
+
 		for y in t_period:
 			period = ''
 			for letter in y:
@@ -71,7 +71,7 @@ def get_std_context(user):
 					letter = ', '
 				period += letter
 			period_display.append(period)
-			
+
 		class_display = list(zip(unit_list, period_display))
 		user_dict = {
 		'f_name' : std.user.first_name,
@@ -82,7 +82,7 @@ def get_std_context(user):
 	else:
 		return {}
 
-def register_employee(csv_path: str) -> None:
+def register_employee(request, user_dict: Dict, csv_path: str) -> None:
     """
         Registers lecturers in the platform.
 
@@ -112,6 +112,9 @@ def register_employee(csv_path: str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
 
         for idx, row in enumerate(reader):  # For each row
             if idx != 0:                    # If row isn't the header
@@ -158,6 +161,9 @@ def register_student(csv_path: str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
 
         for idx, row in enumerate(reader):
             if idx != 0:
@@ -173,6 +179,15 @@ def register_student(csv_path: str) -> None:
                 user.save()
                 student = Student(user=user)
                 student.save()
+
+def validate_header(headers, file_headers):
+	count = len(headers)
+	for header in headers:
+		if header in file_headers:
+			count -= 1
+	if count != 0:
+		return False
+	return True
 
 def find_user(username:str) -> Tuple:
 
@@ -203,6 +218,9 @@ def register_room(csv_path: str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
 
         for idx, row in enumerate(reader):
             if idx != 0:
@@ -222,6 +240,9 @@ def register_building(csv_path:str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
 
         for idx, row in enumerate(reader):
             if idx != 0:
@@ -237,6 +258,9 @@ def register_units(csv_path:str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
 
         for idx, row in enumerate(reader):
             if idx != 0:
@@ -255,6 +279,9 @@ def register_courses(csv_path: str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
 
         for idx, row in enumerate(reader):
             if idx != 0:
@@ -271,6 +298,10 @@ def register_teaching_period(csv_path: str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
+
         for idx, row in enumerate(reader):
             if idx != 0:
                 crt_dict = {}
@@ -295,6 +326,9 @@ def register_questions(csv_path: str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
         for idx, row in enumerate(reader):
             if idx != 0:
                 crt_dict = {}
@@ -346,6 +380,9 @@ def register_class(csv_path: str):
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
         for idx, row in enumerate(reader):
             if idx != 0:
                 crt_dict = {}
@@ -372,6 +409,9 @@ def add_students(csv_path: str, new_class):
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
         for idx ,row in enumerate(reader):
             if idx != 0:
                 crt_dict = {}
@@ -386,6 +426,9 @@ def register_topics(csv_path:str) -> None:
 
     with open(csv_path, 'r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=columns)
+		if validate_header(columns, reader[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return render(request, 'error_page.html', user_dict)
         for idx ,row in enumerate(reader):
             if idx != 0:
                 crt_dict = {}
