@@ -77,7 +77,7 @@ def lect_units(request, unit_code):
 		t_period = Class.objects.filter(unit_id=unit, staff_id=empl).first().t_period
 
 		user_dict = get_lecturer_context(user)
-		user_dict['unit_code'] = unit_code,
+		user_dict['unit_code'] = unit.code
 		user_dict['unit_title'] = unit.title
 		user_dict['question_list'] = question_list
 		user_dict['topic_list'] = topic_list
