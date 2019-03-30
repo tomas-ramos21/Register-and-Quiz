@@ -1,7 +1,7 @@
 import datetime
 import itertools
 from plotly.offline import plot
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Scatter
 from lecturer.models import Published_Question, Class
 from administrative.models import Teaching_Period
 from student.models import Answer
@@ -64,5 +64,5 @@ def attendance_graph(unit, period, student):
         x.append(key1)
         y.append(val1/val2)
 
-    plot_div = plot([Scatter(x=x, y=y, line=dict(color='rgba(204,0,0)', opacity=0.8))])
+    plot_div = plot([Scatter(x=x, y=y, line=dict(color='rgba(204,0,0)'))])
     return plot_div
