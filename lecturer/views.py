@@ -27,9 +27,8 @@ def lect_publish(request, q_id, topic_id, period_id):
 	topic = Topic.objects.filter(id=topic_id).first()
 	period = Teaching_Period.objects.filter(id=period_id).first()
 
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name,
-				 'question_title' : question.title}
+	user_dict = get_lecturer_context(user)
+	user_dict['question_title'] = question.title
 
 	if request.method == "POST":
 		time = request.POST.get('max_time')
@@ -46,20 +45,18 @@ def lect_publish(request, q_id, topic_id, period_id):
 
 		code = str(code)
 		code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
-		user_dict = {'name_header': user.first_name,
-					 'name_menu': user.first_name + ' ' + user.last_name,
-					 'question_text' : question.text,
-					 'q_code': code}
+		user_dict = get_lecturer_context(user)
+		user_dict['question_text'] = question.text
+		user_dict['q_code'] = code
 		return render(request, "Lecturer/lecturerProject.html", user_dict)
 
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
 @login_required
 def lect_project(request):
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name,
-				 'question_text' : question.text,
-				 'q_code': code}
+	user_dict = get_lecturer_context(user)
+	user_dict['question_text'] = question.text
+	user_dict['q_code'] = code
 	return render(request, "Lecturer/lecturerProject.html", user_dict)
 
 @login_required
@@ -79,15 +76,12 @@ def lect_units(request, unit_code):
 
 		t_period = Class.objects.filter(unit_id=unit, staff_id=empl).first().t_period
 
-		user_dict = {
-			'f_name': user.first_name,
-			'fl_name': user.first_name + ' ' + user.last_name,
-			'unit_code' : unit_code,
-			'unit_title' : unit.title,
-			'question_list' : question_list,
-			'topic_list' : topic_list,
-			't_period' : t_period,
-		}
+		user_dict = get_lecturer_context(user)
+		user_dict['unit_code'] = unit.code
+		user_dict['unit_title'] = unit.title
+		user_dict['question_list'] = question_list
+		user_dict['topic_list'] = topic_list
+		user_dict['t_period'] = t_period
 
 		if request.method == 'POST' and 'question_file' in request.FILES:
 			csv_file = request.FILES['question_file']
@@ -109,8 +103,7 @@ def lect_units(request, unit_code):
 
 def lect_class(request):
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-			 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_lecturer_context(user)
 
 	if request.method == "POST" and 'class_file' in request.FILES and 'student_file' in request.FILES:
 		csv_file = request.FILES['class_file']
@@ -131,9 +124,8 @@ def lect_q_stats(request, published_id):
 	user = request.user
 	code = int(re.sub('[^0-9]', '', published_id))
 
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name,
-				 'graph': answer_graph(code)}
+	user_dict = get_lecturer_context(user)
+	user_dict['graph'] = answer_graph(code)
 	return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
 
 @login_required
