@@ -31,9 +31,11 @@ def get_lecturer_context(user) -> Dict:
 	if lect is not None:
 		class_taught = Class.objects.filter(staff_id=lect) # year?
 		unit_list = [x.unit_id for x in class_taught]
-
+	
 		period_display = []
+		
 		t_period = [x.t_period.id.lower() for x in class_taught]
+		
 		for y in t_period:
 			period = ''
 			for letter in y:
@@ -48,6 +50,7 @@ def get_lecturer_context(user) -> Dict:
 		'fl_name' : lect.user.first_name + ' ' + lect.user.last_name,
 		'class_display' : class_display,
 		}
+		return user_dict
 	else:
 		return {}
 
