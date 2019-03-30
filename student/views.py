@@ -43,7 +43,7 @@ def student_dashboard(request):
 	"""
 	user = request.user
 	user_dict = get_std_context(user)
-	
+
 	return render(request, 'student/student_dashboard.html', user_dict)
 
 @login_required
@@ -82,7 +82,7 @@ def student_codeinput(request):
 				return HttpResponse('No matching question code.')
 	else:
 		form = codeForm()
-	
+
 	user = request.user
 	user_dict = get_std_context(user)
 	user_dict['form'] = form
@@ -195,4 +195,3 @@ def user_logout(request):
     """
     logout(request)
     return HttpResponseRedirect(reverse('login:user_login'))
-
