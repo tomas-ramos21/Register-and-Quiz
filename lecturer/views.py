@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from generic.utils import register_questions, publish_question, register_class, add_students, register_topics
+from generic.utils import register_questions, publish_question, register_class, add_students, register_topics, get_lecturer_context
 from generic.graphs import answer_graph
 from django.conf import settings
 from administrative.models import Unit, Employee, Teaching_Period, Room
@@ -16,7 +16,7 @@ import datetime
 @login_required
 def lect_home(request):
 	user = request.user
-	user_dict = get_lect_context(user)
+	user_dict = get_lecturer_context(user)
 	return render(request, 'Lecturer/lecturerHome.html', user_dict)
 
 @login_required
