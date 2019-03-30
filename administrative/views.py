@@ -227,7 +227,7 @@ def attendance_stats(request):
 def user_view(request):
 	user = request.user
 	username = request.POST.get('search_user')
-	searched_user = User.objects.get(username=username)
+	searched_user = User.objects.filter(username=username).first()
 
 	if searched_user is None:
 		return HttpResponse('User does not exist.')
