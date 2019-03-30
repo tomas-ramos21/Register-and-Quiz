@@ -229,7 +229,7 @@ def student_creation(request):
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
 		status, user_dict = register_student(user_dict, file_path)
-		if status == False:
+		if status is False:
 			return render(request, 'error_page.html', user_dict)
 	return render(request, 'administrative/stuAccAdd.html', user_dict)
 
