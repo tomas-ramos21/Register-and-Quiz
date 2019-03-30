@@ -118,6 +118,12 @@ def register_employee(user_dict: Dict, csv_path: str) -> None:
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
 				return False, user_dict
 
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
+				return False, user_dict
+
 		for idx, row in enumerate(reader):  # For each row
 			if idx != 0:                    # If row isn't the header
 				crt_dict = {}
@@ -163,6 +169,12 @@ def register_student(user_dict:Dict, csv_path:str) -> None:
 		for idx, row in enumerate(rows):
 			if is_empty(row):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
 		# Start registering
@@ -230,6 +242,12 @@ def register_room(user_dict:Dict, csv_path: str) -> None:
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
 				return False, user_dict
 
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
+				return False, user_dict
+
 		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
@@ -257,6 +275,12 @@ def register_building(user_dict:Dict, csv_path:str) -> None:
 		for idx, row in enumerate(rows):
 			if is_empty(row):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
 		for idx, row in enumerate(reader):
@@ -287,6 +311,12 @@ def register_units(user_dict:Dict, csv_path:str) -> None:
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
 				return False, user_dict
 
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
+				return False, user_dict
+
 		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
@@ -315,6 +345,12 @@ def register_courses(user_dict:Dict, csv_path: str) -> None:
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
 				return False, user_dict
 
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
+				return False, user_dict
+
 		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
@@ -340,6 +376,12 @@ def register_teaching_period(user_dict:Dict, csv_path: str) -> None:
 		for idx, row in enumerate(rows):
 			if is_empty(row):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
 		for idx, row in enumerate(reader):
@@ -375,6 +417,12 @@ def register_questions(user_dict:Dict, csv_path: str) -> None:
 		for idx, row in enumerate(rows):
 			if is_empty(row):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
 		for idx, row in enumerate(reader):
@@ -442,6 +490,12 @@ def register_class(user_dict:Dict, csv_path: str):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
 				return False, user_dict
 
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
+				return False, user_dict
+
 		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
@@ -469,6 +523,8 @@ def add_students(user_dict:Dict, csv_path: str, new_class):
 	with open(csv_path, 'r') as csv_file:
 		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
+
+		# Check Readers
 		if validate_header(columns, rows[0]) == False:
 			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
 			return False, user_dict
@@ -477,6 +533,12 @@ def add_students(user_dict:Dict, csv_path: str, new_class):
 		for idx, row in enumerate(rows):
 			if is_empty(row):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
 		for idx ,row in enumerate(reader):
@@ -503,8 +565,14 @@ def register_topics(user_dict:Dict, csv_path:str) -> None:
 
 		# Check empty values
 		for idx, row in enumerate(rows):
-			if is_empty(row):
+			if is_empty(row) or len(row) < len(columns):
 				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
 		# Start Registering
