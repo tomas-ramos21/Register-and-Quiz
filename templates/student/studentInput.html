@@ -32,6 +32,7 @@
                 <section class="card">
                         <section class="card-body">
                                 <h1 class="unit-text my-3  unit"></h1>
+								{% include 'messages.html' %}
                                 <form class="card__form" id="code-form" method="POST">
 								{% csrf_token %}
 								{{form.as_p}}

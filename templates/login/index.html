@@ -30,7 +30,7 @@
                         <img src="{% static "images/authentication image.jpg" %}" alt="this is an authentication image" class="banner__image">
         </article>
         <main class="main">
-
+		{% include 'messages.html' %}
                 <form action="{% url 'login:user_login' %}" class="login" method="post">
                         {% csrf_token %}
                                 <h1 class="login__title">Mais Login</h1>
@@ -49,6 +49,7 @@
                                         <button type="submit" id="submit" class="btn btn-dark btn-lg login__button">Login</button>
                                 </section>
                 </form>
+				
         </main>
         <footer class="footer">
                 <img class="footer__image" src="{% static "images/Murdoch_University_Logo.svg.png" %}" width="100" height="100" alt="">
