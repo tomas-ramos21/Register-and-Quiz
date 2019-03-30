@@ -7,6 +7,7 @@
 import os
 import csv
 import random
+from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from student.models import Student
 from lecturer.models import Question, Published_Question, Class, Topic
@@ -82,103 +83,79 @@ def get_std_context(user):
 	else:
 		return {}
 
-def register_employee(request, user_dict: Dict, csv_path: str) -> None:
-    """
+def register_employee(user_dict: Dict, csv_path: str) -> None:
+	"""
         Registers lecturers in the platform.
-
         Iterates over the rows of a CSV file
         collecting the information to be used
         for the account creation.
-
         Parameters
         ----------
         csv_path: str
             String containing the path to the
             file.
-
         TODO
         ----------
         1. Function do check the information
         used during creation is accurate.
     """
 
-    columns = ['id',
-               'password',
-               'first_name',
-               'last_name',
-               'email',
-               'department',
-               'position']
+	columns = ['id', 'password', 'first_name', 'last_name', 'email', 'department', 'position']
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):  # For each row
+			if idx != 0:                    # If row isn't the header
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				user = User()
+				user.set_password(crt_dict['password'])
+				user.username = crt_dict['id']
+				user.first_name = crt_dict['first_name']
+				user.last_name = crt_dict['last_name']
+				user.email = crt_dict['email']
+				user.save()
+				employee = Employee(user=user, dpt=crt_dict['department'], pstn=crt_dict['position'])
+				employee.save()
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
+def register_student(user_dict:Dict, csv_path:str) -> None:
+	"""
+		Registers students in the platform.
+		Iterates over the rows of a CSV file
+		collecting the information to be used
+		for the account creation.
+		Parameters
+		----------
+		csv_path: str
+			String containing the path to the file.
+	"""
 
-        for idx, row in enumerate(reader):  # For each row
-            if idx != 0:                    # If row isn't the header
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                user = User()
-                user.set_password(crt_dict['password'])
-                user.username = crt_dict['id']
-                user.first_name = crt_dict['first_name']
-                user.last_name = crt_dict['last_name']
-                user.email = crt_dict['email']
-                user.save()
-                employee = Employee(user=user,
-                                    dpt=crt_dict['department'],
-                                    pstn=crt_dict['position'])
-                employee.save()
+	columns = ['id', 'password', 'first_name', 'last_name', 'email']
 
-def register_student(csv_path: str) -> None:
-    """
-        Registers students in the platform.
-
-        Iterates over the rows of a CSV file
-        collecting the information to be used
-        for the account creation.
-
-        Parameters
-        ----------
-        csv_path: str
-            String containing the path to the
-            file.
-
-        TODO
-        ----------
-        1. Function do check the information
-        used during creation is accurate.
-    """
-
-    columns = ['id',
-               'password',
-               'first_name',
-               'last_name',
-               'email']
-
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
-
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                user = User()
-                user.set_password(crt_dict['password'])
-                user.username = crt_dict['id']
-                user.first_name = crt_dict['first_name']
-                user.last_name = crt_dict['last_name']
-                user.email = crt_dict['email']
-                user.save()
-                student = Student(user=user)
-                student.save()
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				user = User()
+				user.set_password(crt_dict['password'])
+				user.username = crt_dict['id']
+				user.first_name = crt_dict['first_name']
+				user.last_name = crt_dict['last_name']
+				user.email = crt_dict['email']
+				user.save()
+				student = Student(user=user)
+				student.save()
 
 def validate_header(headers, file_headers):
 	count = len(headers)
@@ -209,144 +186,132 @@ def find_user(username:str) -> Tuple:
     if not student is None:
         return (employee, 'employee')
 
-def register_room(csv_path: str) -> None:
+def register_room(user_dict:Dict, csv_path: str) -> None:
 
-    columns = ['id',
-               'building_code',
-               'level',
-               'capacity']
+	columns = ['id', 'building_code', 'level', 'capacity']
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				building = Building.objects.filter(code=crt_dict['building_code']).first()
+				room = Room(id=crt_dict['id'], bd_code=building, level=crt_dict['level'], capacity=crt_dict['capacity'])
+				room.save()
 
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                building = Building.objects.filter(code=crt_dict['building_code']).first()
-                room = Room(id=crt_dict['id'],
-                            bd_code=building,
-                            level=crt_dict['level'],
-                            capacity=crt_dict['capacity'])
-                room.save()
+def register_building(user_dict:Dict, csv_path:str) -> None:
 
-def register_building(csv_path:str) -> None:
+	columns = ['code','name']
 
-    columns = ['code','name']
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				building = Building(code=crt_dict['code'], name=crt_dict['name'])
+				building.save()
 
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                building = Building(code=crt_dict['code'], name=crt_dict['name'])
-                building.save()
+def register_units(user_dict:Dict, csv_path:str) -> None:
 
-def register_units(csv_path:str) -> None:
+	columns = ['code','title','credits','image']
 
-    columns = ['code','title','credits','image']
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				unit = Unit(code=crt_dict['code'], title=crt_dict['title'], credits=crt_dict['credits'], image=crt_dict['image'])
+				unit.save()
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
+def register_courses(user_dict:Dict, csv_path: str) -> None:
 
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                unit = Unit(code=crt_dict['code'],
-                            title=crt_dict['title'],
-                            credits=crt_dict['credits'],
-                            image=crt_dict['image'])
-                unit.save()
+	columns = ['id', 'title', 'school']
 
-def register_courses(csv_path: str) -> None:
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				course = Course(id=crt_dict['id'], title=crt_dict['title'], school=crt_dict['school'])
+				course.save()
 
-    columns = ['id', 'title', 'school']
+def register_teaching_period(user_dict:Dict, csv_path: str) -> None:
+	columns = ['id', 'name', 'start_date', 'end_date']
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				teaching_period = Teaching_Period(id=crt_dict['id'], name=crt_dict['name'], st_date=crt_dict['start_date'], en_date=crt_dict['end_date'])
+				teaching_period.save()
 
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                course = Course(id=crt_dict['id'],
-                                title=crt_dict['title'],
-                                school=crt_dict['school'])
-                course.save()
+def register_questions(user_dict:Dict, csv_path: str) -> None:
+	columns = ['unit',
+			   'staff_id',
+			   'title',
+			   'question',
+			   'answer_1',
+			   'answer_2',
+			   'answer_3',
+			   'answer_4',
+			   'topic']
 
-def register_teaching_period(csv_path: str) -> None:
-    columns = ['id', 'name', 'start_date', 'end_date']
-
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-	        user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-	        return render(request, 'error_page.html', user_dict)
-
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                teaching_period = Teaching_Period(id=crt_dict['id'],
-                                                  name=crt_dict['name'],
-                                                  st_date=crt_dict['start_date'],
-                                                  en_date=crt_dict['end_date'])
-                teaching_period.save()
-
-def register_questions(csv_path: str) -> None:
-    columns = ['unit',
-               'staff_id',
-               'title',
-               'question',
-               'answer_1',
-               'answer_2',
-               'answer_3',
-               'answer_4',
-               'topic']
-
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                unit = Unit.objects.filter(code=crt_dict['unit']).first()
-                topic = Topic.objects.filter(number=crt_dict['topic']).filter(unit_id=unit).first()
-                user = User.objects.filter(username=crt_dict['staff_id']).first()
-                lecturer = Employee.objects.filter(user=user).first()
-                question = Question(text=crt_dict['question'],
-                                    ans_1=crt_dict['answer_1'],
-                                    ans_2=crt_dict['answer_2'],
-                                    ans_3=crt_dict['answer_3'],
-                                    ans_4=crt_dict['answer_4'],
-                                    title=crt_dict['title'],
-                                    topic_id=topic,
-                                    staff_id=lecturer)
-                question.save()
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				unit = Unit.objects.filter(code=crt_dict['unit']).first()
+				topic = Topic.objects.filter(number=crt_dict['topic']).filter(unit_id=unit).first()
+				user = User.objects.filter(username=crt_dict['staff_id']).first()
+				lecturer = Employee.objects.filter(user=user).first()
+				question = Question(text=crt_dict['question'],
+									ans_1=crt_dict['answer_1'],
+									ans_2=crt_dict['answer_2'],
+									ans_3=crt_dict['answer_3'],
+									ans_4=crt_dict['answer_4'],
+									title=crt_dict['title'],
+									topic_id=topic,
+									staff_id=lecturer)
+				question.save()
 
 def find_room(room_code):
     return Room.objects.filter(id=room_code).first()
@@ -371,74 +336,75 @@ def publish_question(question, time:int) -> None:
     publish.save()
     return code
 
-def register_class(csv_path: str):
-    columns = ['unit',
-               'teaching_period',
-               'staff_id',
-               'time_commitment',
-               'class_code']
+def register_class(user_dict:Dict, csv_path: str):
+	columns = ['unit',
+			   'teaching_period',
+			   'staff_id',
+			   'time_commitment',
+			   'class_code']
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
-        for idx, row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx, row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
 
-                # Get Foreign Keys
-                unit = Unit.objects.filter(code=crt_dict['unit']).first()
-                t_period = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
-                user = User.objects.filter(username=crt_dict['staff_id']).first()
-                staff = Employee.objects.filter(user=user).first()
+				# Get Foreign Keys
+				unit = Unit.objects.filter(code=crt_dict['unit']).first()
+				t_period = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
+				user = User.objects.filter(username=crt_dict['staff_id']).first()
+				staff = Employee.objects.filter(user=user).first()
 
-                # Create class
-                new_class = Class(unit_id=unit,
-                                  t_period=t_period,
-                                  staff_id=staff,
-                                  time_commi=crt_dict['time_commitment'],
-                                  code=crt_dict['class_code'])
-                new_class.save()
-    return new_class
+				# Create class
+				new_class = Class(unit_id=unit,
+								  t_period=t_period,
+								  staff_id=staff,
+								  time_commi=crt_dict['time_commitment'],
+								  code=crt_dict['class_code'])
+				new_class.save()
+	return new_class, user_dict
 
-def add_students(csv_path: str, new_class):
-    columns = ['id']
+def add_students(request, user_dict:Dict, csv_path: str, new_class):
+	columns = ['id']
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
-        for idx ,row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                user = User.objects.filter(username=crt_dict['id']).first()
-                student = Student.objects.filter(user=user).first()
-                student.s_class.add(new_class)
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx ,row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				user = User.objects.filter(username=crt_dict['id']).first()
+				student = Student.objects.filter(user=user).first()
+				student.s_class.add(new_class)
 
-def register_topics(csv_path:str) -> None:
-    columns = ['number', 'name', 'unit']
+def register_topics(request, user_dict:Dict, csv_path:str) -> None:
+	columns = ['number', 'name', 'unit']
 
-    with open(csv_path, 'r') as csv_file:
-        reader = csv.DictReader(csv_file, fieldnames=columns)
-        if validate_header(columns, reader[0]) == False:
-            user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
-            return render(request, 'error_page.html', user_dict)
-        for idx ,row in enumerate(reader):
-            if idx != 0:
-                crt_dict = {}
-                for column in columns:
-                    crt_dict[column] = row[column]
-                unit = Unit.objects.filter(code=crt_dict['unit']).first()
-                topic = Topic(number=crt_dict['number'],
-                              name=crt_dict['name'],
-                              unit_id=unit)
-                topic.save()
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		header = list(csv.reader(csv_file))[0]
+		if validate_header(columns, header) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+		for idx ,row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				unit = Unit.objects.filter(code=crt_dict['unit']).first()
+				topic = Topic(number=crt_dict['number'], name=crt_dict['name'], unit_id=unit)
+				topic.save()
 
 def extract_info_student(student):
     classes = list(student.s_class.all())

@@ -93,21 +93,27 @@ def unit_management(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_units(file_path)
+		status, user_dict = register_units(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	if request.method == "POST" and 'courses_file' in request.FILES:
 		csv_file = request.FILES['courses_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_courses(file_path)
+		status, user_dict = register_courses(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	if request.method == "POST" and 'teaching_period_file' in request.FILES:
 		csv_file = request.FILES['teaching_period_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_teaching_period(file_path)
+		status, user_dict = register_teaching_period(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	return render(request, 'administrative/unitsM.html', user_dict)
 
@@ -137,7 +143,9 @@ def space_management(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_room(file_path)
+		status, user_dict = register_room(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	# Process to obtain CSV - Buildings
 	if request.method == "POST" and 'building_file' in request.FILES:
@@ -145,7 +153,9 @@ def space_management(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_building(file_path)
+		status, user_dict = register_building(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	# Process to find Rooms
 	if request.method == "POST" and not request.POST.get('room_code') is None:
@@ -185,7 +195,9 @@ def employee_creation(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_employee(file_path)
+		status, user_dict = register_employee(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 
 	return render(request, 'administrative/lectAccAdd.html', user_dict)
 
@@ -216,7 +228,9 @@ def student_creation(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		register_student(file_path)
+		status, user_dict = register_student(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
 	return render(request, 'administrative/stuAccAdd.html', user_dict)
 
 def attendance_stats(request):
