@@ -19,6 +19,7 @@ from lecturer.models import Class
 from generic.decorator import is_student
 from generic.utils import get_std_context
 from generic.graphs import attendance_graph
+from django.contrib import messages
 
 @login_required
 @is_student
@@ -65,7 +66,8 @@ def student_codeinput(request):
 				diff = datetime.now(timezone.utc) - item.tm_stmp
 				seconds_passed = diff.total_seconds()
 				if seconds_passed > int(item.seconds_limit):
-					return HttpResponse('Question has expired.')
+					messages.error(request, 'Question has expired', extra_tags='alert-warning')  
+					return redirect('student:student_codeinput')
 				else:
 					context = {
 					'unit_code' : item.question.topic_id.unit_id.code,
@@ -79,7 +81,8 @@ def student_codeinput(request):
 					request.session['question_data'] = context
 					return HttpResponseRedirect(reverse('student:student_answer'))
 			else:
-				return HttpResponse('No matching question code.')
+				messages.error(request, 'No matching question code.', extra_tags='alert-warning')  
+				return redirect('student:student_codeinput')
 	else:
 		form = codeForm()
 

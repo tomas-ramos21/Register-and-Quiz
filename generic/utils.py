@@ -1,3 +1,4 @@
+    
 # Author: Tomas Ramos
 # Date: 20-03-2019
 # Purpose: Define functions providing extra utility to the administrative app.
@@ -86,17 +87,14 @@ def get_std_context(user):
 def register_employee(user_dict: Dict, csv_path: str) -> None:
 	"""
         Registers lecturers in the platform.
-
         Iterates over the rows of a CSV file
         collecting the information to be used
         for the account creation.
-
         Parameters
         ----------
         csv_path: str
             String containing the path to the
             file.
-
         TODO
         ----------
         1. Function do check the information
@@ -143,11 +141,9 @@ def register_employee(user_dict: Dict, csv_path: str) -> None:
 def register_student(user_dict:Dict, csv_path:str) -> None:
 	"""
 		Registers students in the platform.
-
 		Iterates over the rows of a CSV file
 		collecting the information to be used
 		for the account creation.
-
 		Parameters
 		----------
 		csv_path: str

@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from administrative.models import Employee
 from student.models import Student
+from django.contrib import messages
 
 def index(request):
 	"""
@@ -67,10 +68,13 @@ def user_login(request):
 					if std is not None:
 						return HttpResponseRedirect(reverse('student:student_index'))
 					else:
-						return HttpResponse("Invalid account")
+						messages.error(request, 'Invalid account type', extra_tags='alert-warning')  
+						return redirect('login:user_login')
 			else:
-				return HttpResponse("Account Not Active")   # Need proper error page.
+				messages.error(request, 'Account is inactive.', extra_tags='alert-warning')  
+				return redirect('login:user_login')
 		else:
-			return HttpResponse("Invalid Login Details.")   # Need proper error page.
+			messages.error(request, 'Invalid login details', extra_tags='alert-warning')  
+			return redirect('login:user_login')
 	else:
 		return render(request, 'login/index.html')
