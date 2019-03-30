@@ -1,4 +1,4 @@
-    
+
 # Author: Tomas Ramos
 # Date: 20-03-2019
 # Purpose: Define functions providing extra utility to the administrative app.
@@ -467,7 +467,6 @@ def publish_question(question, time:int) -> None:
 def register_class(user_dict:Dict, csv_path: str):
 	columns = ['unit',
 			   'teaching_period',
-			   'staff_id',
 			   'time_commitment',
 			   'class_code']
 
@@ -501,8 +500,10 @@ def register_class(user_dict:Dict, csv_path: str):
 				# Get Foreign Keys
 				unit = Unit.objects.filter(code=crt_dict['unit']).first()
 				t_period = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
-				user = User.objects.filter(username=crt_dict['staff_id']).first()
-				staff = Employee.objects.filter(user=user).first()
+				staff = Employee.objects.filter(user=request.user).first()
+				if unit not in staff.units.all():
+					user_dict['msg'] = 'You are not allowed to create classes for this unit.'
+					return False, user_dict
 
 				# Create class
 				new_class = Class(unit_id=unit,
@@ -511,6 +512,7 @@ def register_class(user_dict:Dict, csv_path: str):
 								  time_commi=crt_dict['time_commitment'],
 								  code=crt_dict['class_code'])
 				new_class.save()
+				
 	return new_class, user_dict
 
 def add_students(user_dict:Dict, csv_path: str, new_class):
@@ -603,3 +605,42 @@ def is_empty(row):
 		if cell in lookups:
 			return True
 	return False
+
+def edit_units(user_dict:Dict, csv_path:str):
+	columns = ['id', 'unit', 'action']
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+		rows = list(csv.reader(csv_file))
+
+		# Check headers
+		if validate_header(columns, rows[0]) == False:
+			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
+			return False, user_dict
+
+		# Check empty values
+		for idx, row in enumerate(rows):
+			if is_empty(row) or len(row) < len(columns):
+				user_dict['msg'] = 'File has an empty cell at index: {}'.format(idx)
+				return False, user_dict
+
+		# Checks all cells exist
+		for idx, row in enumerate(rows):
+			if len(row) < len(columns):
+				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
+				return False, user_dict
+
+		# Start Registering
+		for idx ,row in enumerate(reader):
+			if idx != 0:
+				crt_dict = {}
+				for column in columns:
+					crt_dict[column] = row[column]
+				user	 = User.objects.filter(username=crt_dict['id']).first()
+				lecturer = Employee.objects.filter(user=user).first()
+				unit	 = Unit.objects.filter(code=crt_dict['unit']).first()
+				if crt_dict['action'].lower() == 'add':
+					lecturer.units.add(unit)
+				elif crt_dict['action'].lower() == 'remove':
+					lecturer.units.remove(unit)
+		return True, user_dict

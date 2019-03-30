@@ -12,7 +12,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period, extract_info_student, extract_info_lecturer
+from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period, extract_info_student, extract_info_lecturer, edit_units
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -97,6 +97,15 @@ def unit_management(request):
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
 		status, user_dict = register_courses(user_dict, file_path)
+		if status == False:
+			return render(request, 'error_page.html', user_dict)
+
+	if request.method == "POST" and 'add_rm_file' in request.FILES:
+		csv_file = request.FILES['add_rm_file']
+		fs = FileSystemStorage()
+		filename = fs.save(csv_file.name, csv_file)
+		file_path = os.path.join(settings.MEDIA_ROOT, filename)
+		status, user_dict = edit_units(user_dict, file_path)
 		if status == False:
 			return render(request, 'error_page.html', user_dict)
 

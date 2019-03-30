@@ -1,17 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Employee(models.Model):
-
-	"""
-		Django's Model to represent the staff
-		class in the MySQL database.
-	"""
-
-	user 	= models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', default='')
-	dpt		= models.CharField(max_length=255, blank=True, default='')		# Department
-	pstn	= models.CharField(max_length=255, blank=True, default='')		# Position
-
 class Building(models.Model):
 
 	"""
@@ -56,6 +45,18 @@ class Unit(models.Model):
 	credits = models.PositiveIntegerField()							# Unit's max credits
 	image   = models.CharField(max_length=255, default='default.jpg')
 	course_id = models.ManyToManyField(Course)
+
+class Employee(models.Model):
+
+	"""
+		Django's Model to represent the staff
+		class in the MySQL database.
+	"""
+
+	user 	= models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', default='')
+	dpt		= models.CharField(max_length=255, blank=True, default='')		# Department
+	pstn	= models.CharField(max_length=255, blank=True, default='')		# Position
+	units	= models.ManyToManyField(Unit)
 
 class Teaching_Period(models.Model):
 
