@@ -15,6 +15,10 @@ from django.core.files.storage import FileSystemStorage
 from generic.utils import register_employee, register_student, find_user, register_room, register_building, find_room, find_building, register_units, register_courses, register_teaching_period, extract_info_student, extract_info_lecturer
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.contrib.auth.models import User
+from student.models import Student
+from administrative.models import Employee
+from generic.utils import get_admin_context
 
 def admin_home(request):
 	"""
@@ -29,8 +33,7 @@ def admin_home(request):
 			String with the staff's name.
 	"""
 	user = request.user
-	user_dict = {'f_name': user.first_name,
-				 'fl_name': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 	return render(request, 'administrative/admin_home.html', user_dict)
 
 def acc_management(request):
@@ -46,8 +49,7 @@ def acc_management(request):
 			String with teh staff's name.
 	"""
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 	return render(request, 'administrative/accountM.html', user_dict)
 
 def unit_management(request):
@@ -63,8 +65,7 @@ def unit_management(request):
 			String with teh staff's name.
 	"""
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 
 	if request.method == 'GET':
 		return render(request, 'administrative/unitsM.html', user_dict)
@@ -123,8 +124,7 @@ def space_management(request):
 			String with the staff's name.
 	"""
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 
 	# Re-render the page
 	if request.method == "GET":
@@ -174,8 +174,7 @@ def employee_creation(request):
 			String with the staff's name.
 	"""
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 	# Re-render the page
 	if request.method == "GET":
 		return render(request, 'administrative/lectAccAdd.html', user_dict)
@@ -205,8 +204,7 @@ def student_creation(request):
 			String with the staff's name.
 	"""
 	user = request.user
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 
 	# Process to render the page
 	if request.method == "GET":
@@ -223,8 +221,7 @@ def student_creation(request):
 
 def attendance_stats(request):
 	user = request.user
-	user_dict = {'name_header':user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name}
+	user_dict = get_admin_context(user)
 	return render(request, 'administrative/statistics.html', user_dict)
 
 def user_view(request):
@@ -249,12 +246,11 @@ def user_view(request):
 		classes, units = extract_info_lecturer(lecturer)
 		user_object = lecturer
 
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name,
-				 'user_object': user_object,
-				 'classes': classes,
-				 'units': units,
-				 'courses':courses}
+	user_dict = get_admin_context(user)
+	user_dict['user_object'] = user_object
+	user_dict['classes'] = classes
+	user_dict['units'] = units
+	user_dict['courses'] = courses
 
 	return render(request, 'administrative/userView.html', user_dict)
 

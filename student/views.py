@@ -11,17 +11,20 @@ from lecturer.models import Question, Published_Question, Teaching_Day, Class
 from administrative.models import Unit, Teaching_Period
 from datetime import datetime, timedelta, timezone
 from student.forms import codeForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth import logout
 from ipware import get_client_ip
 from django.http import HttpResponse, HttpResponseRedirect
+from lecturer.models import Class
+from generic.decorator import is_student
+from generic.utils import get_std_context
 from generic.graphs import attendance_graph
 
 @login_required
+@is_student
 def student_index(request):
 	"""
 		Redirects to student's dashboard page.
-
 		Parameters
 		----------
 		request: HTTP request object.
@@ -33,45 +36,20 @@ def student_index(request):
 def student_dashboard(request):
 	"""
 		Renders student's dashboard page.
-
 		Parameters
 		----------
 		request: HTTP request object.
 			Contains the request type sent by the user.
 	"""
 	user = request.user
-	std = Student.objects.filter(user=user).first()
-
-	if std is not None:
-		enrolled_class = std.s_class.all()
-		unit_list  = [x.unit_id for x in enrolled_class]
-
-		period_display = []
-
-		t_period = [x.t_period.id.lower() for x in enrolled_class]
-		for y in t_period:
-			period = ''
-			for letter in y:
-				if letter == '-':
-					letter = ', '
-				period += letter
-			period_display.append(period)
-
-		class_display = list(zip(unit_list, period_display))
-		context = {
-		'f_name' : user.first_name,
-		'fl_name' : user.first_name + ' ' + user.last_name,
-		'class_display' : class_display,
-		}
-		return render(request, 'student/student_dashboard.html', context)
-	else:
-		return HttpResponse('Not registered as a student')
+	user_dict = get_std_context(user)
+	
+	return render(request, 'student/student_dashboard.html', user_dict)
 
 @login_required
 def student_codeinput(request):
 	"""
 		Renders the form for question code input.
-
 		Parameters
 		----------
 		request: HTTP request object.
@@ -104,12 +82,16 @@ def student_codeinput(request):
 				return HttpResponse('No matching question code.')
 	else:
 		form = codeForm()
-
-	return render(request, 'student/studentInput.html', {'form':form})
+	
+	user = request.user
+	user_dict = get_std_context(user)
+	user_dict['form'] = form
+	return render(request, 'student/studentInput.html', user_dict)
 
 @login_required
 def student_answer(request):
 	"""
+
 		Renders the answer page for the student to submit answer.
 
 		Parameters
@@ -180,7 +162,9 @@ def student_answer(request):
 	else:
 		context = request.session.get('question_data')
 		if context is not None:
-			return render(request, 'student/studentQuestion.html', context)
+			user = request.user
+			user_dict = get_std_context(user)
+			return render(request, 'student/studentQuestion.html', user_dict)
 		else:
 			return HttpResponseRedirect(reverse('student:student_codeinput'))
 
@@ -193,10 +177,9 @@ def student_stats(request, unit_t, period):
 	period = Teaching_Period.objects.filter(id=period).first()
 	unit_period = unit.code + ' - ' + period.id
 
-	user_dict = {'name_header': user.first_name,
-				 'name_menu': user.first_name + ' ' + user.last_name,
-				 'graph': attendance_graph(unit, period, student),
-				 'unit_and_period': unit_period}
+	user_dict = get_std_context(user)
+	user_dict['graph'] = attendance_graph(unit, period, student)
+	user_dict['unit_and_period'] = unit_period
 
 	return render(request, 'student/studentStats.html', user_dict)
 
@@ -205,7 +188,6 @@ def user_logout(request):
     """
         Closes the current session of the user,
         and redirects them to the login page.
-
         Parameters
         ----------
         request: HTTP request object
@@ -213,3 +195,4 @@ def user_logout(request):
     """
     logout(request)
     return HttpResponseRedirect(reverse('login:user_login'))
+

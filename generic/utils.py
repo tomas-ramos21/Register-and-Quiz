@@ -15,6 +15,69 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
 
+def get_admin_context(user) -> Dict:
+	admin = Employee.objects.filter(user=user).first()
+	if admin is not None:
+		user_dict = {
+		'f_name' : user.first_name,
+		'fl_name': user.first_name + ' ' + user.last_name 
+		}
+		return user_dict
+	else:
+		return {}
+
+def get_lecturer_context(user) -> Dict:
+	lect = Employee.objects.filter(user=user).first()
+	if lect is not None:
+		class_taught = Class.objects.filter(staff_id=lect) # year?
+		unit_list = [x.unit_id for x in class_taught]
+
+		period_display = []
+		t_period = [x.t_period.id.lower() for x in class_taught]
+		for y in t_period:
+			period = ''
+			for letter in y:
+				if letter == '-':
+					letter = ', '
+				period += letter
+			period_display.append(period)
+
+		class_display = list(zip(unit_list, period_display))
+		user_dict = {
+		'f_name' : lect.user.first_name,
+		'fl_name' : lect.user.first_name + ' ' + lect.user.last_name,
+		'class_display' : class_display,
+		}
+	else:
+		return {}
+
+def get_std_context(user):
+	std = Student.objects.filter(user=user).first()
+	if std is not None:
+		enrolled_class = std.s_class.all()
+		unit_list  = [x.unit_id for x in enrolled_class]
+
+		period_display = []
+
+		t_period = [x.t_period.id.lower() for x in enrolled_class]
+		
+		for y in t_period:
+			period = ''
+			for letter in y:
+				if letter == '-':
+					letter = ', '
+				period += letter
+			period_display.append(period)
+			
+		class_display = list(zip(unit_list, period_display))
+		user_dict = {
+		'f_name' : std.user.first_name,
+		'fl_name' : std.user.first_name + ' ' + std.user.last_name,
+		'class_display' : class_display,
+		}
+		return user_dict
+	else:
+		return {}
 
 def register_employee(csv_path: str) -> None:
     """
@@ -107,11 +170,6 @@ def register_student(csv_path: str) -> None:
                 user.save()
                 student = Student(user=user)
                 student.save()
-
-def get_context(user) -> Dict:
-    context_dict = {'name_header' : user.first_name,
-                    'name_menu'   : user.first_name + ' ' + user.last_name }
-    return context_dict
 
 def find_user(username:str) -> Tuple:
 

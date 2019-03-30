@@ -16,31 +16,8 @@ import datetime
 @login_required
 def lect_home(request):
 	user = request.user
-	lect = Employee.objects.filter(user=user).first()
-
-	if lect is not None:
-		class_taught = Class.objects.filter(staff_id=lect) # year?
-		unit_list = [x.unit_id for x in class_taught]
-
-		period_display = []
-		t_period = [x.t_period.id.lower() for x in class_taught]
-		for y in t_period:
-			period = ''
-			for letter in y:
-				if letter == '-':
-					letter = ', '
-				period += letter
-			period_display.append(period)
-
-		class_display = list(zip(unit_list, period_display))
-		user_dict = {
-		'f_name' : user.first_name,
-		'fl_name' : user.first_name + ' ' + user.last_name,
-		'class_display' : class_display,
-		}
-		return render(request, 'Lecturer/lecturerHome.html', user_dict)
-	else:
-		return HttpResponse('Unexpected error')
+	user_dict = get_lect_context(user)
+	return render(request, 'Lecturer/lecturerHome.html', user_dict)
 
 @login_required
 def lect_publish(request, q_id, topic_id, period_id):

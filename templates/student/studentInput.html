@@ -1,6 +1,7 @@
 {% extends 'student/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
 <head>
 {% block head %}
     <meta charset="UTF-8">
@@ -19,7 +20,9 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
 
     <!--Student Quiz-->
-    <link rel="stylesheet" href="../public/stylesheets/studentInput.css">
+    <link rel="stylesheet" href="{% static "stylesheets/studentInput.css" %}">
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 {% endblock head %}
 </head>
 <body>
@@ -28,12 +31,11 @@
         <main class="main">
                 <section class="card">
                         <section class="card-body">
-                                <h1 class="unit-text my-3  unit">
-                                </h1>
-                                <form action="{% url 'student:student_codeinput' %}" class="card__form" method="POST">
+                                <h1 class="unit-text my-3  unit"></h1>
+                                <form class="card__form" id="code-form" method="POST">
 								{% csrf_token %}
-										{{form.as_p}}
-								<center><input type="submit" class="btn btn-primary card__submit" id="submit_code"></center>
+								{{form.as_p}}
+								<input type="submit" class="btn btn-primary card__submit" id="submit_code">
 										<!--
                                         <section class="card-submission">
                                                 <label class="mr-3 card__label" for="card__answer">Question Code:</label>
@@ -54,16 +56,6 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-	<script>
-	$(document).ready(function()
-	{
-		$("#submit-code").click(function()
-		{
-
-		});
-	});
-	</script>
 {% endblock script %}
 </body>
 

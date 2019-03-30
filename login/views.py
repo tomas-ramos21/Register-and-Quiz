@@ -14,7 +14,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from generic.utils import get_context
 from administrative.models import Employee
 from student.models import Student
 
