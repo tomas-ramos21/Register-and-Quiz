@@ -58,42 +58,52 @@ def student_codeinput(request):
 		request: HTTP request object.
 			Contains the request type sent by the user.
 	"""
+	
+	user = request.user
+	user_dict = get_std_context(user)
+	std = Student.objects.filter(user=user).first()
+	
 	if request.method == 'POST':
 		form = codeForm(request.POST)
 		if form.is_valid():
 			cd = form.cleaned_data
 			code = cd.get('code')
 			item = Published_Question.objects.filter(code=code).first()
-			if item is not None:
-				diff = datetime.now(timezone.utc) - item.tm_stmp
-				seconds_passed = diff.total_seconds()
-				if seconds_passed > item.seconds_limit:
-					messages.error(request, 'Question has expired', extra_tags='alert-warning')  
-					return redirect('student:student_codeinput')
+			if item is not None: # If Published_Question exists 
+				if item.q_class in std.s_class.all():
+					ans = Answer.objects.filter(s_id=std, q_id=item).first()
+					if ans is None:
+						diff = datetime.now(timezone.utc) - item.tm_stmp
+						seconds_passed = diff.total_seconds()
+						seconds_limit = item.minutes_limit * 60
+						if seconds_passed > seconds_limit : # If it has expired
+							messages.error(request, 'Question has expired', extra_tags='alert-warning')  
+							return redirect('student:student_codeinput')
+						else:
+							context = {
+							'unit_code' : item.question.topic_id.unit_id.code,
+							'unit_title' : item.question.topic_id.unit_id.title,
+							'ans1' : item.question.ans_1,
+							'ans2' : item.question.ans_2,
+							'ans3' : item.question.ans_3,
+							'ans4' : item.question.ans_4,
+							'question_code' : code
+							}
+							request.session['question_data'] = context
+							return redirect('student:student_answer')
+					else:
+						messages.error(request, 'Duplicate answer is not allowed for a question.', extra_tags='alert-warning')  
+						return redirect('student:student_codeinput')
 				else:
-					context = {
-					'unit_code' : item.question.topic_id.unit_id.code,
-					'unit_title' : item.question.topic_id.unit_id.title,
-					'ans1' : item.question.ans_1,
-					'ans2' : item.question.ans_2,
-					'ans3' : item.question.ans_3,
-					'ans4' : item.question.ans_4,
-					'question_code' : code
-					}
-					print(code)
-					print(context['ans1'])
-					request.session['question_data'] = context
-					return HttpResponseRedirect(reverse('student:student_answer'))
+					messages.error(request, 'Not your class question code.', extra_tags='alert-warning')  
+					return redirect('student:student_codeinput')
 			else:
 				messages.error(request, 'No matching question code.', extra_tags='alert-warning')  
 				return redirect('student:student_codeinput')
 	else:
 		form = codeForm()
-
-	user = request.user
-	user_dict = get_std_context(user)
-	user_dict['form'] = form
-	return render(request, 'student/studentInput.html', user_dict)
+		user_dict['form'] = form
+		return render(request, 'student/studentInput.html', user_dict)
 
 @login_required
 @is_student
@@ -146,7 +156,9 @@ def student_answer(request):
 			new_answer = Answer(s_id=std, q_id=question_answered, teach_day=t_day, ans=selection, ip_addr=client_ip)
 			new_answer.save()
 			
-			return HttpResponseRedirect(reverse('student:student_index'))
+			request.session['question_data'] = None 
+			
+			return redirect('student:student_index')
 	else:
 		context1 = request.session.get('question_data')
 		if context1 is not None:
@@ -156,7 +168,8 @@ def student_answer(request):
 			user_dict.update(context2)
 			return render(request, 'student/studentQuestion.html', user_dict)
 		else:
-			return HttpResponseRedirect(reverse('student:student_codeinput'))
+			messages.error(request, 'Input question code first.', extra_tags='alert-warning')  
+			return redirect('student:student_codeinput')
 
 @login_required
 @is_student

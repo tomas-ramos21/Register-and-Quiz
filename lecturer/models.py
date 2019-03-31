@@ -57,7 +57,7 @@ class Published_Question(models.Model):
     question = models.ForeignKey(Question, on_delete=models.PROTECT)   # Question object
     q_class = models.ForeignKey(Class, on_delete=models.PROTECT)
     tm_stmp = models.DateTimeField(editable=False)                  # Time automatically added
-    seconds_limit = models.PositiveIntegerField()                      # Time in seconds to answer
+    minutes_limit = models.PositiveIntegerField()                      # Time in seconds to answer
 	
     def save(self, *args, **kwargs):
         if not self.tm_stmp:
