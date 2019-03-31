@@ -68,23 +68,30 @@
                     </section>
                     <section class="col-12 col-sm-6 order-first">
                                 <section class="dropdown stats__dropdown m-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="period" required>
+                                        <section class="m-3">
+                                                <select name="period">
+                                             <!-- *********************************************
+                                                ADD DYNAMIC AMOUNT OF TEACHING PERIODS HERE
+                                                ********************************************* -->
+                                                        <option value="All">All</option>
+                                                        <option value="TSA-2019">TSA-2019</option>
+                                                </select>
+                                        </section>
+                                        <!-- <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="period" required>
                                             Period
                                         </button>
-                                        <section class="dropdown-menu dropdown-first" aria-labelledby="dropdownMenuButton">
+                                        <section class="dropdown-menu dropdown-first" aria-labelledby="dropdownMenuButton"> -->
                                            <!-- *********************************************
                                                 ADD DYNAMIC AMOUNT OF TEACHING PERIODS HERE
                                                 ********************************************* -->
-                                          <a class="dropdown-item stats__item" href="#">TSA-2019</a>
+                                          <!-- <a class="dropdown-item stats__item" href="#">TSA-2019</a> -->
                                         </section>
                                 </section>
                                 <section class="dropdown stats__dropdown my-3 ml-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn2" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required>
-                                            Granularity
-                                        </button>
-                                        <section class="dropdown-menu dropdown-second" aria-labelledby="dropdownMenuButton" name="granularity">
-                                          <a class="dropdown-item stats__item" href="#">Room</a>
-                                        </section>
+                                        <select name="Granularity">
+                                                <option value="All">Building</option>
+                                                <option value="TSA-2019">Room</option>
+                                        </select>
                                 </section>
                                 <section class="form-group m-3 stats__text">
                                     <input type="text" name="selection" required>
