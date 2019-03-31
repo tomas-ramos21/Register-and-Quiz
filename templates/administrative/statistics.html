@@ -1,116 +1,43 @@
-<!DOCTYPE html> {% load staticfiles%}
+{% extends 'administrative/base.html' %}
+<!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
-
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Administrator</title>
     <!--Font Awesome-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-        crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!--Bootstrap-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
 
-    <!--Statistics css-->
-    <link rel="stylesheet" href="{% static 'stylesheets/statistics.css' %}">
-
+    <!--Administrative-->
+    <link rel="stylesheet" href="{% static "stylesheets/administrative.css" %}">
+{% endblock head %}
 </head>
-
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <section class="container">
-                <a class="navbar-brand" href="#"><img src="{% static 'images/murdochimage-dark.png' %}" width="150" alt="logo brand"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list" aria-controls="navbarNav"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <section class="collapse navbar-collapse " id="navbar-list">
-                    <ul class="navbar-nav ml-auto text-center">
-                        <li class="nav-item">
-                            <img src="{% static 'images/loginicon.png' %}" class="navbar__icon" alt="">
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="true">
-                                <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
-                            </a>
-
-                            <section class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <section>
-                                    <a href="{% url 'administrative:user_logout' %}" class="drop-options">
-                                        <span><i class="fas fa-sign-out-alt"></i></span>
-                                        <span>Logout</span>
-                                    </a>
-                                </section>
-                            </section>
-                        </li>
-                    </ul>
-                </section>
-            </section>
-        </nav>
-    </header>
+{% block main %}
     <main class="main">
-        <section class="stats d-flex align-items-center justify-content-center flex-column">
-            <h1 class="stats__heading">Choose Statistics To View</h1>
-            <section class="container">
-                <form class="row" action="/">
-                    <section class="col-12 col-sm-6 order-last">
-                        <img src="{% static 'dummy_images/dummyImage.png' %}" alt="" class="stats__img">
-                    </section>
-                    <section class="col-12 col-sm-6 order-first">
-                                <section class="dropdown stats__dropdown m-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Period
-                                        </button>
-                                        <section class="dropdown-menu dropdown-first" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item stats__item" href="#">All</a>
-                                          <a class="dropdown-item stats__item" href="#">TSA-2019</a>
-                                        </section>
-                                </section>
-                                <section class="dropdown stats__dropdown my-3 ml-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Granularity
-                                        </button>
-                                        <section class="dropdown-menu dropdown-second" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item stats__item" href="#">Building</a>
-                                          <a class="dropdown-item stats__item" href="#">Room</a>
-                                        </section>
-                                </section>
-                                <section class="form-group m-3 stats__text">
-                                    <input type="text">
-                                </section>
-                                <section class="form-group d-flex align-content-around">
-                                    <input type="submit" class="m-3 btn btn-primary btn-lg stats__btn">
-                                    <button class="btn btn-dark btn-lg m-3 stats__btn">Download</button>
-                                </section>
-                    </section>
-                </form>
-            </section>
+		<div id="page-content">
+        <section class="main__choices  d-flex align-items-center justify-content-center flex-column">
+        <h1 class="mb-3 main__text">Features</h1>
+        <a href="{% url 'administrative:attendance_stats' %}" class="btn btn-warning my-3 main__button" ><i class="fas fa-user main__icon"></i>Attendance Statistics</a>
+        <a href="{% url 'administrative:space_stats' %}" class="btn btn-warning my-3 main__button" ><i class="fas fa-check-circle  main__icon"></i>Teaching Spaces Statistics</a>
         </section>
-
+		</div>
     </main>
-    <footer class="footer">
-        <img class="footer__image" src="{% static 'images/Murdoch_University_Logo.svg.png' %}" width="100" height="100" alt="">
-        <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
-    </footer>
-
-    <!--BootStrap Scripts-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
-
-    <script src="{% static '/js/stats.js' %}"></script>
+{% endblock main %}
+{% block script %}
+<!--BootStrap Scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+{% endblock script %}
 </body>
-
 </html>

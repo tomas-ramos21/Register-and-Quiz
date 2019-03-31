@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-{% load staticfiles%}
+<!DOCTYPE html> {% load staticfiles%}
 <html lang="en">
 
 <head>
@@ -68,18 +67,18 @@
                     </section>
                     <section class="col-12 col-sm-6 order-first">
                                 <section class="dropdown stats__dropdown m-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Period
                                         </button>
-                                        <section class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                                        <section class="dropdown-menu dropdown-first" aria-labelledby="dropdownMenuButton">
                                           <a class="dropdown-item stats__item" href="#">TSA-2019</a>
                                         </section>
                                 </section>
                                 <section class="dropdown stats__dropdown my-3 ml-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Granularity
                                         </button>
-                                        <section class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                                        <section class="dropdown-menu dropdown-second" aria-labelledby="dropdownMenuButton">
                                           <a class="dropdown-item stats__item" href="#">Course</a>
                                           <a class="dropdown-item stats__item" href="#">Unit</a>
                                           <a class="dropdown-item stats__item" href="#">Class</a>
@@ -110,6 +109,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+
     <script src="{% static '/js/stats.js' %}"></script>
 </body>
 

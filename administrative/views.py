@@ -251,6 +251,13 @@ def attendance_stats(request):
 def space_stats(request):
 	user = request.user
 	user_dict = get_admin_context(user)
+
+	if request.method == "POST":
+		period = request.POST.get('period')
+		granularity = request.POST.get('granularity')
+		selection = request.POST.get('selection')
+		return render(request, 'administrative/statisticsUsage.html', user_dict)
+
 	return render(request, 'administrative/statisticsUsage.html', user_dict)
 
 def user_view(request):
