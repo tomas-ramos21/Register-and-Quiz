@@ -223,3 +223,49 @@ def get_class_attendance(cls):
             y.append(sum(val)/len(val))
 
         return x, y
+
+def admin_room_usage(period, granularity, selection):
+    selected_period = Teaching_Period.objects.filter(code=period).first()
+    granularity = granularity.lower()
+    x = []
+    y = []
+
+    if granularity == 'room':
+        if text_selection.lower() == 'all':
+            rooms = list(Room.objects.all())
+            labels = []
+            for room in rooms:
+                _x, _y = get_room_attendance(room, selected_period)
+                x.append(_x)
+                y.append(_y)
+                labels.append(room.id)
+            graphs = []
+            for x_val, y_val, label in zip(x, y, labels):
+                graphs.append(Scatter(x=x_val,y=y_val,name=label))
+            plot_div = plot(graphs, output_type='div')
+        else:
+            room = Room.objects.filter(id=text_selection).first()
+            x, y = get_course_attendance(selected_period, room)
+            plot_div = plot([Scatter(x=x,y=y,name=room.id)], output_type='div')
+    return plot_div
+
+def get_room_attendance(room, period):
+    t_days = list(Teaching_Day.objects.filter(r_id=Room))
+    room_usage = {}
+    for day in t_days:
+        a_class = Class.objects.filter(id=day.c_id).first()
+        student_amount = Student.objects.filter(s_class=a_class).count()
+        date = str(day.date_td.date())
+        if date in room_usage:
+            room_usage[date] = room_usage[date] + tuple(student_amount/room.capacity)
+        else:
+            room_usage[date] = tuple(student_amount/room.capacity)
+
+    x = []      # Dates
+    y = []      # Max Average Attendance
+
+    for key, val in room_usage.items():
+        y.append(sum(val)/len(val))
+        x.append(key)
+
+    return x, y
