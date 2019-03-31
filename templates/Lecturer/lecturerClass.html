@@ -31,6 +31,8 @@
     <main class="main">
         <form method="post" class="upload" enctype="multipart/form-data">
           {% csrf_token %}
+		  <h3>Class Form</h3>
+		  {{form.as_ul}}
             <h1>Upload CSV Files To Create Class</h1>
             <section class="form-group file">
                 <input type="file" name="class_file" accept=".csv" class="file__uploader">

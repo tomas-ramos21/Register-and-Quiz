@@ -11,6 +11,7 @@ from generic.graphs import answer_graph
 from django.conf import settings
 from administrative.models import Unit, Employee, Teaching_Period, Room
 from lecturer.models import Class, Question, Topic, Teaching_Day
+from lecturer.forms import classForm
 from datetime import datetime
 from generic.decorator import is_lecturer
 
@@ -130,6 +131,9 @@ def lect_class(request):
 		status, user_dict = add_students(user_dict, file_path, new_class)
 		if status == False:
 			return render(request, 'error_page.html', user_dict)
+	else:
+		form = classForm()
+		user_dict['form'] = form
 
 	return render(request, "Lecturer/lecturerClass.html", user_dict)
 
