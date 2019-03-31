@@ -523,6 +523,12 @@ def register_class(user, user_dict:Dict, csv_path: str):
 					user_dict['msg'] = 'You are not allowed to create classes for this unit.'
 					return False, user_dict
 
+				existent_class = Class.objects.filter(unit_id=unit).filter(t_period=t_period).filter(code=crt_dict['class_code']).first()
+
+				if existent_class is not None:
+					user_dict['msg'] = 'Class {} for unit {}, already exists in the given teaching period.'.format(crt_dict['class_code'], unit.code)
+					return False, user_dict
+					
 				# Create class
 				new_class = Class(unit_id=unit,
 								  t_period=t_period,
