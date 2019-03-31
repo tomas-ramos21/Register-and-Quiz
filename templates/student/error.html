@@ -1,17 +1,14 @@
-{% extends 'Lecturer/base.html' %}
+{% extends 'student/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
-{% load staticfiles%}
 <head>
 {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add Class</title>
-
+    <title>Ooops !!</title>
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
 
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -19,36 +16,22 @@
     <!--Google Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
 
-    <!--lecture add-->
-    <link rel="stylesheet" href="{% static "stylesheets/addUsers.css" %}">
-
-    <!--Vendor input file styling-->
-    <link rel="stylesheet" href="{% static "input-file-master/input-file.css" %}">
+    <link rel="stylesheet" href="{ % static 'stylesheets/error.css' %}">
 {% endblock head %}
 </head>
 <body>
 {% block main %}
     <main class="main">
-        <form method="post" class="upload" enctype="multipart/form-data">
-          {% csrf_token %}
-		  <h3>Class Form</h3>
-		  {{form.as_ul}}
-            <h1>Upload CSV Files To Create Class</h1>
-            <section class="form-group file">
-                <input type="file" name="class_file" accept=".csv" class="file__uploader">
-            </section>
-            <h1>Upload CSV Files To Add Students</h1>
-            <section class="form-group file">
-                <input type="file" name="student_file" accept=".csv" class="file__uploader">
-            </section>
-            <div class="form-group">
-                <div class="d-flex justify-content-center">
-                  <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
-                    Submit
-                  </button>
-                </div>
-              </div>
-        </form>
+        <section class=" d-flex align-items-center justify-content-center flex-column">
+            <table class="table">
+                <thead>
+                    <th scope="col"><h1 class="text-center">Error</h1></th>
+                </thead>
+                <tbody>
+                    <td scope="row" class="table__body"><h1  class="text-center">(Error Msg Here)</h1></td>
+                </tbody>
+            </table>
+        </section>
     </main>
 {% endblock main %}
 {% block script %}
@@ -56,15 +39,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
-    <!--For styling the file input-->
-    <script src="{% static "input-file-master/input-file.min.js" %}"></script>
-    <!--  <script src="{% static "js/validate.js" %}"></script> -->
-    <script>
-    	new InputFile({
-			// options
-		});
-    </script>
 {% endblock script %}
 </body>
 </html>

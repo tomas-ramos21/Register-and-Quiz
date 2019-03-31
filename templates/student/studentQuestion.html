@@ -3,6 +3,7 @@
 <html lang="en">
 {% load staticfiles %}
 <head>
+{% block head %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -20,11 +21,11 @@
 
         <!--Student Quiz-->
         <link rel="stylesheet" href="{% static "stylesheets/studentQuiz.css" %}">	
-
+{% endblock head %}
 </script>
 </head>
-{% block main %}
 <body>
+{% block main %}
         <main class="main">
                 <section class="container-fluid">
                         <section class="row">
@@ -40,7 +41,7 @@
                         </section>
                         <form action="{% url 'student:student_answer' %}" class="row form" name="answer_submission" method="post" >
 						{% csrf_token %}
-						{% if ans1 != '' %}
+						{% if ans1 is not None %}
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-1" name='choice' aria-label="Radio button for following text input" value="{{ans1}}"><label class="mr-3 form__label" for="answer-1" >{{ans1}}</label>
@@ -48,7 +49,7 @@
                                         </section>
                         </section>
 						{% endif %}
-						{% if ans2 != '' %}
+						{% if ans2 is not None %}
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-2" name='choice' aria-label="Radio button for following text input" value="{{ans2}}"><label class="mr-3 form__label" for="answer-2" >{{ans2}}</label>
@@ -56,7 +57,7 @@
                                         </section>
                         </section>
 						{% endif %}
-						{% if ans3 != '' %}
+						{% if ans3 is not None %}
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-3" name='choice' aria-label="Radio button for following text input" value="{{ans3}}"><label class="mr-3 form__label" for="answer-3" >{{ans3}}</label>
@@ -64,7 +65,7 @@
                                         </section>
                         </section>
 						{% endif %}
-						{% if ans4 != '' %}
+						{% if ans4 is not None %}
 						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <section class="form-group form__selection">
                                                 <input type="radio" class="form__button" id="answer-4" name='choice' aria-label="Radio button for following text input" value="{{ans4}}"><label class="mr-3 form__label" for="answer-4" >{{ans4}}</label>
@@ -72,10 +73,9 @@
                                         </section>
                         </section>
 						{% endif %}
-						<!--
 						<section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column">
                         <input type="button" aria-label="Submit Button" class="btn btn-primary btn-lg form__submit"
-                        data-toggle="modal" data-target="#exampleModal">
+                        data-toggle="modal" data-target="#exampleModal"><!--
 								
                                         <div class="modal fade" id="quizModal" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -102,7 +102,6 @@
                                         </div>
                                 </section>
 								-->
-						<input type="submit" class="btn btn-primary card__submit">
                         </form>
                 </section>
         </main>
