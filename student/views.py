@@ -65,7 +65,7 @@ def student_codeinput(request):
 			if item is not None:
 				diff = datetime.now(timezone.utc) - item.tm_stmp
 				seconds_passed = diff.total_seconds()
-				if seconds_passed > int(item.seconds_limit):
+				if seconds_passed > item.seconds_limit:
 					messages.error(request, 'Question has expired', extra_tags='alert-warning')  
 					return redirect('student:student_codeinput')
 				else:
@@ -78,6 +78,8 @@ def student_codeinput(request):
 					'ans4' : item.question.ans_4,
 					'question_code' : code
 					}
+					print(code)
+					print(context['ans1'])
 					request.session['question_data'] = context
 					return HttpResponseRedirect(reverse('student:student_answer'))
 			else:
@@ -110,10 +112,7 @@ def student_answer(request):
 			# Get the student object who submitted the answer
 			user = request.user
 			std = Student.objects.filter(user=user).first()
-
-			if std is None:
-				return HttpResponse('No student found')
-
+			
 			# Get the details of the question answered
 			context = request.session.get('question_data')
 			question_answered = Published_Question.objects.filter(code=context['question_code']).first()
@@ -130,43 +129,28 @@ def student_answer(request):
 					lecturer = x.staff_id
 					break
 
-			print(class_item)
-			t_day = Teaching_Day.objects.filter(c_id=class_item, date_td=datetime.today()).first()
+			t_day = Teaching_Day.objects.filter(c_id=class_item, date_td=datetime.now(timezone.utc).date()).first()
 			if t_day is None:
 				return HttpResponse('Unexpected error')
 
 			# Get IP address of student
 			client_ip, is_routable = get_client_ip(request)
+			
 			if client_ip is None:
 				client_ip = '0.0.0.0'
-			else:
-				if is_routable:
-					str = ''
-					for char in client_ip:
-						if char != '.' :
-							str += char
-						else:
-							break
-					if str == '10':
-						ip_type = 'internal'
-					else:
-						ip_type = 'external'
-					print(client_ip)
-					print(ip_type)
-				else:
-					ip_type = 'private'
-					print(ip_type)
-
+			
 			# Create a new Answer object and save it to the database
-			new_answer = Answer(s_id=std, q_id=question_answered, teach_day=t_day, ans=selection, tm_stmp=datetime.now(timezone.utc))
+			new_answer = Answer(s_id=std, q_id=question_answered, teach_day=t_day, ans=selection, ip_addr=client_ip)
 			new_answer.save()
-
+			
 			return HttpResponseRedirect(reverse('student:student_index'))
 	else:
-		context = request.session.get('question_data')
-		if context is not None:
+		context1 = request.session.get('question_data')
+		if context1 is not None:
 			user = request.user
-			user_dict = get_std_context(user)
+			context2 = get_std_context(user)
+			user_dict = context1.copy()
+			user_dict.update(context2)
 			return render(request, 'student/studentQuestion.html', user_dict)
 		else:
 			return HttpResponseRedirect(reverse('student:student_codeinput'))
