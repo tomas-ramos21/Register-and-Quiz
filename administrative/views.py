@@ -256,6 +256,9 @@ def space_stats(request):
 		period = request.POST.get('period')
 		granularity = request.POST.get('granularity')
 		selection = request.POST.get('selection')
+		print(period)
+		print(granularity)
+		print(selection)
 		return render(request, 'administrative/statisticsUsage.html', user_dict)
 
 	return render(request, 'administrative/statisticsUsage.html', user_dict)

@@ -62,7 +62,7 @@
             <h1 class="stats__heading">Choose Statistics To View</h1>
             <section class="container">
                 <form class="row" action="{% url 'administrative:space_stats' %}" method="post" enctype="multipart/form-data">
-				{% csrf_token %} 
+				{% csrf_token %}
                     <section class="col-12 col-sm-6 order-last">
                         <img src="{% static 'dummy_images/dummyImage.png' %}" alt="" class="stats__img">
                     </section>
@@ -79,11 +79,10 @@
                                         </section>
                                 </section>
                                 <section class="dropdown stats__dropdown my-3 ml-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn2" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="granularity" required>
+                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn2" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required>
                                             Granularity
                                         </button>
-                                        <section class="dropdown-menu dropdown-second" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item stats__item" href="#">Building</a>
+                                        <section class="dropdown-menu dropdown-second" aria-labelledby="dropdownMenuButton" name="granularity">
                                           <a class="dropdown-item stats__item" href="#">Room</a>
                                         </section>
                                 </section>
