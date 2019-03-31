@@ -103,7 +103,6 @@ def register_employee(user_dict: Dict, csv_path: str) -> None:
 
 	columns = ['id', 'password', 'first_name', 'last_name', 'email', 'department', 'position']
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		if validate_header(columns, rows[0]) == False:
@@ -121,6 +120,9 @@ def register_employee(user_dict: Dict, csv_path: str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):  # For each row
 			if idx != 0:                    # If row isn't the header
@@ -153,10 +155,8 @@ def register_student(user_dict:Dict, csv_path:str) -> None:
 	columns = ['id', 'password', 'first_name', 'last_name', 'email']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
-
-		# Check headers
 		rows = list(csv.reader(csv_file))
+
 		if validate_header(columns, rows[0]) == False:
 			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
 			return False, user_dict
@@ -172,6 +172,9 @@ def register_student(user_dict:Dict, csv_path:str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		# Start registering
 		for idx, row in enumerate(reader):
@@ -224,7 +227,6 @@ def register_room(user_dict:Dict, csv_path: str) -> None:
 	columns = ['id', 'building_code', 'level', 'capacity']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Headers
@@ -243,6 +245,9 @@ def register_room(user_dict:Dict, csv_path: str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):
 			if idx != 0:
@@ -259,11 +264,10 @@ def register_building(user_dict:Dict, csv_path:str) -> None:
 	columns = ['code','name']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Headers
-		if validate_header(columns, row[0]) == False:
+		if validate_header(columns, rows[0]) == False:
 			user_dict['msg'] = 'Headers are wrong, headers should be: {}'.format(columns)
 			return False, user_dict
 
@@ -278,6 +282,9 @@ def register_building(user_dict:Dict, csv_path:str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):
 			if idx != 0:
@@ -293,7 +300,6 @@ def register_units(user_dict:Dict, csv_path:str) -> None:
 	columns = ['code','title','credits','image']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Header
@@ -312,6 +318,9 @@ def register_units(user_dict:Dict, csv_path:str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):
 			if idx != 0:
@@ -327,7 +336,6 @@ def register_courses(user_dict:Dict, csv_path: str) -> None:
 	columns = ['id', 'title', 'school']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Header
@@ -346,6 +354,9 @@ def register_courses(user_dict:Dict, csv_path: str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):
 			if idx != 0:
@@ -360,7 +371,6 @@ def register_teaching_period(user_dict:Dict, csv_path: str) -> None:
 	columns = ['id', 'name', 'start_date', 'end_date']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Header
@@ -379,6 +389,9 @@ def register_teaching_period(user_dict:Dict, csv_path: str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):
 			if idx != 0:
@@ -401,7 +414,6 @@ def register_questions(user_dict:Dict, csv_path: str) -> None:
 			   'topic']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Header
@@ -420,6 +432,9 @@ def register_questions(user_dict:Dict, csv_path: str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):
 			if idx != 0:
@@ -456,22 +471,22 @@ def generate_random_code():
         code = generate_random_code()
     return code
 
-def publish_question(question, time:int) -> None:
+def publish_question(question, time:int, q_class) -> None:
     code = generate_random_code()
     publish = Published_Question(code=code,
                                  question=question,
+								 q_class=q_class,
                                  seconds_limit=time)
     publish.save()
     return code
 
-def register_class(user_dict:Dict, csv_path: str):
+def register_class(user, user_dict:Dict, csv_path: str):
 	columns = ['unit',
 			   'teaching_period',
 			   'time_commitment',
 			   'class_code']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Header
@@ -491,6 +506,9 @@ def register_class(user_dict:Dict, csv_path: str):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+
 		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
@@ -500,7 +518,7 @@ def register_class(user_dict:Dict, csv_path: str):
 				# Get Foreign Keys
 				unit = Unit.objects.filter(code=crt_dict['unit']).first()
 				t_period = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
-				staff = Employee.objects.filter(user=request.user).first()
+				staff = Employee.objects.filter(user=user).first()
 				if unit not in staff.units.all():
 					user_dict['msg'] = 'You are not allowed to create classes for this unit.'
 					return False, user_dict
@@ -512,14 +530,13 @@ def register_class(user_dict:Dict, csv_path: str):
 								  time_commi=crt_dict['time_commitment'],
 								  code=crt_dict['class_code'])
 				new_class.save()
-				
+
 	return new_class, user_dict
 
 def add_students(user_dict:Dict, csv_path: str, new_class):
 	columns = ['id']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check Readers
@@ -539,6 +556,9 @@ def add_students(user_dict:Dict, csv_path: str, new_class):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+
 		for idx ,row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
@@ -553,7 +573,6 @@ def register_topics(user_dict:Dict, csv_path:str) -> None:
 	columns = ['number', 'name', 'unit']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check headers
@@ -572,6 +591,9 @@ def register_topics(user_dict:Dict, csv_path:str) -> None:
 			if len(row) < len(columns):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
+
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		# Start Registering
 		for idx ,row in enumerate(reader):
@@ -607,10 +629,9 @@ def is_empty(row):
 	return False
 
 def edit_units(user_dict:Dict, csv_path:str):
-	columns = ['id', 'unit', 'action']
+	columns = ['staff_id', 'unit', 'action']
 
 	with open(csv_path, 'r') as csv_file:
-		reader = csv.DictReader(csv_file, fieldnames=columns)
 		rows = list(csv.reader(csv_file))
 
 		# Check headers
@@ -630,13 +651,16 @@ def edit_units(user_dict:Dict, csv_path:str):
 				user_dict['msg'] = 'File has missing cells at index: {}'.format(idx)
 				return False, user_dict
 
+	with open(csv_path, 'r') as csv_file:
+		reader = csv.DictReader(csv_file, fieldnames=columns)
+
 		# Start Registering
 		for idx ,row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				user	 = User.objects.filter(username=crt_dict['id']).first()
+				user	 = User.objects.filter(username=crt_dict['staff_id']).first()
 				lecturer = Employee.objects.filter(user=user).first()
 				unit	 = Unit.objects.filter(code=crt_dict['unit']).first()
 				if crt_dict['action'].lower() == 'add':

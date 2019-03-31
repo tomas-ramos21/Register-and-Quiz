@@ -41,7 +41,7 @@ def lect_publish(request, q_id, topic_id, period_id):
 			t_day = Teaching_Day(r_id=room, c_id=curr_class)
 			t_day.save()
 
-		code = publish_question(question, time)
+		code = publish_question(question, time, curr_class)
 
 		code = str(code)
 		code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
@@ -114,7 +114,7 @@ def lect_class(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		new_class, user_dict = register_class(user_dict, file_path)
+		new_class, user_dict = register_class(request.user, user_dict, file_path)
 		if new_class == False:
 			return render(request, 'error_page.html', user_dict)
 
@@ -122,7 +122,7 @@ def lect_class(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = add_students(file_path, new_class)
+		status, user_dict = add_students(user_dict, file_path, new_class)
 		if status == False:
 			return render(request, 'error_page.html', user_dict)
 

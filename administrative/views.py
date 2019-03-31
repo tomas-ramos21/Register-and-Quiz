@@ -70,18 +70,6 @@ def unit_management(request):
 	if request.method == 'GET':
 		return render(request, 'administrative/unitsM.html', user_dict)
 
-	if request.method == 'POST':
-		radio		= request.POST.get('add/remove')
-		unit_code	= request.POST.get('unit')
-		unit_title	= request.POST.get('unitTitle')
-		acc_type	= request.POST.get('Accounts')
-		username	= request.POST.get('username')
-		info_tuple 	= (radio, unit_code, unit_title, acc_type, username)
-		user, obj_type = find_user(username)
-		if user == None or obj_type == None:
-			user_dict['msg'] = 'No user was found with the given ID.'
-			return render(request, 'error_page.html', user_dict)
-
 	if request.method == "POST" and 'units_file' in request.FILES:
 		csv_file = request.FILES['units_file']
 		fs = FileSystemStorage()
