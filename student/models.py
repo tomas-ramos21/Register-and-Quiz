@@ -2,6 +2,7 @@ from django.db import models
 from administrative.models import Course
 from lecturer.models import Published_Question, Class, Teaching_Day
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta, timezone
 
 class Student(models.Model):
 
@@ -25,5 +26,10 @@ class Answer(models.Model):
 	q_id		= models.ForeignKey(Published_Question, on_delete=models.PROTECT)		# Question ID
 	teach_day	= models.ForeignKey(Teaching_Day, on_delete=models.PROTECT)	# Teaching Day ID
 	ans		= models.CharField(max_length=255)				# Answer Option
-	tm_stmp		= models.DateTimeField()					# Time Stamp
+	tm_stmp		= models.DateTimeField(editable=False)					# Time Stamp
 	ip_addr		= models.CharField(max_length=15)				# IP Type
+	
+	def save(self, *args, **kwargs):
+		if not self.tm_stmp:
+			self.tm_stmp = datetime.now(timezone.utc)
+		return super(Answer, self).save(*args, **kwargs)

@@ -37,7 +37,7 @@ def lect_publish(request, q_id, topic_id, period_id):
 		room = Room.objects.filter(id=room).first()
 		curr_class = Class.objects.filter(unit_id=topic.unit_id).filter(t_period=period).filter(code=class_code).first()
 
-		if Teaching_Day.objects.filter(c_id=curr_class).filter(date_td=datetime.datetime.now().date()).first() is None:
+		if Teaching_Day.objects.filter(c_id=curr_class).filter(date_td=datetime.utcnow().date()).first() is None:
 			t_day = Teaching_Day(r_id=room, c_id=curr_class)
 			t_day.save()
 
