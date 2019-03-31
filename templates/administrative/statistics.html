@@ -66,23 +66,17 @@
                         <img src="{% static 'dummy_images/dummyImage.png' %}" alt="" class="stats__img">
                     </section>
                     <section class="col-12 col-sm-6 order-first">
-                                <section class="dropdown stats__dropdown m-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Period
-                                        </button>
-                                        <section class="dropdown-menu dropdown-first" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item stats__item" href="#">All</a>
-                                          <a class="dropdown-item stats__item" href="#">TSA-2019</a>
-                                        </section>
+                                <section class="m-3">
+                                        <select name="period">
+                                                <option value="All">All</option>
+                                                <option value="TSA-2019">TSA-2019</option>
+                                        </select>
                                 </section>
-                                <section class="dropdown stats__dropdown my-3 ml-3">
-                                        <button class="btn btn-secondary dropdown-toggle dropdown-btn btn-lg stats-btn2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Granularity
-                                        </button>
-                                        <section class="dropdown-menu dropdown-second" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item stats__item" href="#">Building</a>
-                                          <a class="dropdown-item stats__item" href="#">Room</a>
-                                        </section>
+                                <section class="m-3">
+                                        <select name="Granularity">
+                                                <option value="All">Building</option>
+                                                <option value="TSA-2019">Room</option>
+                                        </select>
                                 </section>
                                 <section class="form-group m-3 stats__text">
                                     <input type="text">
