@@ -66,3 +66,160 @@ def attendance_graph(unit, period, student):
 
     plot_div = plot([Scatter(x=x, y=y, line=dict(color='rgba(204,0,0)'))], output_type='div')
     return plot_div
+
+def admin_attendance_graph(period, granularity, selection):
+
+    selected_period = Teaching_Period.objects.filter(code=period).first()
+
+    granularity = granularity.lower()
+    x = []
+    y = []
+
+    if granularity == 'course':
+        if text_selection.lower() == 'all':
+            courses = list(Courses.objects.all())
+            labels = []
+            for course in courses:
+                _x, _y = get_course_attendance(selected_period, course)
+                x.append(_x)
+                y.append(_y)
+                labels.append(str(course.id))
+            graphs = []
+            for x_val, y_val, label in zip(x, y, labels):
+                graphs.append(Scatter(x=x_val,y=y_val,name=label))
+            plot_div = plot(graphs, output_type='div')
+        else:
+            course = Course.objects.filter(id=text_selection).first()
+            x, y = get_course_attendance(selected_period, course)
+            plot_div = plot([Scatter(x=x,y=y,name=course.id)], output_type='div')
+
+    if granularity == 'unit':
+        if text_selection.lower() == 'all':
+            units = list(Unit.objects.all())
+            labels = []
+            for unit in units:
+                _x, _y = get_course_attendance(selected_period, unit)
+                x.append(_x)
+                y.append(_y)
+                labels.append(str(unit.code))
+            graphs = []
+            for x_val, y_val, label in zip(x, y, labels):
+                graphs.append(Scatter(x=x_val,y=y_val,name=label))
+            plot_div = plot(graphs, output_type='div')
+        else:
+            unit = Unit.objects.filter(code=text_selection).first()
+            x, y = get_course_attendance(selected_period, unit)
+            plot_div = plot([Scatter(x=x,y=y,name=unit.code)], output_type='div')
+
+        if granularity == 'class':
+            if text_selection.lower() == 'all':
+                t_period = Teaching_Period.objects.filter(id=selected_period).first()
+                classes = list(Class.objects.filter(t_period=t_period))
+                labels = []
+                for cls in classes:
+                    _x, _y = get_class_attendance(cls)
+                    x.append(_x)
+                    y.append(_y)
+                    labels.append(str(cls.unit_id.code) + ' ' + str(cls.code))
+                graphs = []
+                for x_val, y_val, label in zip(x, y, labels):
+                    graphs.append(Scatter(x=x_val,y=y_val,name=label))
+                plot_div = plot(graphs, output_type='div')
+            else:
+                cls = Class.objects.filter(code=text_selection).first()
+                x, y = get_course_attendance(selected_period, unit)
+                label = str(cls.unit_id.code) + ' ' + str(cls.code)
+                plot_div = plot([Scatter(x=x,y=y,name=label)], output_type='div')
+
+    return plot_div
+
+
+
+def get_course_attendance(period, course):
+    date_attendace = {}
+
+    # Obtain all classes for the given course and period
+    units = Unit.objects.filter(course_id=course)
+    classes = list(Class.objects.filter(t_period=period).filter(unit_id__in=units))
+
+    # Find all published questions and students assigned to a class
+    for cls in classes:
+        published_questions = list(Published_question.object.filter(q_class=cls))
+        students = Student.objects.filter(s_class=cls).count()
+
+        # For each question find the response percentage
+        for question in published_questions:
+            answers = Answer.objects.filter(q_id=question).count()
+            attendance = answers/students
+            date = question.tm_stmp.date()
+
+            # If records for the given date exist merge them, otherwise add entry
+            if date in date_attendance:
+                date_attendance[date] = date_attendance[date] + tuple(attendace)
+            else:
+                date_attendance[date] = tuple(attendance)
+
+    x = []        # Dates
+    y = []        # Average attendance percentages
+
+    for key, val in date_attendance.items():
+        x.append(key)
+        y.append(sum(val)/len(val))
+
+    return x, y
+
+def get_unit_attendance(period, unit):
+    date_attendance = {}
+    classes = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
+
+    # Find all published questions and students assigned to a class
+    for cls in classes:
+        published_questions = list(Published_question.object.filter(q_class=cls))
+        students = Student.objects.filter(s_class=cls).count()
+
+        # For each question find the response percentage
+        for question in published_questions:
+            answers = Answer.objects.filter(q_id=question).count()
+            attendance = answers/students
+            date = question.tm_stmp.date()
+
+            # If records for the given date exist merge them, otherwise add entry
+            if date in date_attendance:
+                date_attendance[date] = date_attendance[date] + tuple(attendace)
+            else:
+                date_attendance[date] = tuple(attendance)
+
+    x = []        # Dates
+    y = []        # Average attendance percentages
+
+    for key, val in date_attendance.items():
+        x.append(key)
+        y.append(sum(val)/len(val))
+
+    return x, y
+
+def get_class_attendance(cls):
+    date_attendance = {}
+    published_questions = list(Published_question.object.filter(q_class=cls))
+    students = Student.objects.filter(s_class=cls).count()
+
+    # For each question find the response percentage
+    for question in published_questions:
+        answers = Answer.objects.filter(q_id=question).count()
+        attendance = answers/students
+        date = question.tm_stmp.date()
+
+        # If records for the given date exist merge them, otherwise add entry
+        if date in date_attendance:
+            date_attendance[date] = date_attendance[date] + tuple(attendace)
+        else:
+            date_attendance[date] = tuple(attendance)
+
+        x = []        # Dates
+        y = []        # Average attendance percentages
+
+        for key, val in date_attendance.items():
+            x.append(key)
+            y.append(sum(val)/len(val))
+
+        return x, y
