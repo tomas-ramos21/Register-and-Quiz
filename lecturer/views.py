@@ -11,15 +11,18 @@ from generic.graphs import answer_graph
 from django.conf import settings
 from administrative.models import Unit, Employee, Teaching_Period, Room
 from lecturer.models import Class, Question, Topic, Teaching_Day
-import datetime
+from datetime import datetime
+from generic.decorator import is_lecturer
 
 @login_required
+@is_lecturer
 def lect_home(request):
 	user = request.user
 	user_dict = get_lecturer_context(user)
 	return render(request, 'Lecturer/lecturerHome.html', user_dict)
 
 @login_required
+@is_lecturer
 def lect_publish(request, q_id, topic_id, period_id):
 
 	user = request.user
@@ -53,6 +56,7 @@ def lect_publish(request, q_id, topic_id, period_id):
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
 @login_required
+@is_lecturer
 def lect_project(request):
 	user_dict = get_lecturer_context(user)
 	user_dict['question_text'] = question.text
@@ -60,6 +64,7 @@ def lect_project(request):
 	return render(request, "Lecturer/lecturerProject.html", user_dict)
 
 @login_required
+@is_lecturer
 def lect_units(request, unit_code):
 	user = request.user
 	empl = Employee.objects.filter(user=user).first()
@@ -136,7 +141,13 @@ def lect_q_stats(request, published_id):
 	user_dict['graph'] = answer_graph(code)
 	return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
 
+def lect_error(request):
+	user = request.user
+	user_dict = get_lecturer_context(user)
+	return render(request, 'Lecturer/error.html', user_dict)
+
 @login_required
+@is_lecturer
 def user_logout(request):
     """
         Closes the current session of the user,

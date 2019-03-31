@@ -34,6 +34,7 @@ def student_index(request):
 	return HttpResponseRedirect(reverse('student:student_dashboard'))
 
 @login_required
+@is_student
 def student_dashboard(request):
 	"""
 		Renders student's dashboard page.
@@ -48,6 +49,7 @@ def student_dashboard(request):
 	return render(request, 'student/student_dashboard.html', user_dict)
 
 @login_required
+@is_student
 def student_codeinput(request):
 	"""
 		Renders the form for question code input.
@@ -94,6 +96,7 @@ def student_codeinput(request):
 	return render(request, 'student/studentInput.html', user_dict)
 
 @login_required
+@is_student
 def student_answer(request):
 	"""
 
@@ -156,6 +159,7 @@ def student_answer(request):
 			return HttpResponseRedirect(reverse('student:student_codeinput'))
 
 @login_required
+@is_student
 def student_stats(request, unit_t, period):
 	user = request.user
 	period = "".join(period.split()).upper().replace(',','-')
@@ -171,6 +175,14 @@ def student_stats(request, unit_t, period):
 	return render(request, 'student/studentStats.html', user_dict)
 
 @login_required
+@is_student
+def student_error(request):
+	user = request.user
+	user_dict = get_std_context(user)
+	return render(request, 'student/error.html', user_dict)
+
+@login_required
+@is_student
 def user_logout(request):
     """
         Closes the current session of the user,

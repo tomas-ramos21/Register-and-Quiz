@@ -19,7 +19,10 @@ from django.contrib.auth.models import User
 from student.models import Student
 from administrative.models import Employee
 from generic.utils import get_admin_context
+from generic.decorator import is_admin
 
+@login_required
+@is_admin
 def admin_home(request):
 	"""
 		Renders administratives' staff home page.
@@ -36,6 +39,8 @@ def admin_home(request):
 	user_dict = get_admin_context(user)
 	return render(request, 'administrative/admin_home.html', user_dict)
 
+@login_required
+@is_admin
 def acc_management(request):
 	"""
 		Renders the account management options page.
@@ -52,11 +57,15 @@ def acc_management(request):
 	user_dict = get_admin_context(user)
 	return render(request, 'administrative/accountM.html', user_dict)
 
+@login_required
+@is_admin
 def admin_stats(request):
 	user = request.user
 	user_dict = get_admin_context(user)
 	return render(request, 'administrative/statistics.html', user_dict)
 
+@login_required
+@is_admin
 def unit_management(request):
 	"""
 		Renders the unit management options page.
@@ -113,6 +122,8 @@ def unit_management(request):
 
 	return render(request, 'administrative/unitsM.html', user_dict)
 
+@login_required
+@is_admin
 def space_management(request):
 	"""
 		Renders the space management options page.
@@ -164,6 +175,8 @@ def space_management(request):
 
 	return render(request, 'administrative/teachingspace.html', user_dict)
 
+@login_required
+@is_admin
 def employee_creation(request):
 	"""
 		Handles request sent by the user when using the
@@ -196,6 +209,8 @@ def employee_creation(request):
 
 	return render(request, 'administrative/lectAccAdd.html', user_dict)
 
+@login_required
+@is_admin
 def student_creation(request):
 	"""
 		Handles request sent by the user when using the
@@ -270,6 +285,14 @@ def user_view(request):
 	return render(request, 'administrative/userView.html', user_dict)
 
 @login_required
+@is_admin
+def admin_error(request):
+	user = request.user
+	user_dict = get_admin_context(user)
+	return render(request, 'administrative/error.html', user_dict)
+
+@login_required
+@is_admin
 def user_logout(request):
     """
         Closes the current session of the user,
