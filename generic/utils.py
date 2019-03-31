@@ -50,6 +50,7 @@ def get_lecturer_context(user) -> Dict:
 		user_dict = {
 		'f_name' : lect.user.first_name,
 		'fl_name' : lect.user.first_name + ' ' + lect.user.last_name,
+		'position' : lect.pstn.upper(),
 		'class_display' : class_display,
 		}
 		return user_dict
