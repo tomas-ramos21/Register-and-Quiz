@@ -52,6 +52,11 @@ def acc_management(request):
 	user_dict = get_admin_context(user)
 	return render(request, 'administrative/accountM.html', user_dict)
 
+def admin_stats(request):
+	user = request.user
+	user_dict = get_admin_context(user)
+	return render(request, 'administrative/statistics.html', user_dict)
+
 def unit_management(request):
 	"""
 		Renders the unit management options page.
@@ -226,7 +231,12 @@ def student_creation(request):
 def attendance_stats(request):
 	user = request.user
 	user_dict = get_admin_context(user)
-	return render(request, 'administrative/statistics.html', user_dict)
+	return render(request, 'administrative/statisticsAttendance.html', user_dict)
+
+def space_stats(request):
+	user = request.user
+	user_dict = get_admin_context(user)
+	return render(request, 'administrative/statisticsUsage.html', user_dict)
 
 def user_view(request):
 	user = request.user
