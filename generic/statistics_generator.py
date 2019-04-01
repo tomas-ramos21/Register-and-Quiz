@@ -154,8 +154,7 @@ def unit_attendance_csv(period, unit):
 
 
     classes = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
-    if not classes:
-        print('yubu')
+
     # Find all published questions and students assigned to a class
     for cls in classes:
         published_questions = list(Published_Question.objects.filter(q_class=cls))
