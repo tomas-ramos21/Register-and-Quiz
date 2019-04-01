@@ -56,7 +56,7 @@ class Employee(models.Model):
 	user 	= models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile', default='')
 	dpt		= models.CharField(max_length=255, blank=True, default='')		# Department
 	pstn	= models.CharField(max_length=255, blank=True, default='')		# Position
-	units	= models.ManyToManyField(Unit)
+	units	= models.ManyToManyField(Unit, blank=True)
 
 class Teaching_Period(models.Model):
 

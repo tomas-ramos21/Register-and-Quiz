@@ -4,10 +4,6 @@
 # Last Modified By: Madyarini Grace Ariel
 # Last Modified Date: 20-03-2019
 
-# TODO
-# 1. Add HTML error pages, and redirect user there in case of bad logins.
-# 2. Check naming conventions that be used for redirections.
-
 from django.urls import reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
@@ -55,7 +51,6 @@ def user_login(request):
 				curr_user = User.objects.filter(username=username).first()
 				if user.username == 'admin':
 					return HttpResponseRedirect(reverse('administrative:admin_home'))
-
 				emp = Employee.objects.filter(user=curr_user).first()
 				if emp is not None:
 					position = emp.pstn.upper()
