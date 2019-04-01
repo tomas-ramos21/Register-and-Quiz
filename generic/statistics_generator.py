@@ -253,9 +253,9 @@ def class_attendance_csv(cls):
 def class_attendance_csv_all(period):
 
     data = []
-    classes = list(Class.objects.all())
+    classes = list(Class.objects.filter(t_period=period))
     for cls in classes:
-        gen_data = class_attendance_csv(cls, period)
+        gen_data = class_attendance_csv(cls)
         if len(data) == 0:
             for row in gen_data:
                 data.append(row)
