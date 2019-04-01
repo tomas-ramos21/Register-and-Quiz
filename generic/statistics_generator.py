@@ -55,6 +55,21 @@ def room_usage_csv(room, period):
     rows.insert(0, df.columns.tolist())
     return rows
 
+def room_usage_csv_all(period):
+
+    data = []
+    rooms = list(Room.objects.all())
+    for room in rooms:
+        gen_data = room_usage_csv(room, period)
+        if len(data) == 0:
+            for row in gen_data:
+                data.append(row)
+        else:
+            for row in gen_data[1:]:    # Doesn't add the header
+                data.append(row)
+    return data
+
+
 def course_attendance_csv(period, course):
 
     # CSV columns
@@ -106,6 +121,20 @@ def course_attendance_csv(period, course):
         rows = df.values.tolist()
         rows.insert(0, df.columns.tolist())
         return rows
+
+def course_attendance_csv_all(period):
+
+    data = []
+    courses = list(Course.objects.all())
+    for course in courses:
+        gen_data = course_attendance_csv(course, period)
+        if len(data) == 0:
+            for row in gen_data:
+                data.append(row)
+        else:
+            for row in gen_data[1:]:    # Doesn't add the header
+                data.append(row)
+    return data
 
 def unit_attendance_csv(period, unit):
 
@@ -159,6 +188,20 @@ def unit_attendance_csv(period, unit):
         rows.insert(0, df.columns.tolist())
         return rows
 
+def unit_attendance_csv_all(period):
+
+    data = []
+    units = list(Unit.objects.all())
+    for unit in units:
+        gen_data = unit_attendance_csv(unit, period)
+        if len(data) == 0:
+            for row in gen_data:
+                data.append(row)
+        else:
+            for row in gen_data[1:]:    # Doesn't add the header
+                data.append(row)
+    return data
+
 def class_attendance_csv(cls):
 
     # CSV columns
@@ -206,3 +249,17 @@ def class_attendance_csv(cls):
     rows = df.values.tolist()
     rows.insert(0, df.columns.tolist())
     return rows
+
+def class_attendance_csv_all(period):
+
+    data = []
+    classes = list(Class.objects.all())
+    for cls in classes:
+        gen_data = class_attendance_csv(cls, period)
+        if len(data) == 0:
+            for row in gen_data:
+                data.append(row)
+        else:
+            for row in gen_data[1:]:    # Doesn't add the header
+                data.append(row)
+    return data
