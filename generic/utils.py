@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
 
+from generic.graphs import get_class_attendance, get_unit_attendance, get_course_attendance
+
 def get_admin_context(user) -> Dict:
 	admin = Employee.objects.filter(user=user).first()
 	if admin is not None:
@@ -675,3 +677,78 @@ def edit_units(user_dict:Dict, csv_path:str):
 				elif crt_dict['action'].lower() == 'remove':
 					lecturer.units.remove(unit)
 		return True, user_dict
+
+"""
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+"""
+
+def admin_attendance_csv(period, granularity, text_selection):
+
+    selected_period = Teaching_Period.objects.filter(id=period).first()
+
+    granularity = granularity.lower()
+
+    date = []
+    avg_attendance = []
+    data = {}
+	
+    if granularity == 'course':
+        if text_selection.lower() == 'all':
+            courses = list(Course.objects.all())
+            for course in courses:
+                date, avg_attendance = get_course_attendance(selected_period, course)
+                date_attendance_pair = list(zip(date, avg_attendance))
+                data[str(course.id)] = date_attendance_pair
+        else:
+            course = Course.objects.filter(id=text_selection).first()
+            if course is None:
+                return False
+            date, avg_attendance = get_course_attendance(selected_period, course)
+            date_attendance_pair = list(zip(date, avg_attendance))
+            data[str(course.id)] = date_attendance_pair
+			
+    if granularity == 'unit':
+        if text_selection.lower() == 'all':
+            units = list(Unit.objects.all())
+            for unit in units:
+                date, avg_attendance = get_unit_attendance(selected_period, unit)
+                date_attendance_pair = list(zip(date, avg_attendance))
+                data[str(unit.code)] = date_attendance_pair
+        else:
+            unit = Unit.objects.filter(code=text_selection).first()
+            if unit is None:
+                return False
+            date, avg_attendance = get_unit_attendance(selected_period, unit)
+            date_attendance_pair = list(zip(date, avg_attendance))
+            data[str(unit.code)] = date_attendance_pair
+        if granularity == 'class':
+            if text_selection.lower() == 'all':
+                t_period = Teaching_Period.objects.filter(id=selected_period).first()
+                classes = list(Class.objects.filter(t_period=t_period))
+                for cls in classes:
+                    date, avg_attendance = get_class_attendance(cls)
+                    date_attendance_pair = list(zip(date, avg_attendance))
+                    label = str(cls.unit_id.code) + ' ' + str(cls.code)
+                    data[label] = date_attendance_pair
+            else:
+                t_period = Teaching_Period.objects.filter(id=selected_period).first()
+                unit = Unit.Objects.filter(code=text_selection[:len(text_selection)-2]).first()
+                cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit).first()
+                if cls == None or unit == None or t_period == None:
+                    return False
+                date, avg_attendance = get_class_attendance(cls)
+                date_attendance_pair = list(zip(date, avg_attendance))
+                label = str(cls.unit_id.code) + ' ' + str(cls.code)
+                data[label] = date_attendance_pair
+
+    return data
+
+
+

@@ -18,9 +18,11 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from student.models import Student
 from administrative.models import Employee, Teaching_Period
-from generic.utils import get_admin_context
+from generic.utils import get_admin_context, admin_attendance_csv
 from generic.decorator import is_admin
 from generic.graphs import admin_room_usage, admin_attendance_graph
+from django.contrib import messages
+from generic.statistics_generator import stat_generator, attendance_stats_csv
 
 @login_required
 @is_admin
@@ -252,12 +254,23 @@ def attendance_stats(request):
 		period = request.POST.get('period')
 		granularity = request.POST.get('granularity')
 		selection = request.POST.get('selection')
-		graph = admin_attendance_graph(period, granularity, selection)
-		if graph == False:
-			user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
-			return render(request, 'error_page.html', user_dict)
-		user_dict['graph'] = graph
-		return render(request, 'administrative/studentStats.html', user_dict)
+		
+		if request.POST.get('submit'):
+			graph = admin_attendance_graph(period, granularity, selection)
+			if graph == False:
+				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
+				return render(request, 'error_page.html', user_dict)
+			user_dict['graph'] = graph
+			return render(request, 'administrative/studentStats.html', user_dict)
+		elif request.POST.get('download') :
+			data_dict = admin_attendance_csv(period, granularity, selection)
+			if data_dict == False:
+				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
+				return render(request, 'error_page.html', user_dict)
+			response = attendance_stats_csv(data_dict)
+			return response
+			messages.success(request, 'Downloaded csv successfully', extra_tags='alert-success')
+			return render(request, 'administrative/statisticsAttendance.html', user_dict)
 		
 	return render(request, 'administrative/statisticsAttendance.html', user_dict)
 
@@ -276,6 +289,10 @@ def space_stats(request):
 		user_dict['graph'] = graph
 		
 		return render(request, 'administrative/studentStats.html', user_dict)
+	elif request.method == "GET":
+		
+		messages.success(request, 'Downloaded csv successfully', extra_tags='alert-success')
+		return render(request, 'administrative/statisticsUsage.html', user_dict)
 
 	return render(request, 'administrative/statisticsUsage.html', user_dict)
 

@@ -15,6 +15,7 @@ urlpatterns = [
 	url(r'^create-student/$', views.student_creation, name='student_creation'),
 	url(r'^stats/$', views.admin_stats, name='admin_stats'),
 	url(r'^space_stats/$', views.space_stats, name='space_stats'),
+	path('space_stats/download', views.space_stats, name='space_stats'),
 	url(r'^attendance_stats/$', views.attendance_stats, name='attendance_stats'),
 	path('error/', views.admin_error, name='admin_error'),
 	url(r'^user-view/$', views.user_view, name='user_view'),
