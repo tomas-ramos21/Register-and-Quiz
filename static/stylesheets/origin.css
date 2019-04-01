@@ -455,7 +455,15 @@ a:focus:before{color:#c00;}
 }
 
 html, body{height:100%;}
-body{margin:0;padding:0;height:100%;display:flex;flex-direction:column;align-items:center;position:relative;}
+body{
+	margin:0;
+	padding:0;
+	height:100%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	position:relative;
+}
 .content0{flex:1 1 auto;}
 .footer0{flex-shrink:0;}
 .main{margin-top:0px;padding:2rem;padding-top:100px;}

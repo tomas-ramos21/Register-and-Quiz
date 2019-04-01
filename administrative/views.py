@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth.models import User
 from student.models import Student
-from administrative.models import Employee
+from administrative.models import Employee, Teaching_Period
 from generic.utils import get_admin_context
 from generic.decorator import is_admin
 from generic.graphs import admin_room_usage, admin_attendance_graph
@@ -247,7 +247,7 @@ def student_creation(request):
 def attendance_stats(request):
 	user = request.user
 	user_dict = get_admin_context(user)
-
+	user_dict['t_period'] = Teaching_Period.objects.all()
 	if request.method == "POST":
 		period = request.POST.get('period')
 		granularity = request.POST.get('granularity')
@@ -257,12 +257,15 @@ def attendance_stats(request):
 			user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
 			return render(request, 'error_page.html', user_dict)
 		user_dict['graph'] = graph
+		return render(request, 'administrative/studentStats.html', user_dict)
+		
 	return render(request, 'administrative/statisticsAttendance.html', user_dict)
 
 def space_stats(request):
 	user = request.user
 	user_dict = get_admin_context(user)
-
+	user_dict['t_period'] = Teaching_Period.objects.all()
+	
 	if request.method == "POST":
 		period = request.POST.get('period')
 		selection = request.POST.get('room_code')
@@ -271,7 +274,8 @@ def space_stats(request):
 			user_dict['msg'] = "The room requested does not exist."
 			return render(request, 'error_page.html', user_dict)
 		user_dict['graph'] = graph
-		return render(request, 'administrative/statisticsUsage.html', user_dict)
+		
+		return render(request, 'administrative/studentStats.html', user_dict)
 
 	return render(request, 'administrative/statisticsUsage.html', user_dict)
 

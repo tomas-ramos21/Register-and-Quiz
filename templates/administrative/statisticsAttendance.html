@@ -1,4 +1,4 @@
-{% extends 'administrative/base.html' %}
+
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
@@ -35,7 +35,9 @@
                     <section class="col-12 col-sm-6 order-first">
                                 <section class="m-3">
                                         <select name="period">
-                                                <option value="TSA-2019">TSA-2019</option>
+										{% for x in t_period %}
+                                                <option value="{{x.id}}">{{x.id}}</option>
+										{% endfor %}
                                         </select>
                                 </section>
                                 <section class="m-3">
