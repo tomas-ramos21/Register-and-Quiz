@@ -247,7 +247,7 @@ def attendance_stats(request):
 		period = request.POST.get('period')
 		granularity = request.POST.get('granularity')
 		selection = request.POST.get('selection')
-		
+
 		if request.POST.get('submit'):
 			graph = admin_attendance_graph(period, granularity, selection)
 			if graph == False:
@@ -261,17 +261,13 @@ def attendance_stats(request):
 				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
 				return render(request, 'error_page.html', user_dict)
 			return response
-			"""
-			messages.success(request, 'Downloaded csv successfully', extra_tags='alert-success')
-			return render(request, 'administrative/statisticsAttendance.html', user_dict)
-			"""
 	return render(request, 'administrative/statisticsAttendance.html', user_dict)
 
 def space_stats(request):
 	user = request.user
 	user_dict = get_admin_context(user)
 	user_dict['t_period'] = Teaching_Period.objects.all()
-	
+
 	if request.method == "POST":
 		period = request.POST.get('period')
 		selection = request.POST.get('room_code')

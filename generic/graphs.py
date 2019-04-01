@@ -165,9 +165,9 @@ def get_course_attendance(period, course):
 
             # If records for the given date exist merge them, otherwise add entry
             if date in date_attendance:
-                date_attendance[date] = date_attendance[date] + tuple(attendace)
+                date_attendance[date].append(attendance)
             else:
-                date_attendance[date] = tuple(attendance)
+                date_attendance[date] = [attendance]
 
     x = []        # Dates
     y = []        # Average attendance percentages
@@ -197,9 +197,9 @@ def get_unit_attendance(period, unit):
 
             # If records for the given date exist merge them, otherwise add entry
             if date in date_attendance:
-                date_attendance[date] = date_attendance[date] + tuple(answers/students)
+                date_attendance[date].append(attendance)
             else:
-                date_attendance[date] = tuple(attendance)
+                date_attendance[date] = [attendance]
 
     x = []        # Dates
     y = []        # Average attendance percentages
@@ -227,9 +227,9 @@ def get_class_attendance(cls):
 
         # If records for the given date exist merge them, otherwise add entry
         if date in date_attendance:
-            date_attendance[date] = date_attendance[date] + tuple(attendace)
+            date_attendance[date].append(attendance)
         else:
-            date_attendance[date] = tuple(attendance)
+            date_attendance[date] = [attendance]
 
         for key, val in date_attendance.items():
             x.append(key)
@@ -264,16 +264,17 @@ def admin_room_usage(period, selection):
     return plot_div
 
 def get_room_attendance(room, period):
-    t_days = list(Teaching_Day.objects.filter(r_id=Room))
+    t_days = list(Teaching_Day.objects.filter(r_id=room))
+    print(Teaching_Day.objects.filter(r_id=room).first())
     room_usage = {}
     for day in t_days:
-        a_class = Class.objects.filter(id=day.c_id).first()
+        a_class = Class.objects.filter(id=day.c_id.id).first()
         student_amount = Student.objects.filter(s_class=a_class).count()
-        date = str(day.date_td.date())
+        date = str(day.date_td)
         if date in room_usage:
-            room_usage[date] = room_usage[date] + tuple(student_amount/room.capacity)
+            room_usage[date].append(student_amount/room.capacity)
         else:
-            room_usage[date] = tuple(student_amount/room.capacity)
+            room_usage[date] = [student_amount/room.capacity]
 
     x = []      # Dates
     y = []      # Max Average Attendance

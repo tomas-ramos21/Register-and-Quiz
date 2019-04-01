@@ -32,7 +32,9 @@ def room_usage_csv(room, period):
 
     t_days = list(Teaching_Day.objects.filter(r_id=Room))
     for day in t_days:
-        class_item = Class.objects.filter(id=day.c_id).first()
+        class_item = Class.objects.filter(id=day.c_id).filter(t_period=period).first()
+        if class_item == None:
+            continue
         student_amount = Student.objects.filter(s_class=class_item).count()
         date = str(day.date_td.date())
         class_name = str(class_item.unit_id.code) + str(class_item.code)
@@ -86,15 +88,17 @@ def course_attendance_csv(period, course):
     dates              = []
 
     # Obtain all classes for the given course and period
-    units = Unit.objects.filter(course_id=course)
-    classes = list(Class.objects.filter(t_period=period).filter(unit_id__in=units))
+    units = list(Unit.objects.filter(course_id=course))
+    classes = []
+    for unit in units:
+        temp = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
+        for entry in temp:
+            classes.append(entry)
 
     for cls in classes:
         published_questions = list(Published_Question.objects.filter(q_class=cls))
         students = Student.objects.filter(s_class=cls).count()
         class_name = str(cls.unit_id.code) + str(cls.code)
-
-
 
         if students == 0 or len(published_questions) == 0:
             continue
