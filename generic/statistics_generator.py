@@ -1,4 +1,5 @@
 import csv
+import pandas as pd
 from django.http import StreamingHttpResponse
 
 class stat_generator:
@@ -8,36 +9,200 @@ class stat_generator:
     def write(self, value):
         return value
 
-
-def attendance_stats_csv(data_dict):
-    """A view that streams a large CSV file."""
-    # Generate a sequence of rows. The range is based on the maximum number of
-    # rows that can be handled by a single sheet in most spreadsheet
-    # applications.
-    rows = []
-
-    for label, date_attendance_pair in data_dict.items():
-        str1 = ''
-        str1 = label
-        for date, attendance in date_attendance_pair:
-            str1 = str1 + str(date) + ',' + str(attendance)
-            rows.append(str1)
-
+def csv_transfer(rows):
     pseudo_buffer = stat_generator()
     writer = csv.writer(pseudo_buffer)
     response = StreamingHttpResponse((writer.writerow(row) for row in rows), content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="attendance_stats.csv"'
+    response['Content-Disposition'] = 'attachment; filename="my_stats.csv"'
     return response
-	
-def space_stats_csv(request):
-    """A view that streams a large CSV file."""
-    # Generate a sequence of rows. The range is based on the maximum number of
-    # rows that can be handled by a single sheet in most spreadsheet
-    # applications.
-    rows = (["Row {}".format(idx), str(idx)] for idx in range(65536))
-    pseudo_buffer = Echo()
-    writer = csv.writer(pseudo_buffer)
-    response = StreamingHttpResponse((writer.writerow(row) for row in rows), content_type="text/csv")
-	
-    response['Content-Disposition'] = 'attachment; filename="space_stats.csv"'
-    return response
+
+def room_usage_csv(room, period):
+
+    # CSV columns
+    dates    = []
+    rooms    = []
+    class_id = []
+    std_amnt = []
+    room_cap = []
+    usage    = []
+    period   = []
+
+    t_days = list(Teaching_Day.objects.filter(r_id=Room))
+    for day in t_days:
+        a_class = Class.objects.filter(id=day.c_id).first()
+        student_amount = Student.objects.filter(s_class=a_class).count()
+        date = str(day.date_td.date())
+        class_name = str(a_class.unit_id.code) + str(a_class.code)
+
+        dates.append(str(date))
+        rooms.append(str(room.id))
+        room_cap.append(str(room.capacity))
+        std_amnt.append(str(student_amount))
+        class_id.append(str(class_name))
+        period.append(str(period.id))
+        usage.append(str(student_amount/room.capacity))
+
+    data = { 'Date': dates,
+             'Room': rooms,
+             'Class': class_id,
+             'Amount Students': std_amnt,
+             'Room Capacity': room_cap,
+             'Usage Percentage': usage,
+             'Teaching Period': period }
+
+    df = pd.DataFrame(data)
+    rows = df.values.tolist()
+    rows.insert(0, df.columns.tolist())
+    return rows
+
+def course_attendance_csv(period, course):
+
+    # CSV columns
+    unit               = []
+    classes_r          = []
+    periods            = []
+    questions          = []
+    answer_count       = []
+    student_count      = []
+    attendance_percent = []
+    dates              = []
+
+    # Obtain all classes for the given course and period
+    units = Unit.objects.filter(course_id=course)
+    classes = list(Class.objects.filter(t_period=period).filter(unit_id__in=units))
+
+    for cls in classes:
+        published_questions = list(Published_question.object.filter(q_class=cls))
+        students = Student.objects.filter(s_class=cls).count()
+        class_name = str(a_class.unit_id.code) + str(a_class.code)
+
+        unit.append(str(cls.unit_id.code))
+        classes_r.apppend(class_name)
+        periods.append(str(period.id))
+        student_count.append(str(students))
+
+        if students == 0 or len(published_questions) == 0:
+            continue
+
+        for question in published_questions:
+            answers = Answer.objects.filter(q_id=question).count()
+            attendance = answers/students
+            date = question.tm_stmp.date()
+            questions.append(str(question.code))
+            answer_count.append(str(answers))
+            attendance_percent.append(str(attendance))
+            dates.append(str(date))
+
+        data = { 'Dates': dates,
+                 'Classes': classes_r,
+                 'Units': units,
+                 'Teaching Period': periods,
+                 'Question Code': questions,
+                 'Answer Count': answer_count,
+                 'Student Count': student_count,
+                 'Attendance Percent': attendance_percent }
+
+        df = pd.DataFrame(data)
+        rows = df.values.tolist()
+        rows.insert(0, df.columns.tolist())
+        return rows
+
+def unit_attendance_csv(period, unit):
+
+    # CSV columns
+    classes_s          = []
+    questions          = []
+    student_count      = []
+    answer_count       = []
+    attendance_percent = []
+    dates              = []
+    unit               = []
+    periods            = []
+
+    classes = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
+
+    # Find all published questions and students assigned to a class
+    for cls in classes:
+        published_questions = list(Published_Question.objects.filter(q_class=cls))
+        students = Student.objects.filter(s_class=cls).count()
+        class_name = str(a_class.unit_id.code) + str(a_class.code)
+
+        unit.append(str(cls.unit_id.code))
+        classes_s.apppend(class_name)
+        periods.append(str(period.id))
+        student_count.append(str(students))
+
+        if students == 0 or len(published_questions) == 0:
+            continue
+
+        # For each question find the response percentage
+        for question in published_questions:
+            answers = Answer.objects.filter(q_id=question).count()
+            attendance = answers/students
+            date = question.tm_stmp.date()
+            questions.append(str(question.code))
+            answer_count.append(str(answers))
+            attendance_percent.append(str(attendance))
+            dates.append(str(date))
+
+        data = { 'Dates': dates,
+                 'Classes': classes_s,
+                 'Units': unit,
+                 'Teaching Period': periods,
+                 'Question Code': questions,
+                 'Answer Count': answer_count,
+                 'Student Count': student_count,
+                 'Attendance Percent': attendance_percent }
+
+        df = pd.DataFrame(data)
+        rows = df.values.tolist()
+        rows.insert(0, df.columns.tolist())
+        return rows
+
+def class_attendance_csv(cls):
+
+    # CSV columns
+    classes_s          = []
+    questions          = []
+    student_count      = []
+    answer_count       = []
+    attendance_percent = []
+    dates              = []
+    unit               = []
+    periods            = []
+
+    published_questions = list(Published_question.object.filter(q_class=cls))
+    students = Student.objects.filter(s_class=cls).count()
+
+    if students == 0 or len(published_questions) == 0:
+        return None
+
+    # For each question find the response percentage
+    for question in published_questions:
+        answers = Answer.objects.filter(q_id=question).count()
+        attendance = answers/students
+        date = question.tm_stmp.date()
+        class_name = str(cls.unit_id.code) + str(cls.code)
+
+        unit.append(str(cls.unit_id.code))
+        classes_s.apppend(class_name)
+        periods.append(str(cls.t_period.id))
+        student_count.append(str(students))
+        questions.append(str(question.code))
+        answer_count.append(str(answers))
+        attendance_percent.append(str(attendance))
+        dates.append(str(date))
+
+    data = { 'Dates': dates,
+             'Classes': classes_s,
+             'Units': unit,
+             'Teaching Period': periods,
+             'Question Code': questions,
+             'Answer Count': answer_count,
+             'Student Count': student_count,
+             'Attendance Percent': attendance_percent }
+
+    df = pd.DataFrame(data)
+    rows = df.values.tolist()
+    rows.insert(0, df.columns.tolist())
+    return rows
