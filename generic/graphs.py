@@ -258,9 +258,8 @@ def admin_room_usage(period, selection):
     else:
         room = Room.objects.filter(id=selection).first()
         if room is None:
-            print('wow')
             return None
-        print('wow2')
+			
         x, y = get_room_attendance(room, selected_period)
         plot_div = plot([Scatter(x=x,y=y,name=room.id)], output_type='div')
     return plot_div
@@ -268,8 +267,7 @@ def admin_room_usage(period, selection):
 def get_room_attendance(room, period):
     t_days = list(Teaching_Day.objects.filter(r_id=room))
     print(Teaching_Day.objects.filter(r_id=room).first())
-    if t_days:
-	    print('yuhu')
+   
     room_usage = {}
     for day in t_days:
         a_class = Class.objects.filter(id=day.c_id.id).first()
