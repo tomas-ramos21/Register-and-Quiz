@@ -1,6 +1,9 @@
 import csv
 import pandas as pd
 from django.http import StreamingHttpResponse
+from administrative.models import Teaching_Period, Unit, Course, Room, Building
+from lecturer.models import Teaching_Day, Class, Published_Question
+from student.models import Student, Answer
 
 class stat_generator:
     """An object that implements just the write method of the file-like
@@ -29,10 +32,10 @@ def room_usage_csv(room, period):
 
     t_days = list(Teaching_Day.objects.filter(r_id=Room))
     for day in t_days:
-        a_class = Class.objects.filter(id=day.c_id).first()
-        student_amount = Student.objects.filter(s_class=a_class).count()
+        class_item = Class.objects.filter(id=day.c_id).first()
+        student_amount = Student.objects.filter(s_class=class_item).count()
         date = str(day.date_td.date())
-        class_name = str(a_class.unit_id.code) + str(a_class.code)
+        class_name = str(class_item.unit_id.code) + str(class_item.code)
 
         dates.append(str(date))
         rooms.append(str(room.id))
@@ -87,14 +90,11 @@ def course_attendance_csv(period, course):
     classes = list(Class.objects.filter(t_period=period).filter(unit_id__in=units))
 
     for cls in classes:
-        published_questions = list(Published_question.object.filter(q_class=cls))
+        published_questions = list(Published_Question.objects.filter(q_class=cls))
         students = Student.objects.filter(s_class=cls).count()
-        class_name = str(a_class.unit_id.code) + str(a_class.code)
+        class_name = str(cls.unit_id.code) + str(cls.code)
 
-        unit.append(str(cls.unit_id.code))
-        classes_r.apppend(class_name)
-        periods.append(str(period.id))
-        student_count.append(str(students))
+
 
         if students == 0 or len(published_questions) == 0:
             continue
@@ -107,6 +107,10 @@ def course_attendance_csv(period, course):
             answer_count.append(str(answers))
             attendance_percent.append(str(attendance))
             dates.append(str(date))
+            unit.append(str(cls.unit_id.code))
+            classes_r.append(class_name)
+            periods.append(str(period.id))
+            student_count.append(str(students))
 
         data = { 'Dates': dates,
                  'Classes': classes_r,
@@ -145,8 +149,9 @@ def unit_attendance_csv(period, unit):
     answer_count       = []
     attendance_percent = []
     dates              = []
-    unit               = []
+    units               = []
     periods            = []
+
 
     classes = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
 
@@ -154,12 +159,7 @@ def unit_attendance_csv(period, unit):
     for cls in classes:
         published_questions = list(Published_Question.objects.filter(q_class=cls))
         students = Student.objects.filter(s_class=cls).count()
-        class_name = str(a_class.unit_id.code) + str(a_class.code)
-
-        unit.append(str(cls.unit_id.code))
-        classes_s.apppend(class_name)
-        periods.append(str(period.id))
-        student_count.append(str(students))
+        class_name = str(cls.unit_id.code) + str(cls.code)
 
         if students == 0 or len(published_questions) == 0:
             continue
@@ -173,10 +173,14 @@ def unit_attendance_csv(period, unit):
             answer_count.append(str(answers))
             attendance_percent.append(str(attendance))
             dates.append(str(date))
+            units.append(str(cls.unit_id.code))
+            classes_s.append(class_name)
+            periods.append(str(period.id))
+            student_count.append(str(students))
 
         data = { 'Dates': dates,
                  'Classes': classes_s,
-                 'Units': unit,
+                 'Units': units,
                  'Teaching Period': periods,
                  'Question Code': questions,
                  'Answer Count': answer_count,
@@ -214,7 +218,7 @@ def class_attendance_csv(cls):
     unit               = []
     periods            = []
 
-    published_questions = list(Published_question.object.filter(q_class=cls))
+    published_questions = list(Published_Question.objects.filter(q_class=cls))
     students = Student.objects.filter(s_class=cls).count()
 
     if students == 0 or len(published_questions) == 0:
@@ -228,7 +232,7 @@ def class_attendance_csv(cls):
         class_name = str(cls.unit_id.code) + str(cls.code)
 
         unit.append(str(cls.unit_id.code))
-        classes_s.apppend(class_name)
+        classes_s.append(class_name)
         periods.append(str(cls.t_period.id))
         student_count.append(str(students))
         questions.append(str(question.code))
