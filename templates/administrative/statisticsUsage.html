@@ -25,6 +25,7 @@
 {% block main %}
     <main class="main">
         <section class="stats d-flex align-items-center justify-content-center flex-column">
+		{% include 'messages.html' %}
             <h1 class="stats__heading">Select Statistics Options</h1>
             <section class="container">
                 <form class="row" method="post" action="{% url 'administrative:space_stats' %}">
