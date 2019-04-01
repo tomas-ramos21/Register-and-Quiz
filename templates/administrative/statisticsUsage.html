@@ -1,4 +1,4 @@
-{% extends 'administrative/base.html' %}
+
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
@@ -36,8 +36,9 @@
                                 <section class="m-3">
                                         <select name="period">
                                                 <!-- DYNAMICALLY RENDER ALL TEACHING PERIONDS HERE -->
-                                        <!--    <option value="{{here}}">{{here}}</option> -->
-                                                <option value="TSA-2019">TSA-2019</option>
+												{% for x in t_period %}
+												<option value="{{x.id}}">{{ x.id }}</option> -->
+                                                {% endfor %}
                                         </select>
                                 </section>
                                 <section class="form-group m-3 stats__text">
