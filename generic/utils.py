@@ -1,4 +1,3 @@
-
 # Author: Tomas Ramos
 # Date: 20-03-2019
 # Purpose: Define functions providing extra utility to the administrative app.
@@ -17,23 +16,24 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
 
-from generic.graphs import get_class_attendance, get_unit_attendance, get_course_attendance
+from generic.statistics_generator import class_attendance_csv, class_attendance_csv_all, unit_attendance_csv, unit_attendance_csv_all, course_attendance_csv, course_attendance_csv_all, csv_transfer, room_usage_csv, room_usage_csv_all
 
 def get_admin_context(user) -> Dict:
 	admin = Employee.objects.filter(user=user).first()
 	if admin is not None:
 		user_dict = {
-		'f_name' : user.first_name,
-		'fl_name': user.first_name + ' ' + user.last_name
+			'f_name': user.first_name,
+			'fl_name': user.first_name + ' ' + user.last_name
 		}
 		return user_dict
 	else:
 		return {}
 
+
 def get_lecturer_context(user) -> Dict:
 	lect = Employee.objects.filter(user=user).first()
 	if lect is not None:
-		class_taught = Class.objects.filter(staff_id=lect) # year?
+		class_taught = Class.objects.filter(staff_id=lect)  # year?
 		unit_list = [x.unit_id for x in class_taught]
 
 		period_display = []
@@ -50,20 +50,21 @@ def get_lecturer_context(user) -> Dict:
 
 		class_display = list(zip(unit_list, period_display))
 		user_dict = {
-		'f_name' : lect.user.first_name,
-		'fl_name' : lect.user.first_name + ' ' + lect.user.last_name,
-		'position' : lect.pstn.upper(),
-		'class_display' : class_display,
+			'f_name': lect.user.first_name,
+			'fl_name': lect.user.first_name + ' ' + lect.user.last_name,
+			'position': lect.pstn.upper(),
+			'class_display': class_display,
 		}
 		return user_dict
 	else:
 		return {}
 
+
 def get_std_context(user):
 	std = Student.objects.filter(user=user).first()
 	if std is not None:
 		enrolled_class = std.s_class.all()
-		unit_list  = [x.unit_id for x in enrolled_class]
+		unit_list = [x.unit_id for x in enrolled_class]
 
 		period_display = []
 
@@ -79,30 +80,31 @@ def get_std_context(user):
 
 		class_display = list(zip(unit_list, period_display))
 		user_dict = {
-		'f_name' : std.user.first_name,
-		'fl_name' : std.user.first_name + ' ' + std.user.last_name,
-		'class_display' : class_display,
+			'f_name': std.user.first_name,
+			'fl_name': std.user.first_name + ' ' + std.user.last_name,
+			'class_display': class_display,
 		}
 		return user_dict
 	else:
 		return {}
 
+
 def register_employee(user_dict: Dict, csv_path: str) -> None:
 	"""
-        Registers lecturers in the platform.
-        Iterates over the rows of a CSV file
-        collecting the information to be used
-        for the account creation.
-        Parameters
-        ----------
-        csv_path: str
-            String containing the path to the
-            file.
-        TODO
-        ----------
-        1. Function do check the information
-        used during creation is accurate.
-    """
+		Registers lecturers in the platform.
+		Iterates over the rows of a CSV file
+		collecting the information to be used
+		for the account creation.
+		Parameters
+		----------
+		csv_path: str
+			String containing the path to the
+			file.
+		TODO
+		----------
+		1. Function do check the information
+		used during creation is accurate.
+	"""
 
 	columns = ['id', 'password', 'first_name', 'last_name', 'email', 'department', 'position']
 	with open(csv_path, 'r') as csv_file:
@@ -128,7 +130,7 @@ def register_employee(user_dict: Dict, csv_path: str) -> None:
 		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		for idx, row in enumerate(reader):  # For each row
-			if idx != 0:                    # If row isn't the header
+			if idx != 0:  # If row isn't the header
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
@@ -143,7 +145,8 @@ def register_employee(user_dict: Dict, csv_path: str) -> None:
 				employee.save()
 		return True, user_dict
 
-def register_student(user_dict:Dict, csv_path:str) -> None:
+
+def register_student(user_dict: Dict, csv_path: str) -> None:
 	"""
 		Registers students in the platform.
 		Iterates over the rows of a CSV file
@@ -196,6 +199,7 @@ def register_student(user_dict:Dict, csv_path:str) -> None:
 				student.save()
 		return True, user_dict
 
+
 def validate_header(headers, file_headers):
 	count = len(headers)
 	for header in headers:
@@ -205,28 +209,28 @@ def validate_header(headers, file_headers):
 		return False
 	return True
 
-def find_user(username:str) -> Tuple:
 
-    # Find user object
-    user = User.objects.filter(username=username).first()
-    # If user doesn't exist
-    if user is None:
-        return (None, None)
+def find_user(username: str) -> Tuple:
+	# Find user object
+	user = User.objects.filter(username=username).first()
+	# If user doesn't exist
+	if user is None:
+		return (None, None)
 
-    # Find student object
-    student	= Student.objects.filter(user=user).first()
-    # If student exists
-    if not student is None:
-        return (student, 'student')
+	# Find student object
+	student = Student.objects.filter(user=user).first()
+	# If student exists
+	if not student is None:
+		return (student, 'student')
 
-    # Find employee object
-    employee = Employee.objects.filter(user=user).first()
-    # if employee exists
-    if not student is None:
-        return (employee, 'employee')
+	# Find employee object
+	employee = Employee.objects.filter(user=user).first()
+	# if employee exists
+	if not student is None:
+		return (employee, 'employee')
 
-def register_room(user_dict:Dict, csv_path: str) -> None:
 
+def register_room(user_dict: Dict, csv_path: str) -> None:
 	columns = ['id', 'building_code', 'level', 'capacity']
 
 	with open(csv_path, 'r') as csv_file:
@@ -262,9 +266,9 @@ def register_room(user_dict:Dict, csv_path: str) -> None:
 				room.save()
 		return True, user_dict
 
-def register_building(user_dict:Dict, csv_path:str) -> None:
 
-	columns = ['code','name']
+def register_building(user_dict: Dict, csv_path: str) -> None:
+	columns = ['code', 'name']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -298,9 +302,9 @@ def register_building(user_dict:Dict, csv_path:str) -> None:
 				building.save()
 		return True, user_dict
 
-def register_units(user_dict:Dict, csv_path:str) -> None:
 
-	columns = ['code','title','credits','image']
+def register_units(user_dict: Dict, csv_path: str) -> None:
+	columns = ['code', 'title', 'credits', 'image']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -330,12 +334,13 @@ def register_units(user_dict:Dict, csv_path:str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				unit = Unit(code=crt_dict['code'], title=crt_dict['title'], credits=crt_dict['credits'], image=crt_dict['image'])
+				unit = Unit(code=crt_dict['code'], title=crt_dict['title'], credits=crt_dict['credits'],
+							image=crt_dict['image'])
 				unit.save()
 		return True, user_dict
 
-def register_courses(user_dict:Dict, csv_path: str) -> None:
 
+def register_courses(user_dict: Dict, csv_path: str) -> None:
 	columns = ['id', 'title', 'school']
 
 	with open(csv_path, 'r') as csv_file:
@@ -370,7 +375,8 @@ def register_courses(user_dict:Dict, csv_path: str) -> None:
 				course.save()
 		return True, user_dict
 
-def register_teaching_period(user_dict:Dict, csv_path: str) -> None:
+
+def register_teaching_period(user_dict: Dict, csv_path: str) -> None:
 	columns = ['id', 'name', 'start_date', 'end_date']
 
 	with open(csv_path, 'r') as csv_file:
@@ -401,11 +407,13 @@ def register_teaching_period(user_dict:Dict, csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				teaching_period = Teaching_Period(id=crt_dict['id'], name=crt_dict['name'], st_date=crt_dict['start_date'], en_date=crt_dict['end_date'])
+				teaching_period = Teaching_Period(id=crt_dict['id'], name=crt_dict['name'],
+												  st_date=crt_dict['start_date'], en_date=crt_dict['end_date'])
 				teaching_period.save()
 		return True, user_dict
 
-def register_questions(user_dict:Dict, csv_path: str) -> None:
+
+def register_questions(user_dict: Dict, csv_path: str) -> None:
 	columns = ['unit',
 			   'staff_id',
 			   'title',
@@ -459,31 +467,36 @@ def register_questions(user_dict:Dict, csv_path: str) -> None:
 				question.save()
 		return True, user_dict
 
+
 def find_room(room_code):
-    return Room.objects.filter(id=room_code).first()
+	return Room.objects.filter(id=room_code).first()
+
 
 def find_building(building_code):
-    return Building.objects.filter(code=building_code).first()
+	return Building.objects.filter(code=building_code).first()
+
 
 def generate_random_code():
-    # Generates random code for questions
-    # Number has always 9 digits
-    # So its easy to display like this      999-666-888
-    code = random.randint(100000000, 999999999)
-    if not Published_Question.objects.filter(code=code).first() is None:
-        code = generate_random_code()
-    return code
+	# Generates random code for questions
+	# Number has always 9 digits
+	# So its easy to display like this      999-666-888
+	code = random.randint(100000000, 999999999)
+	if not Published_Question.objects.filter(code=code).first() is None:
+		code = generate_random_code()
+	return code
 
-def publish_question(question, time:int, q_class) -> None:
-    code = generate_random_code()
-    publish = Published_Question(code=code,
-                                 question=question,
+
+def publish_question(question, time: int, q_class) -> None:
+	code = generate_random_code()
+	publish = Published_Question(code=code,
+								 question=question,
 								 q_class=q_class,
-                                 seconds_limit=time)
-    publish.save()
-    return code
+								 seconds_limit=time)
+	publish.save()
+	return code
 
-def register_class(user, user_dict:Dict, csv_path: str):
+
+def register_class(user, user_dict: Dict, csv_path: str):
 	columns = ['unit',
 			   'teaching_period',
 			   'time_commitment',
@@ -526,12 +539,14 @@ def register_class(user, user_dict:Dict, csv_path: str):
 					user_dict['msg'] = 'You are not allowed to create classes for this unit.'
 					return False, user_dict
 
-				existent_class = Class.objects.filter(unit_id=unit).filter(t_period=t_period).filter(code=crt_dict['class_code']).first()
+				existent_class = Class.objects.filter(unit_id=unit).filter(t_period=t_period).filter(
+					code=crt_dict['class_code']).first()
 
 				if existent_class is not None:
-					user_dict['msg'] = 'Class {} for unit {}, already exists in the given teaching period.'.format(crt_dict['class_code'], unit.code)
+					user_dict['msg'] = 'Class {} for unit {}, already exists in the given teaching period.'.format(
+						crt_dict['class_code'], unit.code)
 					return False, user_dict
-					
+
 				# Create class
 				new_class = Class(unit_id=unit,
 								  t_period=t_period,
@@ -542,7 +557,8 @@ def register_class(user, user_dict:Dict, csv_path: str):
 
 	return new_class, user_dict
 
-def add_students(user_dict:Dict, csv_path: str, new_class):
+
+def add_students(user_dict: Dict, csv_path: str, new_class):
 	columns = ['id']
 
 	with open(csv_path, 'r') as csv_file:
@@ -568,7 +584,7 @@ def add_students(user_dict:Dict, csv_path: str, new_class):
 	with open(csv_path, 'r') as csv_file:
 		reader = csv.DictReader(csv_file, fieldnames=columns)
 
-		for idx ,row in enumerate(reader):
+		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
 				for column in columns:
@@ -578,7 +594,8 @@ def add_students(user_dict:Dict, csv_path: str, new_class):
 				student.s_class.add(new_class)
 		return True, user_dict
 
-def register_topics(user_dict:Dict, csv_path:str) -> None:
+
+def register_topics(user_dict: Dict, csv_path: str) -> None:
 	columns = ['number', 'name', 'unit']
 
 	with open(csv_path, 'r') as csv_file:
@@ -605,7 +622,7 @@ def register_topics(user_dict:Dict, csv_path:str) -> None:
 		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		# Start Registering
-		for idx ,row in enumerate(reader):
+		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
 				for column in columns:
@@ -615,20 +632,23 @@ def register_topics(user_dict:Dict, csv_path:str) -> None:
 				topic.save()
 		return True, user_dict
 
+
 def extract_info_student(student):
-    classes = list(student.s_class.all())
-    courses = list(student.s_course.all())
-    units = []
-    for cls in classes:
-        units.append(cls.unit_id)
-    return classes, courses, units
+	classes = list(student.s_class.all())
+	courses = list(student.s_course.all())
+	units = []
+	for cls in classes:
+		units.append(cls.unit_id)
+	return classes, courses, units
+
 
 def extract_info_lecturer(lecturer):
-    classes = list(Class.objects.filter(staff_id=lecturer))
-    units = []
-    for cls in classes:
-        units.append(cls.unit_id)
-    return classes, units
+	classes = list(Class.objects.filter(staff_id=lecturer))
+	units = []
+	for cls in classes:
+		units.append(cls.unit_id)
+	return classes, units
+
 
 def is_empty(row):
 	lookups = (None, '', ' ')
@@ -637,7 +657,8 @@ def is_empty(row):
 			return True
 	return False
 
-def edit_units(user_dict:Dict, csv_path:str):
+
+def edit_units(user_dict: Dict, csv_path: str):
 	columns = ['staff_id', 'unit', 'action']
 
 	with open(csv_path, 'r') as csv_file:
@@ -664,91 +685,71 @@ def edit_units(user_dict:Dict, csv_path:str):
 		reader = csv.DictReader(csv_file, fieldnames=columns)
 
 		# Start Registering
-		for idx ,row in enumerate(reader):
+		for idx, row in enumerate(reader):
 			if idx != 0:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				user	 = User.objects.filter(username=crt_dict['staff_id']).first()
+				user = User.objects.filter(username=crt_dict['staff_id']).first()
 				lecturer = Employee.objects.filter(user=user).first()
-				unit	 = Unit.objects.filter(code=crt_dict['unit']).first()
+				unit = Unit.objects.filter(code=crt_dict['unit']).first()
 				if crt_dict['action'].lower() == 'add':
 					lecturer.units.add(unit)
 				elif crt_dict['action'].lower() == 'remove':
 					lecturer.units.remove(unit)
 		return True, user_dict
 
-"""
-def download(request, path):
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    raise Http404
-"""
 
 def admin_attendance_csv(period, granularity, text_selection):
+	selected_period = Teaching_Period.objects.filter(id=period).first()
+	granularity = granularity.lower()
+	data = []
+	if granularity == 'course':
+		if text_selection.lower() == 'all':
+			data = course_attendance_csv_all(selected_period)
+		else:
+			course = Course.objects.filter(id=text_selection).first()
+			if course is None:
+				return False
+			data = course_attendance_csv(selected_period, course)
 
-    selected_period = Teaching_Period.objects.filter(id=period).first()
+	if granularity == 'unit':
+		if text_selection.lower() == 'all':
+			data = units_attendance_csv_all(selected_period)
+		else:
+			unit = Unit.objects.filter(code=text_selection).first()
+			if unit is None:
+				return False
+			data = unit_attendance_csv(selected_period, unit)
 
-    granularity = granularity.lower()
+	if granularity == 'class':
+		if text_selection.lower() == 'all':
+			t_period = Teaching_Period.objects.filter(id=selected_period).first()
+			classes = list(Class.objects.filter(t_period=t_period))
+			data = class_attendance_csv_all(selected_period)
+		else:
+			t_period = Teaching_Period.objects.filter(id=period).first()
+			unit = Unit.objects.filter(code=text_selection[:len(text_selection) - 1]).first()
+			cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit_id=unit).first()
 
-    date = []
-    avg_attendance = []
-    data = {}
-	
-    if granularity == 'course':
-        if text_selection.lower() == 'all':
-            courses = list(Course.objects.all())
-            for course in courses:
-                date, avg_attendance = get_course_attendance(selected_period, course)
-                date_attendance_pair = list(zip(date, avg_attendance))
-                data[str(course.id)] = date_attendance_pair
-        else:
-            course = Course.objects.filter(id=text_selection).first()
-            if course is None:
-                return False
-            date, avg_attendance = get_course_attendance(selected_period, course)
-            date_attendance_pair = list(zip(date, avg_attendance))
-            data[str(course.id)] = date_attendance_pair
-			
-    if granularity == 'unit':
-        if text_selection.lower() == 'all':
-            units = list(Unit.objects.all())
-            for unit in units:
-                date, avg_attendance = get_unit_attendance(selected_period, unit)
-                date_attendance_pair = list(zip(date, avg_attendance))
-                data[str(unit.code)] = date_attendance_pair
-        else:
-            unit = Unit.objects.filter(code=text_selection).first()
-            if unit is None:
-                return False
-            date, avg_attendance = get_unit_attendance(selected_period, unit)
-            date_attendance_pair = list(zip(date, avg_attendance))
-            data[str(unit.code)] = date_attendance_pair
-        if granularity == 'class':
-            if text_selection.lower() == 'all':
-                t_period = Teaching_Period.objects.filter(id=selected_period).first()
-                classes = list(Class.objects.filter(t_period=t_period))
-                for cls in classes:
-                    date, avg_attendance = get_class_attendance(cls)
-                    date_attendance_pair = list(zip(date, avg_attendance))
-                    label = str(cls.unit_id.code) + ' ' + str(cls.code)
-                    data[label] = date_attendance_pair
-            else:
-                t_period = Teaching_Period.objects.filter(id=selected_period).first()
-                unit = Unit.Objects.filter(code=text_selection[:len(text_selection)-2]).first()
-                cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit).first()
-                if cls == None or unit == None or t_period == None:
-                    return False
-                date, avg_attendance = get_class_attendance(cls)
-                date_attendance_pair = list(zip(date, avg_attendance))
-                label = str(cls.unit_id.code) + ' ' + str(cls.code)
-                data[label] = date_attendance_pair
+			if cls is None or unit is None or t_period is None:
+				return False
 
-    return data
+			data = class_attendance_csv(cls)
 
+	return csv_transfer(data)
 
+def admin_space_csv(period, selection):
+	selected_period = Teaching_Period.objects.filter(id=period).first()
+	selection = selection.upper()
+	data = []
+	if selection.lower() == 'all':
+		rooms = list(Room.objects.all())
+		data = room_usage_csv_all(selected_period)
+	else:
+		room = Room.objects.filter(id=selection).first()
+		if room is None:
+			return None
+		data = room_usage_csv(selection, selected_period)
 
+	return csv_transfer(data)
