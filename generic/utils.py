@@ -491,7 +491,7 @@ def publish_question(question, time: int, q_class) -> None:
 	publish = Published_Question(code=code,
 								 question=question,
 								 q_class=q_class,
-								 seconds_limit=time)
+								 minutes_limit=time)
 	publish.save()
 	return code
 
