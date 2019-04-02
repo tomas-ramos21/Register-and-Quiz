@@ -461,12 +461,11 @@ body{
 	height:100%;
 	display:flex;
 	flex-direction:column;
-	align-items:center;
 	position:relative;
 }
 .content0{flex:1 1 auto;}
 .footer0{flex-shrink:0;}
-.main{margin-top:0px;padding:2rem;padding-top:100px;}
+.main{margin-top:0px;padding:2rem;padding-top:100px;align-items:center;}
 #page-content{padding-top:5px;}
 body .navbar0 .navbar-inner0 .usermenu0 .dropdown0 .dropdown-menu0 hr.sep0{border-bottom:1px solid#e9eeff;}
 /*! CSS Used fontfaces */

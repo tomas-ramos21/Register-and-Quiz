@@ -24,8 +24,21 @@
 </head>
 <body>
 {% block main %}
-<main class="main">
-<div id="page-content">
+<div id="page-top-header" class="clearfix">
+<div id="page-navbar" class="clearfix row-fluid">
+	<div class="breadcrumb-nav span9">
+	<span class="accesshide" id="navbar-label">Page path</span>
+	<nav aria-labelledby="navbar-label"><ul class="breadcrumb style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'student:student_dashboard' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<!--
+	<li><span tabindex="0">My online units</span></li><li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" title="ICT302 IT Professional Practice Project (tja, 2019)" aria-current="page" href="https://moodleprod.murdoch.edu.au/course/view.php?id=12790">
+	<span itemprop="title">ICT302tja_19</span></a></span></li>-->
+	</ul></nav></div><nav class="breadcrumb-button span3"></nav>
+</div>
+</div>
+<main class="main" style="margin-top:0px;padding:2rem;padding-top:20px;>
+<div id="page-content" style="padding-top:0px;">
                 <h1 class="text-center main__heading">Dashboard</h1>
                 <section class="container-fluid">
                         <section class="row">

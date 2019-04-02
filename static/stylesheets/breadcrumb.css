@@ -104,12 +104,14 @@ a,a:hover,a:focus{text-decoration:none;}
 .breadcrumb-nav ul.breadcrumb.style1 li:hover span,.breadcrumb-nav ul.breadcrumb.style1 li:focus span,.breadcrumb-nav ul.breadcrumb.style1 li:hover a,.breadcrumb-nav ul.breadcrumb.style1 li:focus a,.breadcrumb-nav ul.breadcrumb.style1 li:hover a:before,.breadcrumb-nav ul.breadcrumb.style1 li:focus a:before{color:#333;}
 .breadcrumb-nav ul.breadcrumb.style1 li:hover:after{border-left-color:#fff;}
 .breadcrumb-nav ul.breadcrumb.style1 li:hover:after a{color:#333;}
+/*
 *{font-family:"Open Sans";}
 a,a:visited{color:#2b4163;}
 a:hover,a:focus{color:#c00;}
 a:hover:before,a:focus:before{color:#c00;}
 a:before{color:#2b4163;display:inline-block;text-decoration:none;}
 a:before:hover{color:#c00;}
+*/
 #page-navbar{padding-top:70px;}
 .breadcrumb{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;}
 .breadcrumb-nav ul.breadcrumb.style1{text-transform:uppercase;font-size:13px;}
@@ -122,16 +124,17 @@ a:before:hover{color:#c00;}
 }
 #page-top-header
 {
+	padding:0px;
+	margin:0px;
+	width:100%;
 	display:block;
 	float:left;
 	clear:both;
-	border:1px solid;
-	margin-left:0px;
-	padding:0px;
-	width:100%;
 	margin-top:30px;
-	padding:0px;
-	margin-bottom:0px;
+	text-align:left;
+	align-items:left;
+	align:left;
+	margin-left:40px;
 }
 /*! CSS Used fontfaces */
 @font-face{font-family:'FontAwesome';font-style:normal;font-weight:400;src:url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot?v=4.0.3);src:url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.woff?v=4.0.3) format('woff'),url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.ttf?v=4.0.3) format('truetype'),url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');}
