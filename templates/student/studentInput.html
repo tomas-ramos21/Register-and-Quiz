@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Student</title>
+    <title>Question Code Input</title>
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
         crossorigin="anonymous">
@@ -27,11 +27,22 @@
 </head>
 <body>
 {% block main %}
-<div class="space" style="height:100px"></div>
-        <main class="main">
-                <section class="card">
+<div id="page-top-header0" class="clearfix0">
+<div id="page-navbar0" class="clearfix0 row-fluid0">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'student:student_dashboard' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<li><span tabindex="0">Question Code Input</span></li>
+	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
+        <main class="main" style="margin-top:0px;padding:2rem;padding-top:0px;">
+		<h1 class="unit-text my-3  unit" style="margin-top:0px; padding-top:0px;">Question Code Input</h1><center>
+		<span style="font-size:15pt">Please input question code (9 digits long)</span>
+                <section class="card" style="background-color:#f1ede3">
                         <section class="card-body">
-                                <h1 class="unit-text my-3  unit"></h1>
 								{% include 'messages.html' %}
                                 <form class="card__form" id="code-form" method="POST">
 								{% csrf_token %}
@@ -46,7 +57,7 @@
 										-->
                                 </form>
                         </section>
-                </section>
+                </section></center>
         </main>
 {% endblock main %}
 {% block script %}

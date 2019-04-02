@@ -51,7 +51,7 @@
 							<span><span aria-hidden="true" class="fa0 fa-home0"></span>
 							<span> Dashboard</span></span></a></li>
 							{% for unit, t_period in class_display %}
-							<li><a title="{{unit.code}}{{t_period}}" href="#"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
+							<li><a title="{{unit.code}}{{t_period}}" href="{% url 'student:student_stats' unit_t=unit.code period_id=t_period %}"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
 							{% endfor %}
 							</ul></div></li></ul></div>
                     </div>

@@ -462,6 +462,8 @@ body{
 	display:flex;
 	flex-direction:column;
 	position:relative;
+	max-width:100%;
+	overflow-x:hidden;
 }
 .content0{flex:1 1 auto;}
 .footer0{flex-shrink:0;}

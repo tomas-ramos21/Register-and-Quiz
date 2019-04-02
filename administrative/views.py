@@ -254,7 +254,7 @@ def attendance_stats(request):
 				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
 				return render(request, 'error_page.html', user_dict)
 			user_dict['graph'] = graph
-			return render(request, 'administrative/studentStats.html', user_dict)
+			return render(request, 'administrative/statisticsAttendance.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_attendance_csv(period, granularity, selection)
 			if response == False:
