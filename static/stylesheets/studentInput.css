@@ -89,7 +89,7 @@ body {
 }
 .unit__image {
   width: 50%;
-  max-height: 132px;
+  max-height: 250px;
 }
 
 .card {
@@ -131,14 +131,10 @@ body {
 }
 
 .main {
-
-}
-/*
-.main {
   margin-top: 2rem;
   display: initial;
 }
-*/
+
 .card__label {
   font-size: 2rem;
 }
