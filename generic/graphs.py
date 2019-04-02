@@ -135,7 +135,7 @@ def admin_attendance_graph(period, granularity, text_selection):
                 cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit).first()
                 if cls == None or unit == None or t_period == None:
                     return False
-                x, y = get_course_attendance(selected_period, unit)
+                x, y = get_class_attendance(cls)
                 label = str(cls.unit_id.code) + ' ' + str(cls.code)
                 plot_div = plot([Scatter(x=x,y=y,name=label)], output_type='div')
 
@@ -152,7 +152,7 @@ def get_course_attendance(period, course):
 
     # Find all published questions and students assigned to a class
     for cls in classes:
-        published_questions = list(Published_question.object.filter(q_class=cls))
+        published_questions = list(Published_Question.object.filter(q_class=cls))
         students = Student.objects.filter(s_class=cls).count()
         if students == 0 or len(published_questions) == 0:
             continue
