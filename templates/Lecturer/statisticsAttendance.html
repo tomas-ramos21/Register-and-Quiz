@@ -1,0 +1,90 @@
+{% extends 'Lecturer/base.html' %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Administrator</title>
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
+
+    <!--Administrative-->
+    <link rel="stylesheet" href="{% static "stylesheets/administrative.css" %}">
+{% endblock head %}
+</head>
+<body>
+
+{% block main %}
+    <main class="main" style="margin-top:10px;padding-top:0px">
+		<div id="page-top-header0" class="clearfix0">
+<div id="page-navbar0" class="clearfix0 row-fluid0">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<li><span tabindex="0">Check Attendance</span></li>
+	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" title="{{unit}}" aria-current="page" href="{% url 'lecturer:lect_stats' unit_t=unit period_id=period %}">
+	<span itemprop="title">{{unit}} {{period}}</span></a></span></li>
+	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
+<div id="page-content" style="margin-top:30px;background-color:#e2e2f2;padding:30px">
+        <section class="stats d-flex align-items-center justify-content-center flex-column">
+		{% include 'messages.html' %}
+            <h1 class="stats__heading">Class Attendance Statistics <br> for {{unit}} {{period}}</h1>
+            <section class="container">
+                <form class="row" action="{% url 'lecturer:lect_stats' unit_t=unit period_id=period %}" method="post">
+                        {% csrf_token %}
+                    <section class="col-12 col-sm-6 order-last">
+                        <div>{{graph|safe}}</div>
+                    </section>
+                    <section class="col-12 col-sm-6 order-first">
+					<!--
+                                <section class="m-3">
+                                        <select name="period">
+										{% for x in t_period %}
+                                                <option value="{{x.id}}">{{x.id}}</option>
+										{% endfor %}
+                                        </select>
+                                </section>
+					
+                                <section class="m-3">
+                                        <select name="granularity">
+                                                <option value="Course">Course</option>
+                                                <option value="Unit">Unit</option>
+                                                <option value="Class">Class</option>
+                                        </select>
+                                </section>-->
+                                <section class="form-group m-3 stats__text">
+                                    <input type="text" name="selection" placeholder="Insert Class Code" required>
+                                </section>
+                                <section class="form-group d-flex align-content-around">
+                                    <input type="submit" name="submit" value="Submit" class="m-3 btn btn-primary btn-lg stats__btn">
+									<input type="submit" name="download" value="Download" class="m-3 btn btn-primary btn-lg stats__btn">
+                                </section>
+                    </section>
+                </form>
+            </section>
+        </section>
+		</div>
+    </main>
+{% endblock main %}
+{% block script %}
+<!--BootStrap Scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+{% endblock script %}
+</body>
+</html>
