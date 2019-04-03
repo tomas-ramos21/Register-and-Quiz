@@ -21,7 +21,7 @@
 
     <!--lecture add-->
     <link rel="stylesheet" href="{% static "stylesheets/addUsers.css" %}">
-	<link rel="stylesheet" href="{% static "stylesheets/teachingspace.css" %}">
+	<link rel="stylesheet" href="{% static "stylesheets/teachingSpace.css" %}">
     <!--Vendor input file styling-->
     <link rel="stylesheet" href="{% static "input-file-master/input-file.css" %}">
 {% endblock head %}
@@ -42,7 +42,9 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
+
 	<h1 class="text-center">Select a task</h1>
+        {% include 'messages.html' %}
         <section class="card">
                      <section class="card-body text-left">
             <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3" role="button"
@@ -53,8 +55,17 @@
             <section class="text-left">
                     <form method="post">
 					  {% csrf_token %}
+                        <center>
 					  <h3>Class Form</h3>
-					  {{form.as_ul}}
+                        <h4 class="mx-3"><label for="unit_id">Unit:</label></h4>
+                        {{form.unit_id}}
+                        <h4 class="mx-3"><label for="t_period">Teaching Period:</label></h4>
+                        {{form.t_period}}
+                        <h4 class="mx-3"><label for="time_commi">Time Commitment:</label></h4>
+					    {{form.time_commi}}
+                        <h4 class="mx-3"><label for="code">Code:</label></h4>
+                        {{form.code}}
+                        </center>
 					  <div class="form-group">
                 <div class="d-flex justify-content-center">
                   <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">

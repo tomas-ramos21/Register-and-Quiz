@@ -14,4 +14,5 @@ urlpatterns = [
 	path('qstats/<str:published_id>', views.lect_q_stats, name='lect_q_stats'),
 	url(r'^project/$', views.lect_project, name='lect_project'),
 	path('error/', views.lect_error, name='lect_error'),
+	path('stats/<str:unit_t>/<str:period_id>', views.lect_stats, name='lect_stats'),
 ]
