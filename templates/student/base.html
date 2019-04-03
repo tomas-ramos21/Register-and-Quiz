@@ -51,7 +51,7 @@
 							<span><span aria-hidden="true" class="fa0 fa-home0"></span>
 							<span> Dashboard</span></span></a></li>
 							{% for unit, t_period in class_display %}
-							<li><a title="{{unit.code}}{{t_period}}" href="#"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
+							<li><a title="{{unit.code}}{{t_period}}" href="{% url 'student:student_stats' unit_t=unit.code period_id=t_period %}"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
 							{% endfor %}
 							</ul></div></li></ul></div>
                     </div>
@@ -69,14 +69,6 @@
         </div>
     </div>
 </header>
-<div id="page-top-header" class="clearfix">
-<div id="page-navbar" class="clearfix row-fluid">
-	<div class="breadcrumb-nav span9">
-	<span class="accesshide" id="navbar-label">Page path</span>
-	<nav aria-labelledby="navbar-label"><ul class="breadcrumb style1"><li>
-	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="https://moodleprod.murdoch.edu.au/my/"><span itemprop="title">Dashboard</span></a></span></li>
-	<li><span tabindex="0">My online units</span></li><li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" title="ICT302 IT Professional Practice Project (tja, 2019)" aria-current="page" href="https://moodleprod.murdoch.edu.au/course/view.php?id=12790">
-	<span itemprop="title">ICT302tja_19</span></a></span></li></ul></nav></div><nav class="breadcrumb-button span3"></nav></div></div>
 {% block main %}{% endblock main %}
 </div>
  <footer role="contentinfo" id="page-footer0" class="footer0">

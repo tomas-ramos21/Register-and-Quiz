@@ -24,7 +24,18 @@
 </head>
 <body>
 {% block main %}
-        <main class="main">
+<main class="main">
+<div id="page-top-header0" class="clearfix0">
+<div id="page-navbar0" class="clearfix0 row-fluid0">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	</ul></nav></div>
+	<nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
                 <h1 class="text-center main__heading">Dashboard</h1>
                 <section class="container-fluid">
                         <section class="row">

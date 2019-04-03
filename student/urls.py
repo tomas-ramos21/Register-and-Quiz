@@ -11,5 +11,5 @@ urlpatterns = [
 	path('submit-answer/', views.student_answer, name='student_answer'),
 	path('error/', views.student_error, name='student_error'),
 	path('user_logout', views.user_logout, name='user_logout'),
-	path('attendance/<str:unit_t>/<str:period>/', views.student_stats, name='student_stats'),
+	path('attendance/<str:unit_t>/<str:period_id>/', views.student_stats, name='student_stats'),
 ]

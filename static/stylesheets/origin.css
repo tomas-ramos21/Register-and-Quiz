@@ -461,13 +461,29 @@ body{
 	height:100%;
 	display:flex;
 	flex-direction:column;
-	align-items:center;
 	position:relative;
+	
 }
 .content0{flex:1 1 auto;}
 .footer0{flex-shrink:0;}
-.main{margin-top:0px;padding:2rem;padding-top:100px;}
-#page-content{padding-top:5px;}
+
+.main {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+}
+.main
+{
+	padding:2rem;
+	padding-top:0px;
+	border:1px solid yellow;
+}
+/*
+.main{margin-top:0px;padding:2rem;margin-top:70px;align-items:center;border:1px solid;}
+*/
 body .navbar0 .navbar-inner0 .usermenu0 .dropdown0 .dropdown-menu0 hr.sep0{border-bottom:1px solid#e9eeff;}
 /*! CSS Used fontfaces */
 @font-face{font-family:'FontAwesome';font-style:normal;font-weight:400;src:url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot?v=4.0.3);src:url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.woff?v=4.0.3) format('woff'),url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.ttf?v=4.0.3) format('truetype'),url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');}

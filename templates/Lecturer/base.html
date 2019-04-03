@@ -5,6 +5,7 @@
 <link rel="shortcut icon" href="https://moodleprod.murdoch.edu.au/pluginfile.php/1/theme_essential/favicon/1550717801/favicon%20%281%29.ico"/>
 <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i|Open+Sans:400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <link rel="stylesheet" href="{% static "stylesheets/origin.css" %}">
+<link rel="stylesheet" href="{% static "stylesheets/breadcrumb.css" %}">
 </head>
 <body>
 <div class="content0">
@@ -30,7 +31,7 @@
 							<span class="profilename">{{f_name}}</span>
 							<span aria-hidden="true" class="fa0 fa-caret-right0"></span></a>
 							<ul class="dropdown-menu0 pull-right0">
-                            <li><a href="{% url 'lecturer:lect_class' %}"><em><span aria-hidden="true" class="fa0 fa-create-class0"></span>Create Class</em></a></li>
+                            <li><a href="{% url 'lecturer:lect_class' %}"><em><span aria-hidden="true" class="fa0 fa-create-class0"></span>Update Class</em></a></li>
 							<li><a href="{% url 'lecturer:user_logout' %}"><em><span aria-hidden="true" class="fa0 fa-sign-out0"></span>Log out</em></a></li></ul></li></ul>
                                                 </div>
                        <div class="messagemenu0 navbarrightitem0">
@@ -50,6 +51,7 @@
 							<div class="dropdown-menu0"><ul><li><a title="Dashboard" href="{% url 'lecturer:lect_home' %}">
 							<span><span aria-hidden="true" class="fa0 fa-home0"></span>
 							<span> Dashboard</span></span></a></li>
+							<li><a title="Update Class" href="{% url 'lecturer:lect_class' %}"><span><span aria-hidden="true" class="fa0 fa-create-class0"></span>&nbsp;Update Class</span></a></li>
 							{% for unit, t_period in class_display %}
 							<li><a title="{{unit.code}}{{t_period}}" href="{% url 'lecturer:lect_units' unit_code=unit.code %}"><span><span aria-hidden="true" class="fa fa-graduation-cap"></span>&nbsp;{{unit.code}} {{unit.title}} ({{t_period}})</span></a></li>
 							{% endfor %}

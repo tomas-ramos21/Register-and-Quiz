@@ -55,7 +55,7 @@ body {
   height: 100%;
   position: relative;
 }
-
+/*
 .main {
   margin-top: 2rem;
   display: flex;
@@ -64,7 +64,7 @@ body {
   align-items: center;
   height: 80%;
 }
-
+*/
 .navbar__icon {
   margin-right: 2rem;
   border-radius: 90px;
@@ -110,7 +110,7 @@ body {
   width: 50%;
   max-height: 250px;
 }
-
+/*
 .main {
   margin-top: 2rem;
   padding: 2rem;
@@ -118,7 +118,7 @@ body {
 .main__heading {
   font-size: 4rem;
 }
-
+*/
 @media (min-width: 768px) {
   .footer {
     position: absolute;
