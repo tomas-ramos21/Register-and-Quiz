@@ -485,16 +485,16 @@ height:100%;
 {
 	flex:1 0 auto;
 }
-/*
+
 .main {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-content:flex-start;
+  height:100%;
 }
-*/
+
 .main
 {
 	padding:2rem;
