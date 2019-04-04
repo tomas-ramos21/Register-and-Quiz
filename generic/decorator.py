@@ -55,7 +55,7 @@ def is_admin(func):
 			if emp.exists():
 				position = emp.first().pstn.upper()
 				if position == 'LECTURER' or position == 'COORDINATOR':
-					return redirect(reverse('lecturer:lect_error')
+					return redirect(reverse('lecturer:lect_error'))
 				else:
 					return func(request, *args, **kwargs)
 			else:
