@@ -173,17 +173,17 @@ def student_answer(request):
 
 @login_required
 @is_student
-def student_stats(request, unit_t, period):
+def student_stats(request, unit_t, period_id):
 	user = request.user
-	period = "".join(period.split()).upper().replace(',','-')
+	period = "".join(period_id.split()).upper().replace(',','-')
 	unit = Unit.objects.filter(code=unit_t).first()
 	student = Student.objects.filter(user=user).first()
 	period = Teaching_Period.objects.filter(id=period).first()
-	unit_period = unit.code + ' - ' + period.id
-
+	
 	user_dict = get_std_context(user)
 	user_dict['graph'] = attendance_graph(unit, period, student)
-	user_dict['unit_and_period'] = unit_period
+	user_dict['s_unit_code'] = unit.code
+	user_dict['s_period'] = period_id
 
 	return render(request, 'student/studentStats.html', user_dict)
 

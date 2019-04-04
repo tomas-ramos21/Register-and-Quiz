@@ -75,6 +75,8 @@ def admin_attendance_graph(period, granularity, text_selection):
     x = []
     y = []
 
+    plot_div = False
+	
     if granularity == 'course':
         if text_selection.lower() == 'all':
             courses = list(Course.objects.all())
@@ -115,29 +117,38 @@ def admin_attendance_graph(period, granularity, text_selection):
             x, y = get_unit_attendance(selected_period, unit)
             plot_div = plot([Scatter(x=x,y=y,name=unit.code)], output_type='div')
 
-        if granularity == 'class':
-            if text_selection.lower() == 'all':
-                t_period = Teaching_Period.objects.filter(id=selected_period).first()
-                classes = list(Class.objects.filter(t_period=t_period))
-                labels = []
-                for cls in classes:
-                    _x, _y = get_class_attendance(cls)
-                    x.append(_x)
-                    y.append(_y)
-                    labels.append(str(cls.unit_id.code) + ' ' + str(cls.code))
-                graphs = []
-                for x_val, y_val, label in zip(x, y, labels):
-                    graphs.append(Scatter(x=x_val,y=y_val,name=label))
-                plot_div = plot(graphs, output_type='div')
-            else:
-                t_period = Teaching_Period.objects.filter(id=selected_period).first()
-                unit = Unit.Objects.filter(code=text_selection[:len(text_selection)-2]).first()
-                cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit).first()
-                if cls == None or unit == None or t_period == None:
-                    return False
-                x, y = get_course_attendance(selected_period, unit)
-                label = str(cls.unit_id.code) + ' ' + str(cls.code)
-                plot_div = plot([Scatter(x=x,y=y,name=label)], output_type='div')
+    if granularity == 'class':
+        if text_selection.lower() == 'all':
+            t_period = Teaching_Period.objects.filter(id=selected_period).first()
+            classes = list(Class.objects.filter(t_period=t_period))
+            labels = []
+            for cls in classes:
+                _x, _y = get_class_attendance(cls)
+                x.append(_x)
+                y.append(_y)
+                labels.append(str(cls.unit_id.code) + ' ' + str(cls.code))
+            graphs = []
+            for x_val, y_val, label in zip(x, y, labels):
+                graphs.append(Scatter(x=x_val,y=y_val,name=label))
+            plot_div = plot(graphs, output_type='div')
+        else:
+            print('oo')
+            t_period = Teaching_Period.objects.filter(id=period).first()
+            unit = Unit.objects.filter(code=text_selection[:len(text_selection)-1]).first()
+            cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit_id=unit).first()
+            if cls == None:
+                print('oo2')
+            if unit == None:
+                print('003')
+            print(period)
+            if t_period == None:
+                print('yuy')
+            if cls == None or unit == None or t_period == None:
+                return False
+
+            x, y = get_class_attendance(cls)
+            label = str(cls.unit_id.code) + ' ' + str(cls.code)
+            plot_div = plot([Scatter(x=x,y=y,name=label)], output_type='div')
 
     return plot_div
 
@@ -152,7 +163,7 @@ def get_course_attendance(period, course):
 
     # Find all published questions and students assigned to a class
     for cls in classes:
-        published_questions = list(Published_question.object.filter(q_class=cls))
+        published_questions = list(Published_Question.objects.filter(q_class=cls))
         students = Student.objects.filter(s_class=cls).count()
         if students == 0 or len(published_questions) == 0:
             continue
@@ -212,7 +223,7 @@ def get_unit_attendance(period, unit):
 
 def get_class_attendance(cls):
     date_attendance = {}
-    published_questions = list(Published_question.object.filter(q_class=cls))
+    published_questions = list(Published_Question.objects.filter(q_class=cls))
     students = Student.objects.filter(s_class=cls).count()
     x = []
     y = []

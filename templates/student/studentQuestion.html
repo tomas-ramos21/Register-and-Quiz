@@ -35,7 +35,7 @@
                                 </section>
                                 <section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
                                         <h1 class="heading text-center font-weight-bold">
-                                            <span class="heading__main">{{unit_id}}</span>
+                                            <span class="heading__main">{{unit.code}}</span>
                                         </h1>
                                 </section>
                         </section>
@@ -74,9 +74,10 @@
                         </section>
 						{% endif %}
 						<section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column">
-                        <input type="button" aria-label="Submit Button" class="btn btn-primary btn-lg form__submit"
-                        data-toggle="modal" data-target="#exampleModal"><!--
-								
+						
+                        <input type="submit" aria-label="Submit Button" class="btn btn-primary btn-lg form__submit"
+                        data-toggle="modal" data-target="#exampleModal" value="Submit" name="Submit">
+								<!--
                                         <div class="modal fade" id="quizModal" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">

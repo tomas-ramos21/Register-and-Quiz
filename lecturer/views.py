@@ -1,6 +1,6 @@
 import os
 import re
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
@@ -14,6 +14,8 @@ from lecturer.models import Class, Question, Topic, Teaching_Day
 from lecturer.forms import classForm
 from datetime import datetime
 from generic.decorator import is_lecturer
+from generic.graphs import admin_attendance_graph
+from django.contrib import messages
 
 @login_required
 @is_lecturer
@@ -94,8 +96,9 @@ def lect_units(request, unit_code):
 			fs = FileSystemStorage()
 			filename = fs.save(csv_file.name, csv_file)
 			file_path = os.path.join(settings.MEDIA_ROOT, filename)
-			status, user_dict = register_topics(user_dict, file_path)
+			status, msg = register_topics(file_path)
 			if status == False:
+				messages.error(request, msg, extra_tags='alert-warning')
 				return render(request, 'error_page.html', user_dict)
 
 		if request.method == 'POST' and 'question_file' in request.FILES:
@@ -103,8 +106,9 @@ def lect_units(request, unit_code):
 			fs = FileSystemStorage()
 			filename = fs.save(csv_file.name, csv_file)
 			file_path = os.path.join(settings.MEDIA_ROOT, filename)
-			status, user_dict = register_questions(user_dict, file_path)
+			status, msg = register_questions( file_path)
 			if status == False:
+				messages.error(request, msg, extra_tags='alert-warning')
 				return render(request, 'error_page.html', user_dict)
 
 		return render(request, "Lecturer/LecturerUnits.html", user_dict)
@@ -115,27 +119,45 @@ def lect_class(request):
 	user = request.user
 	user_dict = get_lecturer_context(user)
 
-	if request.method == "POST" and 'class_file' in request.FILES and 'student_file' in request.FILES:
-		csv_file = request.FILES['class_file']
-		fs = FileSystemStorage()
-		filename = fs.save(csv_file.name, csv_file)
-		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		new_class, user_dict = register_class(request.user, user_dict, file_path)
-		if new_class == False:
-			return render(request, 'error_page.html', user_dict)
-
-		csv_file = request.FILES['student_file']
-		fs = FileSystemStorage()
-		filename = fs.save(csv_file.name, csv_file)
-		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = add_students(user_dict, file_path, new_class)
-		if status == False:
-			return render(request, 'error_page.html', user_dict)
+	if request.method == "POST":
+		if 'student_file' in request.FILES:
+			csv_file = request.FILES['student_file']
+			fs = FileSystemStorage()
+			filename = fs.save(csv_file.name, csv_file)
+			file_path = os.path.join(settings.MEDIA_ROOT, filename)
+			status, msg = add_students(file_path)
+			if status == False:
+				messages.error(request, msg, extra_tags='alert-warning')
+				return redirect('lecturer:lect_class')
+			else:
+				messages.success(request, 'Student records updated.', extra_tags='alert-warning')
+				return redirect('lecturer:lect_class')
+		else:
+			form = classForm(request.user, request.POST)
+			if form.is_valid():
+				data = form.cleaned_data
+				unit = data.get('unit_id')
+				period = data.get('t_period')
+				time_commi = data.get('time_commi')
+				code = data.get('code')
+				cl = Class.objects.filter(unit_id=unit, t_period=period, time_commi=time_commi, code=code)
+				if cl.exists():
+					messages.error(request, 'Class has existed', extra_tags='alert-warning')
+					return redirect('lecturer:lect_class')
+				else:
+					emp = Employee.objects.filter(user=user).first()
+					new_class = Class(unit_id=unit, t_period=period, staff_id=emp, time_commi=time_commi, code=code)
+					new_class.save()
+					msg = 'Class ' + unit.code + code + ' was created successfully.'
+					messages.success(request, msg, extra_tags='alert-warning')
+					return redirect('lecturer:lect_class')
+			else:
+				messages.error(request, 'Invalid form', extra_tags='alert-warning')
+				return redirect('lecturer:lect_class')
 	else:
-		form = classForm()
+		form = classForm(request.user)
 		user_dict['form'] = form
-
-	return render(request, "Lecturer/lecturerClass.html", user_dict)
+		return render(request, "Lecturer/lecturerClass.html", user_dict)
 
 def lect_q_stats(request, published_id):
 	user = request.user
@@ -145,6 +167,37 @@ def lect_q_stats(request, published_id):
 	user_dict['graph'] = answer_graph(code)
 	return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
 
+def lect_stats(request, unit_t, period_id):
+	user = request.user
+	user_dict = get_lecturer_context(user)
+
+	if request.method == 'POST':
+		print('wew')
+		if request.POST.get('submit'):
+			period = ''
+			for letter in period_id.upper():
+				if letter == ',':
+					letter = '-'
+				elif letter == ' ':
+					continue
+				period += letter
+			code = request.POST.get('selection')
+			graph = admin_attendance_graph(period, 'class', code)
+
+			if graph == False:
+				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
+				return render(request, 'error_page.html', user_dict)
+			user_dict['code'] = code
+			user_dict['period'] = period
+			user_dict['graph'] = graph
+			return render(request, 'lecturer/studentStats.html', user_dict)
+
+	user_dict['unit'] = unit_t
+	user_dict['period'] = period_id
+	return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
+
+
+
 def lect_error(request):
 	user = request.user
 	user_dict = get_lecturer_context(user)
@@ -153,14 +206,14 @@ def lect_error(request):
 @login_required
 @is_lecturer
 def user_logout(request):
-    """
-        Closes the current session of the user,
-        and redirects them to the login page.
+	"""
+		Closes the current session of the user,
+		and redirects them to the login page.
 
-        Parameters
-        ----------
-        request: HTTP request object
-            Contains the request type sent by the user.
-    """
-    logout(request)
-    return HttpResponseRedirect(reverse('administrative:user_logout'))
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
+	logout(request)
+	return HttpResponseRedirect(reverse('administrative:user_logout'))

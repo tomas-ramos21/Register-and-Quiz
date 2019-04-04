@@ -7,7 +7,7 @@
 import csv
 import io
 import os
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -88,36 +88,52 @@ def unit_management(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_units(user_dict, file_path)
+		status, msg = register_units(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:unit_management')
+		else:
+			messages.success(request, 'Units updated', extra_tags='alert-success')
+			return redirect('administrative:unit_management')
 
 	if request.method == "POST" and 'courses_file' in request.FILES:
 		csv_file = request.FILES['courses_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_courses(user_dict, file_path)
+		status, msg = register_courses(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:unit_management')
+		else:
+			messages.success(request, 'Courses updated', extra_tags='alert-success')
+			return redirect('administrative:unit_management')
 
 	if request.method == "POST" and 'add_rm_file' in request.FILES:
 		csv_file = request.FILES['add_rm_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = edit_units(user_dict, file_path)
+		status, msg = edit_units(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:unit_management')
+		else:
+			messages.success(request, 'Units of lecturers updated', extra_tags='alert-success')
+			return redirect('administrative:unit_management')
 
 	if request.method == "POST" and 'teaching_period_file' in request.FILES:
 		csv_file = request.FILES['teaching_period_file']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_teaching_period(user_dict, file_path)
+		status, msg = register_teaching_period(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:unit_management')
+		else:
+			messages.success(request, 'Teaching periods updated', extra_tags='alert-success')
+			return redirect('administrative:unit_management')
 
 	return render(request, 'administrative/unitsM.html', user_dict)
 
@@ -147,9 +163,13 @@ def space_management(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_room(user_dict, file_path)
+		status, msg = register_room(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:space_management')
+		else:
+			messages.success(request, "Rooms updated", extra_tags='alert-success')
+			return redirect('administrative:space_management')
 
 	# Process to obtain CSV - Buildings
 	if request.method == "POST" and 'building_file' in request.FILES:
@@ -157,9 +177,13 @@ def space_management(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_building(user_dict, file_path)
+		status, msg = register_building(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:space_management')
+		else:
+			messages.success(request, "Buildings updated", extra_tags='alert-success')
+			return redirect('administrative:space_management')
 
 	# Process to find Rooms
 	if request.method == "POST" and not request.POST.get('room_code') is None:
@@ -200,9 +224,13 @@ def employee_creation(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_employee(user_dict, file_path)
+		status, msg = register_employee(file_path)
 		if status == False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:employee_creation')
+		else:
+			messages.success(request, 'Employee records updated', extra_tags='alert-success')
+			return redirect('administrative:employee_creation')
 
 	return render(request, 'administrative/lectAccAdd.html', user_dict)
 
@@ -234,9 +262,14 @@ def student_creation(request):
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
 		file_path = os.path.join(settings.MEDIA_ROOT, filename)
-		status, user_dict = register_student(user_dict, file_path)
+		status, msg = register_student(file_path)
 		if status is False:
-			return render(request, 'error_page.html', user_dict)
+			messages.error(request, msg, extra_tags='alert-warning')
+			return redirect('administrative:student_creation')
+		else:
+			messages.success(request, 'Student records updated', extra_tags='alert-success')
+			return redirect('administrative:student_creation')
+
 	return render(request, 'administrative/stuAccAdd.html', user_dict)
 
 def attendance_stats(request):
@@ -251,15 +284,15 @@ def attendance_stats(request):
 		if request.POST.get('submit'):
 			graph = admin_attendance_graph(period, granularity, selection)
 			if graph == False:
-				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
-				return render(request, 'error_page.html', user_dict)
+				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
+				return redirect('administrative:space_management')
 			user_dict['graph'] = graph
-			return render(request, 'administrative/studentStats.html', user_dict)
+			return render(request, 'administrative/statisticsAttendance.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_attendance_csv(period, granularity, selection)
 			if response == False:
-				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
-				return render(request, 'error_page.html', user_dict)
+				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
+				return redirect('administrative:space_management')
 			return response
 	return render(request, 'administrative/statisticsAttendance.html', user_dict)
 
@@ -274,17 +307,18 @@ def space_stats(request):
 		graph = admin_room_usage(period, selection)
 		if request.POST.get('submit') :
 			if graph is None:
-				user_dict['msg'] = "The room requested does not exist."
-				return render(request, 'error_page.html', user_dict)
+				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
+				return redirect('administrative:space_stats')
 			user_dict['graph'] = graph
 
 			return render(request, 'administrative/studentStats.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_space_csv(period, selection)
 			if response == False:
-				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
-				return render(request, 'error_page.html', user_dict)
-			return response
+				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
+				return redirect('administrative:space_stats')
+			else:
+				return response
 		"""
 		messages.success(request, 'Downloaded csv successfully', extra_tags='alert-success')
 		return render(request, 'administrative/statisticsUsage.html', user_dict)
@@ -298,8 +332,8 @@ def user_view(request):
 	user_dict = get_admin_context(user)
 
 	if searched_user is None:
-		user_dict['msg'] = 'No user was found with the given ID.'
-		return render(request, 'error_page.html', user_dict)
+		messages.error(request, 'User ID: ' + username + ' was not found', extra_tags='alert-warning')
+		return redirect('administrative:unit_management')
 
 	student = Student.objects.filter(user=searched_user).first()
 	lecturer = Employee.objects.filter(user=searched_user).first()

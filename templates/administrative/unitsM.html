@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
         crossorigin="anonymous">
 
-
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
@@ -30,7 +29,21 @@
 <body>
 {% block main %}
     <main class="main">
-        <h1 class="text-center">Quick Update</h1>
+	<div id="page-top-header0" class="clearfix0">
+<div id="page-navbar0" class="clearfix0 row-fluid0">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'administrative:admin_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" title="Unit Management" aria-current="page" href="{% url 'administrative:unit_management' %}">
+	<span itemprop="title">Unit Management</span></a></span></li>
+	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
+        <h1 class="text-center">Unit Management</h1>
+        {% include 'messages.html' %}
         <section class="card">
             <section class="card-body text-center text-sm-left">
                 <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList" role="button" aria-expanded="false"
@@ -38,6 +51,11 @@
                     Add/remove unit</a>
             </section>
             <section class="collapse text-center" id="collapseList">
+             <p>Instructions:</p>
+            <ol>
+            <li>Use these headers in the following order: code, title, credits, image</li>
+            <li>Make sure that there are no missing or empty cells.</li>
+            </ol>
                     <form method="post" class="upload" enctype="multipart/form-data">
                         {% csrf_token %}
                           <h1>Upload CSV </h1>

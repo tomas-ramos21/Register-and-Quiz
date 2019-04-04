@@ -21,8 +21,7 @@
 
     <!--lecture add-->
     <link rel="stylesheet" href="{% static "stylesheets/addUsers.css" %}">
-
-
+	<link rel="stylesheet" href="{% static "stylesheets/teachingSpace.css" %}">
     <!--Vendor input file styling-->
     <link rel="stylesheet" href="{% static "input-file-master/input-file.css" %}">
 {% endblock head %}
@@ -30,39 +29,69 @@
 <body>
 {% block main %}
     <main class="main">
-        <form method="post" class="upload" enctype="multipart/form-data">
-          {% csrf_token %}
-          <h1 class="text-center my-3" >Class Form</h1>
-          <section class=" d-flex justify-content-center align-items-center flex-column">
-                <h4 class="mx-3"><label for="#unitID">Unit Id:</label></h4>
-                <select name="UnitId" id="unitId" class="m-3">
-                      <option value="a">-----------</option>
-                      <option value="b">b</option>
-                      <option value="c">c</option>
-               </select>
-               <h4><label for="TPeriod">Teaching period:</label></h4>
-               <select name="TPeriod" id="TPeriod" class="m-3">
-                     <option value="a">-----------</option>
-                     <option value="b">b</option>
-                     <option value="c">c</option>
-              </select>
-              <h4><label for="TCommit">Time commitment:</label></h4>
-              <select name="TCommit" id="TCommit" class="m-3">
-                    <option value="a">-----------</option>
-                    <option value="b">b</option>
-                    <option value="c">c</option>
-             </select>
-              <h4><label for="code">Code</label></h4>  
-             <input type="text" id="code">
-          </section>
-		  <!-- {{form.as_ul}} -->
-            <h1 class="my-3">Upload CSV Files To Create Class</h1>
-            <section class="form-group file d-flex justify-content-center align-items-center my-3">
-                <input type="file" name="class_file" accept=".csv" class="file__uploader my-3">
+	<div id="page-top-header0" class="clearfix0">
+<div id="page-navbar0" class="clearfix0 row-fluid0">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" title="Update Class" aria-current="page" href="{% url 'lecturer:lect_class' %}">
+	<span itemprop="title">Update Class</span></a></span></li>
+	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
+
+	<h1 class="text-center">Select a task</h1>
+        {% include 'messages.html' %}
+        <section class="card">
+                     <section class="card-body text-left">
+            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList3" role="button"
+                    aria-expanded="false" aria-controls="collapseList">
+             Create Class</a>
             </section>
-            <h1 class="my-3">Upload CSV Files To Add Students</h1>
-            <section class="form-group file d-flex justify-content-center align-items-center my-3">
-                <input type="file" name="student_file" accept=".csv" class="file__uploader my-3">
+            <section class="collapse text-center" id="collapseList3">
+            <section class="text-left">
+                    <form method="post">
+					  {% csrf_token %}
+                        <center>
+					  <h3>Class Form</h3>
+                        <h4 class="mx-3"><label for="unit_id">Unit:</label></h4>
+                        {{form.unit_id}}
+                        <h4 class="mx-3"><label for="t_period">Teaching Period:</label></h4>
+                        {{form.t_period}}
+                        <h4 class="mx-3"><label for="time_commi">Time Commitment:</label></h4>
+					    {{form.time_commi}}
+                        <h4 class="mx-3"><label for="code">Code:</label></h4>
+                        {{form.code}}
+                        </center>
+					  <div class="form-group">
+                <div class="d-flex justify-content-center">
+                  <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
+                    Submit
+                  </button>
+                </div>
+              </div>
+					</form>
+            </section>
+             </section>
+             <section class="card-body text-left">
+            <a data-toggle="collapse" class="text-dark text-decoration-none" href="#collapseList4" role="button"
+                    aria-expanded="false" aria-controls="collapseList">
+             Add or Remove Student(s)</a>
+            </section>
+            <section class="collapse text-center" id="collapseList4">
+            <section class="text-left">
+			<span>Instructions:</span>
+			<ol>
+			<li> Use these header(s) in the order : id
+			<li> Make sure that there are no empty or missing cells. 
+			</ol>
+                    <form method="post" class="upload" enctype="multipart/form-data">
+            <center><label for="student_class_upload"  class="search__label">Upload CSV</label></center>
+            <section class="form-group file">
+                <input type="file" name="student_file" accept=".csv" class="file__uploader">
             </section>
             <div class="form-group">
                 <div class="d-flex justify-content-center">
@@ -71,7 +100,10 @@
                   </button>
                 </div>
               </div>
-        </form>
+					</form>
+            </section>
+             </section>
+        </section>
     </main>
 {% endblock main %}
 {% block script %}
