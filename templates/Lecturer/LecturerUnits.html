@@ -29,7 +29,7 @@
 
 <body>
   {% block main %}
-    <main class="main">
+    <main class="main" style="padding-top:0px; margin-top:10px;padding-left:13px;">
 	<div id="page-top-header0" class="clearfix0">
 <div id="page-navbar0" class="clearfix0 row-fluid0">
 	<div class="breadcrumb-nav0 span9">
@@ -38,11 +38,12 @@
 	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
 	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
 	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
-	<a itemprop="url" title="Update Class" aria-current="page" href="{% url 'lecturer:lect_class' %}">
-	<span itemprop="title">Update Class</span></a></span></li>
+	<a itemprop="url" title="{{unit_code}} {{unit_title}}" aria-current="page" href="{% url 'lecturer:lect_units' unit_code=unit_code %}">
+	<span itemprop="title">{{unit_code}} {{t_period.id}}</span></a></span></li>
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
+<div id="page-content" style="margin-top:50px;">
         <section class="card">
             <section class="card-header text-center">
                 <h1 class="unit-text my-3  unit">
@@ -120,6 +121,7 @@
             </section>
 			{% endif %}
         </section>
+		</div>
     </main>
 {% endblock main %}
 {% block script %}

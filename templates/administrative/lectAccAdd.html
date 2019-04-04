@@ -27,11 +27,30 @@
 </head>
 <body>
 {% block main %}
-	<div id="page-content">
     <main class="main">
+	<div id="page-top-header0" class="clearfix0">
+<div id="page-navbar0" class="clearfix0 row-fluid0">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'administrative:admin_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" title="Account Management" aria-current="page" href="{% url 'administrative:acc_management' %}">
+	<span itemprop="title">Account Management</span></a></span></li>
+	
+	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" title="Staff Account Management" aria-current="page" href="{% url 'administrative:employee_creation' %}">
+	<span itemprop="title">Staff Account Management</span></a></span></li>
+	
+	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
+<div id="page-content" style="margin-top:30px;text-align:center;">
+        {% include 'messages.html' %}
         <form method="post" class="upload" enctype="multipart/form-data">
           {% csrf_token %}
-            <h1>Upload CSV Files To Add Lecturers</h1>
+            <h1>Upload CSV Files</h1>
             <section class="form-group file">
                 <input type="file" name="files" accept=".csv" class="file__uploader">
             </section>
@@ -44,8 +63,8 @@
               </div>
         </form>
 		<br>
-		<a href="{% url 'administrative:acc_management' %}" style="font-size:14pt"> &lt; Back to Account Management </a>
-	</div>
+		<a href="{% url 'administrative:acc_management' %}" style="font-size:14pt;"> &lt; Back to Account Management </a>
+</div>
     </main>
 {% endblock main %}
 {% block script %}
