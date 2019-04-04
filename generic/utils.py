@@ -566,8 +566,9 @@ def register_class(user, csv_path: str):
 	return new_class, msg
 
 
-def add_students(csv_path: str):
-	columns = ['class code','teaching period','time commitment','id']
+def add_students(user, csv_path: str):
+	msg = ""
+	columns = ['class code','teaching period','time commitment','id','action']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -597,18 +598,27 @@ def add_students(csv_path: str):
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				user = User.objects.filter(username=crt_dict['id']).first()
-				student = Student.objects.filter(user=user).first()
-				unit = crt_dict['class code'][:2]
-				print(unit)
-				code = crt_dict['class code'][-1]
-				print(code)
-				class_obj = Class.objects.filter(unit_id=unit, time_commi=crt_dict['time_commitment']).first()
-				act = crt_dict['action']
-				if act == 'remove':
-					continue
-				elif act == 'add':
-					student.s_class.add(class_obj)
+				user1 = User.objects.filter(username=crt_dict['id']).first()
+				if user1 is not None :
+					student = Student.objects.filter(user=user1).first()
+					if student is not None:
+						unit = crt_dict['class code'][:6]
+						unit_item = Unit.objects.filter(code=unit).first()
+						tp = Teaching_Period.objects.filter(id=crt_dict['teaching period']).first()
+						if unit_item is not None and tp is not None :
+							code = crt_dict['class code'][-1]
+							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time commitment'], code=code, t_period=tp).first()
+							emp = Employee.objects.filter(user=user).first()
+							if class_obj.staff_id == emp:
+								if class_obj is not None:
+									act = crt_dict['action']
+									if act == 'remove':
+										student.s_class.remove(class_obj)
+									elif act == 'add':
+										student.s_class.add(class_obj)
+									student.save()
+								else:
+									print('huhu')
 		return True, msg
 
 

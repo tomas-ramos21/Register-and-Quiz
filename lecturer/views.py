@@ -52,6 +52,7 @@ def lect_publish(request, q_id, topic_id, period_id):
 		code = str(code)
 		code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
 		user_dict = get_lecturer_context(user)
+		user_dict['topic'] = topic_id
 		user_dict['question_text'] = question.text
 		user_dict['q_code'] = code
 		return render(request, "Lecturer/lecturerProject.html", user_dict)
@@ -125,7 +126,8 @@ def lect_class(request):
 			fs = FileSystemStorage()
 			filename = fs.save(csv_file.name, csv_file)
 			file_path = os.path.join(settings.MEDIA_ROOT, filename)
-			status, msg = add_students(file_path)
+			user = request.user
+			status, msg = add_students(user, file_path)
 			if status == False:
 				messages.error(request, msg, extra_tags='alert-warning')
 				return redirect('lecturer:lect_class')
@@ -196,11 +198,11 @@ def lect_stats(request, unit_t, period_id):
 	user_dict['period'] = period_id
 	return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
 
-
-
 def lect_error(request):
 	user = request.user
 	user_dict = get_lecturer_context(user)
+	user_dict['msg'] = 'ERROR 404' 
+	user_dict['desc'] = 'Page not found'
 	return render(request, 'Lecturer/error.html', user_dict)
 
 @login_required

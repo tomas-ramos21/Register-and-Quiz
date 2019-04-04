@@ -72,6 +72,6 @@ class Teaching_Period(models.Model):
 	name	= models.CharField(max_length=255)				# Teaching Period Name
 	st_date	= models.DateField()							# Starting Date
 	en_date	= models.DateField()							# Ending Date
-
+	
 	def __str__(self):
 		return self.id
