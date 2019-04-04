@@ -55,6 +55,7 @@ def lect_publish(request, q_id, topic_id, period_id):
 		user_dict['topic'] = topic_id
 		user_dict['question_text'] = question.text
 		user_dict['q_code'] = code
+		user_dict['q_time'] = time
 		return render(request, "Lecturer/lecturerProject.html", user_dict)
 
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
