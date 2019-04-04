@@ -219,7 +219,7 @@ def employee_creation(request):
 		return render(request, 'administrative/lectAccAdd.html', user_dict)
 
 	# Process to obtain CSV & create accounts
-	if request.method == "POST":
+	if request.method == "POST" and 'files' in request.FILES:
 		csv_file = request.FILES['files']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
