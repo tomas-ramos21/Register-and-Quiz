@@ -6,7 +6,7 @@
     var countDownMins = countDownTime/60; // the timer in mins
     
     // changes the text conntent of h1 to be time in minutes 
-    document.querySelector(".timer-display").textContent = countDownMins;
+    document.querySelector(".timer-display").textContent = `Timer set to ${countDownMins}`;
     
     
 
