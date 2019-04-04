@@ -19,11 +19,11 @@ body {
 }
 
 html {
-  min-height: 100%;
+  height: 100%;
 }
 
 body {
-  min-height: 100%;
+  height: 100%;
   position: relative;
 }
 
@@ -33,6 +33,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 80%;
 }
 
 .navbar__icon {
@@ -97,7 +98,7 @@ body {
 }
 .unit__image {
   width: 50%;
-  max-height: 132px;
+  max-height: 250px;
 }
 
 .footer {

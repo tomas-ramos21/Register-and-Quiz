@@ -33,6 +33,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 80%;
 }
 
 .navbar__icon {
@@ -88,7 +89,7 @@ body {
 }
 .unit__image {
   width: 50%;
-  max-height: 132px;
+  max-height: 250px;
 }
 
 .card {
@@ -99,6 +100,7 @@ body {
   margin: 2rem auto;
   font-size: 2rem;
 }
+
 .footer {
   margin-top: 2rem;
   position: static;
