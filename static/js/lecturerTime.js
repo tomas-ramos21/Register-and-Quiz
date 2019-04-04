@@ -1,25 +1,41 @@
 // github link for timer function https://github.com/husa/timer.js/ for vendor functions like .start() , .stop() details
 
 (function(){
-    const lecturerTime = new Timer();
-    var countDownTime = 5 * 60; // 5 minutes , timer set for lectuer
-    var countDownMins = countDownTime/60; // the timer in mins
-    
-    // changes the text conntent of h1 to be time in minutes 
-    document.querySelector(".timer-display").textContent = `Timer set to ${countDownMins}`;
-    
-    
+    let duration = 1 * 60; // 5 minutes , timer set for lectuer
+
+    const lecturerTime = new Timer({
+        tick:1,
+        ontick  : function() {}
+    });
 
     // starts the countdown timer and on end shows a message on the browser that time is up
-    lecturerTime.start(countDownTime).on("end",()=>{
-        alert("Time is up");
+   const countStart =  lecturerTime.start(duration);
+
+
+    countStart.options({
+         ontick:function(){
+            duration --;
+            let minutes = Math.trunc(duration / 60);
+            let seconds = duration % 60;
+
+            minutes = minutes < 10 ? `0${minutes}` : minutes;
+            seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+            document.querySelector(".timer-display").textContent = `Time Left ${minutes}: ${seconds}`;
+
+
+         },
+         onend:function(){
+            document.querySelector(".timer-display").textContent = `Times up 00:00`;
+         }
     })
 
+    // event listener for stopping the timer
 
-    // if the lecturer clicks the stop button
     document.querySelector(".stop").addEventListener("click",()=>{
         lecturerTime.stop(); // stops the timer
-        alert("timer has stopped");
+        document.querySelector(".timer-display").textContent = `Time stopped`;
+
     })
 
 })(); // immediately invoke function expression
