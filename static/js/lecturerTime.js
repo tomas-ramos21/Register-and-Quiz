@@ -1,7 +1,7 @@
 // github link for timer function https://github.com/husa/timer.js/ for vendor functions like .start() , .stop() details
 
 (function(){
-    let duration = 1 * 60; // 5 minutes , timer set for lectuer
+    let duration = parseInt(document.querySelector(".timer-time").textContent()) * 60; // 5 minutes , timer set for lectuer
 
     const lecturerTime = new Timer({
         tick:1,
