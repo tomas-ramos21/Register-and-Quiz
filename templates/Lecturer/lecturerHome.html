@@ -47,7 +47,15 @@
                                                 <a href="{% url 'lecturer:lect_units' unit_code=unit.code %}"><span class="unit-text__main">{{unit.code}} {{unit.title}}</span>
                                                 <span class="unit-text__sub">({{t_period}})</span></a>
                                         </h1>
+										<form action="{% url 'lecturer:lect_stats' unit_t=unit.code period_id=t_period%}">
+                                                        <section class="text-center form-group">
+                                                                <input type="submit"
+                                                                        class="btn btn-dark p-2 form__submit "
+                                                                        value="Check Attendance">
+                                                        </section>
+                                </form>
                                 </section>
+								
 						{% endfor %}
                         </section>
                 </section>

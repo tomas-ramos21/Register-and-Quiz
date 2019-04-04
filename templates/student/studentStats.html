@@ -22,7 +22,8 @@
 </head>
 <body>
 {% block main %}
-<div id="page-top-header0" class="clearfix0">
+    <main class="main">
+	<div id="page-top-header0" class="clearfix0">
 <div id="page-navbar0" class="clearfix0 row-fluid0">
 	<div class="breadcrumb-nav0 span9">
 	<span class="accesshide0" id="navbar-label0">Page path</span>
@@ -34,13 +35,14 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
-    <main class="main" style="margin-top:0px;padding:2rem;padding-top:30px;>
+<div id="page-content" style="margin-top:50px;">
             <section class=" d-flex align-items-center justify-content-center flex-column barchart">
             <h1 class="text-center">Attendance for {{s_unit_code}} ({{s_period}})</h1>
             <div>
             {{graph|safe}}
 			</div>
              </section>
+			 </div>
     </main>
 {% endblock main %}
 {% block script %}

@@ -108,7 +108,8 @@ body {
 }
 .unit__image {
   width: 50%;
-  max-height: 250px;
+  max-height:150px;
+  max-width:300px; /**/
 }
 /*
 .main {
