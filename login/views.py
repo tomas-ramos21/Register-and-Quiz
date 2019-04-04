@@ -54,7 +54,7 @@ def user_login(request):
 				emp = Employee.objects.filter(user=curr_user).first()
 				if emp is not None:
 					position = emp.pstn.upper()
-					if position == 'LECTURER' or position == 'UNIT COORDINATOR':
+					if position == 'LECTURER' or position == 'COORDINATOR':
 						return HttpResponseRedirect(reverse('lecturer:lect_home'))
 					else:
 						return HttpResponseRedirect(reverse('administrative:admin_home'))
@@ -63,13 +63,13 @@ def user_login(request):
 					if std is not None:
 						return HttpResponseRedirect(reverse('student:student_index'))
 					else:
-						messages.error(request, 'Invalid account type', extra_tags='alert-warning')  
+						messages.error(request, 'Invalid account type', extra_tags='alert-warning')
 						return redirect('login:user_login')
 			else:
-				messages.error(request, 'Account is inactive.', extra_tags='alert-warning')  
+				messages.error(request, 'Account is inactive.', extra_tags='alert-warning')
 				return redirect('login:user_login')
 		else:
-			messages.error(request, 'Invalid login details', extra_tags='alert-warning')  
+			messages.error(request, 'Invalid login details', extra_tags='alert-warning')
 			return redirect('login:user_login')
 	else:
 		return render(request, 'login/index.html')
