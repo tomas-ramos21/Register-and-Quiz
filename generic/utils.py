@@ -15,6 +15,7 @@ from administrative.models import Building, Room, Employee, Unit, Course, Teachi
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
+from datetime import datetime, timezone
 
 from generic.statistics_generator import class_attendance_csv, class_attendance_csv_all, unit_attendance_csv, unit_attendance_csv_all, course_attendance_csv, course_attendance_csv_all, csv_transfer, room_usage_csv, room_usage_csv_all
 
@@ -88,7 +89,17 @@ def get_std_context(user):
 	else:
 		return {}
 
-
+def is_expired(item):
+	diff = datetime.now(timezone.utc) - item.tm_stmp
+	seconds_passed = diff.total_seconds()
+	seconds_limit = item.minutes_limit * 60
+	print(seconds_limit)
+	print(seconds_passed)
+	if seconds_passed > seconds_limit : # If it has expired
+		return True
+	else:
+		return False
+		
 def register_employee(csv_path: str) -> None:
 	"""
 		Registers lecturers in the platform.
@@ -501,7 +512,7 @@ def publish_question(question, time: int, q_class) -> None:
 								 q_class=q_class,
 								 minutes_limit=time)
 	publish.save()
-	return code
+	return code, publish
 
 
 def register_class(user, csv_path: str):

@@ -6,16 +6,17 @@ from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from generic.utils import register_questions, publish_question, register_class, add_students, register_topics, get_lecturer_context
+from generic.utils import register_questions, publish_question, register_class, add_students, register_topics, get_lecturer_context, is_expired
 from generic.graphs import answer_graph
 from django.conf import settings
 from administrative.models import Unit, Employee, Teaching_Period, Room
-from lecturer.models import Class, Question, Topic, Teaching_Day
+from lecturer.models import Class, Question, Topic, Teaching_Day, Published_Question
 from lecturer.forms import classForm
 from datetime import datetime
 from generic.decorator import is_lecturer
 from generic.graphs import admin_attendance_graph
 from django.contrib import messages
+from datetime import datetime, timezone, timedelta
 
 @login_required
 @is_lecturer
@@ -47,26 +48,48 @@ def lect_publish(request, q_id, topic_id, period_id):
 			t_day = Teaching_Day(r_id=room, c_id=curr_class)
 			t_day.save()
 
-		code = publish_question(question, time, curr_class)
+		code, question_item = publish_question(question, time, curr_class)
+		
+		request.session['question_data'] = question_item.code
 
-		code = str(code)
-		code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
-		user_dict = get_lecturer_context(user)
-		user_dict['topic'] = topic_id
-		user_dict['question_text'] = question.text
-		user_dict['q_code'] = code
-		user_dict['q_time'] = time
-		return render(request, "Lecturer/lecturerProject.html", user_dict)
+		return redirect('lecturer:lect_project')
 
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
 @login_required
 @is_lecturer
 def lect_project(request):
-	user_dict = get_lecturer_context(user)
-	user_dict['question_text'] = question.text
-	user_dict['q_code'] = code
-	return render(request, "Lecturer/lecturerProject.html", user_dict)
+	user = request.user
+	user_context = get_lecturer_context(user)
+	context = request.session.get('question_data')
+	if context is not None:
+		pub_qn = Published_Question.objects.filter(code=context).first()
+		if pub_qn is not None:
+			if is_expired(pub_qn):
+				return redirect('lecturer:lect_error')
+			else:
+				code = str(pub_qn.code)
+				code = code[:3] + ' - ' + code[3:6] + ' - ' + code[6:9]
+				
+				# Calculating remaining time 
+				time_passed = datetime.now(timezone.utc) - pub_qn.tm_stmp
+				seconds_passed = time_passed.total_seconds()
+				seconds_remaining = pub_qn.minutes_limit * 60 - seconds_passed
+				
+				context2 = {
+					'rem_time' : seconds_remaining,
+					't_num' : pub_qn.question.topic_id.number,
+					't_name' : pub_qn.question.topic_id.name,
+					'text' : pub_qn.question.text,
+					'code' : code,
+				}
+				user_dict = user_context.copy()
+				user_dict.update(context2)
+				return render(request, "Lecturer/lecturerProject.html", user_dict)
+		else:
+			return redirect('lecturer:lect_error')
+	else:
+		return redirect('lecturer:lect_error')
 
 @login_required
 @is_lecturer
@@ -115,8 +138,10 @@ def lect_units(request, unit_code):
 
 		return render(request, "Lecturer/LecturerUnits.html", user_dict)
 	else:
-		return HttpResponse('Invalid unit code')
+		return redirect('lecturer:lect_error')
 
+@login_required
+@is_lecturer
 def lect_class(request):
 	user = request.user
 	user_dict = get_lecturer_context(user)
@@ -162,43 +187,91 @@ def lect_class(request):
 		user_dict['form'] = form
 		return render(request, "Lecturer/lecturerClass.html", user_dict)
 
+@login_required
+@is_lecturer
 def lect_q_stats(request, published_id):
 	user = request.user
 	code = int(re.sub('[^0-9]', '', published_id))
+	
+	pub_qn = Published_Question.objects.filter(code=code).first()
+	
+	if pub_qn is not None:
+		time_passed = datetime.now(timezone.utc) - pub_qn.tm_stmp
+		minutes_passed = int(time_passed.total_seconds() / 60)
 
-	user_dict = get_lecturer_context(user)
-	user_dict['graph'] = answer_graph(code)
-	return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
+		if minutes_passed < pub_qn.minutes_limit:
+			pub_qn.minutes_limit = minutes_passed
+			pub_qn.save()
+		
+		request.session['question_data'] = None
+		
+		user_dict = get_lecturer_context(user)
+		
+		context = {
+			'graph' : answer_graph(code),
+			'ans1' : pub_qn.question.ans_1,
+			'ans2' : pub_qn.question.ans_2,
+			'ans3' : pub_qn.question.ans_3,
+			'ans4' : pub_qn.question.ans_4,
+			'q_title' : pub_qn.question.title,
+			'q_text' : pub_qn.question.text,
+			't_num' : pub_qn.question.topic_id.number,
+			't_name' : pub_qn.question.topic_id.name,
+		}
+		
+		user_dict.update(context)
+		
+		return render(request, 'Lecturer/lecturerQuesStats.html', user_dict)
+	else:
+		return redirect('lecturer:lect_error')
 
+@login_required
+@is_lecturer
 def lect_stats(request, unit_t, period_id):
 	user = request.user
 	user_dict = get_lecturer_context(user)
 
-	if request.method == 'POST':
-		print('wew')
-		if request.POST.get('submit'):
-			period = ''
-			for letter in period_id.upper():
-				if letter == ',':
-					letter = '-'
-				elif letter == ' ':
-					continue
-				period += letter
-			code = request.POST.get('selection')
-			graph = admin_attendance_graph(period, 'class', code)
+	unit = Unit.objects.filter(code=unit_t).first()
+	if unit is not None:
+		period = ''
+		for letter in period_id.upper():
+			if letter == ',':
+				letter = '-'
+			elif letter == ' ':
+				continue
+			period += letter
+		period = Teaching_Period.objects.filter(id=period).first()
+		if period is not None:
+			emp = Employee.objects.filter(user=user).first()
+			class_item = Class.objects.filter(unit_id=unit, t_period=period, staff_id=emp)
 
-			if graph == False:
-				user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
-				return render(request, 'error_page.html', user_dict)
-			user_dict['code'] = code
-			user_dict['period'] = period
-			user_dict['graph'] = graph
-			return render(request, 'lecturer/studentStats.html', user_dict)
+			if class_item.exists():
+				user_dict['unit'] = unit_t
+				user_dict['period'] = period_id
+				if request.method == 'POST':
+					if request.POST.get('submit'):
+						code = request.POST.get('selection')
+						graph = admin_attendance_graph(period, 'class', code)
+						if graph == False:
+							user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
+							return render(request, 'error_page.html', user_dict)
+						user_dict['code'] = code
+						user_dict['graph'] = graph
+						return render(request, 'lecturer/statisticsAttendance.html', user_dict)
+					elif request.POST.get('download'):
+						response = admin_attendance_csv(period, 'class', selection)
+						if response == False:
+							messages.error(request, 'Information provided is wrong or the request object does not exists.',
+										   extra_tags='alert-warning')
+							return redirect('lecturer:lect_stats')
+						return response
+				else:
+					return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
 
-	user_dict['unit'] = unit_t
-	user_dict['period'] = period_id
-	return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
+	return redirect('lecturer:lect_error')
 
+@login_required
+@is_lecturer
 def lect_error(request):
 	user = request.user
 	user_dict = get_lecturer_context(user)
