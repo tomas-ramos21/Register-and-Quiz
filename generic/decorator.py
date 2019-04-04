@@ -16,12 +16,12 @@ def is_student(func):
 			emp = Employee.objects.filter(user=user)
 			if emp.exists():
 				position = emp.first().pstn.upper()
-				if position == 'LECTURER' or position == 'UNIT COORDINATOR':
+				if position == 'LECTURER' or position == 'COORDINATOR':
 					return HttpResponseRedirect(reverse('lecturer:lect_error'))
 				else:
 					return HttpResponseRedirect(reverse('administrative:admin_error'))
-	return wrapper_func 
-	
+	return wrapper_func
+
 def is_lecturer(func):
 	@wraps(func)
 	def wrapper_func(request, *args, **kwargs):
@@ -33,12 +33,12 @@ def is_lecturer(func):
 			emp = Employee.objects.filter(user=user)
 			if emp.exists():
 				position = emp.first().pstn.upper()
-				if position == 'LECTURER' or position == 'UNIT COORDINATOR':
+				if position == 'LECTURER' or position == 'COORDINATOR':
 					return func(request, *args, **kwargs)
 				else:
 					return HttpResponseRedirect(reverse('administrative:admin_error'))
-	return wrapper_func 
-	
+	return wrapper_func
+
 def is_admin(func):
 	@wraps(func)
 	def wrapper_func(request, *args, **kwargs):
@@ -50,8 +50,8 @@ def is_admin(func):
 			emp = Employee.objects.filter(user=user)
 			if emp.exists():
 				position = emp.first().pstn.upper()
-				if position == 'LECTURER' or position == 'UNIT COORDINATOR':
+				if position == 'LECTURER' or position == 'COORDINATOR':
 					return HttpResponseRedirect(reverse('lecturer:lect_error'))
 				else:
 					return func(request, *args, **kwargs)
-	return wrapper_func 
+	return wrapper_func
