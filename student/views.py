@@ -83,6 +83,8 @@ def student_codeinput(request):
 							context = {
 							'unit_code' : item.question.topic_id.unit_id.code,
 							'unit_title' : item.question.topic_id.unit_id.title,
+							'topic_num' : item.question.topic_id.number,
+							'topic_title' : item.question.topic_id.name,
 							'ans1' : item.question.ans_1,
 							'ans2' : item.question.ans_2,
 							'ans3' : item.question.ans_3,
@@ -166,6 +168,9 @@ def student_answer(request):
 			context2 = get_std_context(user)
 			user_dict = context1.copy()
 			user_dict.update(context2)
+			user_dict['unit_code'] = context1['unit_code']
+			user_dict['topic_num'] = context1['topic_num']
+			user_dict['topic_title'] = context1['topic_title']
 			return render(request, 'student/studentQuestion.html', user_dict)
 		else:
 			messages.error(request, 'Input question code first.', extra_tags='alert-warning')  

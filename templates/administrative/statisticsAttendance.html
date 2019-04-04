@@ -23,8 +23,8 @@
 </head>
 <body>
 {% block main %}
-    <main class="main">
-		<div id="page-top-header0" class="clearfix0">
+    <main class="main" style="margin-top:20px">
+		<div id="page-top-header0" class="clearfix0" style="margin-bottom:20px">
 <div id="page-navbar0" class="clearfix0 row-fluid0">
 	<div class="breadcrumb-nav0 span9">
 	<span class="accesshide0" id="navbar-label0">Page path</span>
@@ -41,21 +41,19 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
-<div id="page-content" style="margin-top:30px">
-        <section class="stats d-flex align-items-center justify-content-center flex-column">
-		{% include 'messages.html' %}
-            <h1 class="stats__heading">Select Statistics Options</h1>
+{% include 'messages.html' %}
+<div id="page-content" style="margin-top:30px; background-color:#e2e2f2;padding:30px;margin-top:10px;">
+        <section class="stats d-flex">
+            <h1 class="stats__heading" style="margin-left:10px">Attendance Statistics</h1>
             <section class="container">
                 <form class="row" action="{% url 'administrative:attendance_stats' %}" method="post">
                         {% csrf_token %}
-                    <section class="col-12 col-sm-6 order-last">
-                        <div>{{graph|safe}}</div>
-                    </section>
-                    <section class="col-12 col-sm-6 order-first">
+					<div>
+					 <section class="col-12 col-sm-6 order-first">
                                 <section class="m-3">
-                                        <select name="period">
+                                        <select name="period" class=".menu-data">
 										{% for x in t_period %}
-                                                <option value="{{x.id}}">{{x.id}}</option>
+                                                <span style="font-size:100pt"><option value="{{x.id}}" size=50 >{{x.id}}</option></span>
 										{% endfor %}
                                         </select>
                                 </section>
@@ -67,17 +65,21 @@
                                         </select>
                                 </section>
                                 <section class="form-group m-3 stats__text">
-                                    <input type="text" name="selection" placeholder="Insert Course/Unit/Class Code" required>
+                                    <input type="text" name="selection" placeholder="Insert Course/Unit/Class Code" class='.data_textbox' required>
                                 </section>
                                 <section class="form-group d-flex align-content-around">
                                     <input type="submit" name="submit" value="Submit" class="m-3 btn btn-primary btn-lg stats__btn">
 									<input type="submit" name="download" value="Download" class="m-3 btn btn-primary btn-lg stats__btn">
                                 </section>
                     </section>
-                </form>
-            </section>
-        </section>
+					</div>
+				</form>
+				 </section>
+				<div>{{graph|safe}}</div> 
+				 </section>
+                        
 		</div>
+		
     </main>
 {% endblock main %}
 {% block script %}

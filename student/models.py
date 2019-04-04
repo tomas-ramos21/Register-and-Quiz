@@ -12,7 +12,7 @@ class Student(models.Model):
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', default='')
-    s_class = models.ManyToManyField(Class)                 # Many Students to Many Classes
+    s_class = models.ManyToManyField(Class, blank=True)                 # Many Students to Many Classes
     s_course= models.ManyToManyField(Course)                # Many Students to Many Courses
 
 class Answer(models.Model):

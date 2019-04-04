@@ -48,14 +48,7 @@
                                 <form class="card__form" id="code-form" method="POST">
 								{% csrf_token %}
 								{{form.as_p}}
-								<input type="submit" class="btn btn-primary card__submit" id="submit_code">
-										<!--
-                                        <section class="card-submission">
-                                                <label class="mr-3 card__label" for="card__answer">Question Code:</label>
-                                                <input type="text" name="text" id="card__answer" required class="card__input form-control form-control-lg">
-                                                <input type="submit"  class="btn btn-primary card__submit">
-                                        </section>
-										-->
+								<input type="submit" class="btn btn-primary card__submit" id="submit_code" value="Submit">
                                 </form>
                         </section>
                 </section></center>

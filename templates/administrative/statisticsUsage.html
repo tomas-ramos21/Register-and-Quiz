@@ -24,7 +24,7 @@
 <body>
 {% block main %}
     <main class="main">
-		<div id="page-top-header0" class="clearfix0">
+		<div id="page-top-header0" class="clearfix0" style="margin-bottom:20px">
 <div id="page-navbar0" class="clearfix0 row-fluid0">
 	<div class="breadcrumb-nav0 span9">
 	<span class="accesshide0" id="navbar-label0">Page path</span>
@@ -41,9 +41,9 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
-<div id="page-content" style="margin-top:30px; background-color:#e2e2f2;padding:30px">
-        <section class="stats d-flex align-items-center justify-content-center flex-column">
-		{% include 'messages.html' %}
+{% include 'messages.html' %}
+<div id="page-content" style="margin-top:30px; background-color:#e2e2f2;padding:30px;margin-top:10px;">
+        <section class="stats d-flex align-items-center justify-content-center flex-column">		
             <h1 class="stats__heading">Teaching Space Statistics</h1>
 			<p>Instructions:</p>
 			<ol>
@@ -71,9 +71,6 @@
                                 <section class="form-group d-flex align-content-around">
                                     <input type="submit" name="submit" value="Submit" class="m-3 btn btn-primary btn-lg stats__btn">
 									<input type="submit" name="download" value="Download" class="m-3 btn btn-primary btn-lg stats__btn">
-									<!--
-                                    <button class="btn btn-dark btn-lg m-3 stats__btn">Download</button>
-									-->
                                 </section>
                     </section>
                 </form>

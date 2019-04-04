@@ -53,46 +53,43 @@
                         </section>
                         <form action="{% url 'student:student_answer' %}" class="row form" name="answer_submission" method="post" >
 						{% csrf_token %}
-						{% if ans1 is not None %}
-						<div id="qnform" style="background-color:#e2e2f2">
-						<section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column">
-                                        <section class="form-group form__selection" style='padding:0px'>
-                                                <input type="radio" class="form__button" id="answer-1" name='choice' aria-label="Radio button for following text input" value="{{ans1}}">
-												<label class="mr-3 form__label" for="answer-1" id='answer' >&nbsp; {{ans1}}</label>
-                                        </section>
-                        </section>
-						{% endif %}
-						{% if ans2 is not None %}
-						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
-                                        <section class="form-group form__selection">
-                                                <input type="radio" class="form__button" id="answer-2" name='choice' aria-label="Radio button for following text input" value="{{ans2}}">
-												<label class="mr-3 form__label" for="answer-2" id='answer'>&nbsp; {{ans2}}</label>
-
-                                        </section>
-                        </section>
-						{% endif %}
-						{% if ans3 != '' %}
-						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
-                                        <section class="form-group form__selection">
-                                                <input type="radio" class="form__button" id="answer-3" name='choice' aria-label="Radio button for following text input" value="{{ans3}}">
-												<label class="mr-3 form__label" for="answer-3" id='answer'>&nbsp; {{ans3}}</label>
-
-                                        </section>
-                        </section>
-						{% endif %}
-						{% if ans4 != '' %}
-						<section class="my-3 col-12  d-flex align-items-center justify-content-center flex-column">
-                                        <section class="form-group form__selection">
-                                                <input type="radio" class="form__button" id="answer-4" name='choice' aria-label="Radio button for following text input" value="{{ans4}}">
-												<label class="mr-3 form__label" for="answer-4" id='answer'>&nbsp; {{ans4}}</label>
-                                        </section>
-                        </section>
-						{% endif %}
 						<section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column">
 						
+						<div class="answer_container">
+								{% if ans1 != '' %}
+								<section class="form-group form__selection">
+										<input type="radio" class="form__button" id="answer-1" name='choice' aria-label="Radio button for following text input" value="{{ans1}}">
+										<span class='answer'><label class="mr-3 form__label" for="answer-1">&nbsp; {{ans1}}</label></span>
+								</section>
+								{% endif %}
+								{% if ans2 != '' %}
+								<section class="form-group form__selection">
+                                         <input type="radio" class="form__button" id="answer-2" name='choice' aria-label="Radio button for following text input" value="{{ans2}}">
+										<span class='answer'><label class="mr-3 form__label answer" for="answer-2">&nbsp; {{ans2}}</label></span>
+								</section>
+								{% endif %}
+								{% if ans3 != '' %}
+                                        <section class="form-group form__selection">
+                                                <input type="radio" class="form__button" id="answer-3" name='choice' aria-label="Radio button for following text input" value="{{ans3}}">
+												<span class='answer'><label class="mr-3 form__label answer" for="answer-3">&nbsp; {{ans3}}</label></span>
+
+                                        </section>
+								</section>
+								{% endif %}
+								{% if ans4 != '' %}
+                                        <section class="form-group form__selection">
+                                                <input type="radio" class="form__button" id="answer-4" name='choice' aria-label="Radio button for following text input" value="{{ans4}}">
+												<span class='answer'><label class="mr-3 form__label answer" for="answer-4">&nbsp; {{ans4}}</label></span>
+                                        </section>
+								</section>
+								{% endif %}
+
+					   </div>
+					   </section>       
+						<section class="my-3 col-12 d-flex align-items-center justify-content-center flex-column">
                         <input type="submit" aria-label="Submit Button" class="btn btn-primary btn-lg form__submit"
                         data-toggle="modal" data-target="#exampleModal" value="Submit" name="Submit">
-						</div>		
+								
                         </form>
 						
                 </section>

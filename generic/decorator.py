@@ -17,9 +17,11 @@ def is_student(func):
 			if emp.exists():
 				position = emp.first().pstn.upper()
 				if position == 'LECTURER' or position == 'UNIT COORDINATOR':
-					return HttpResponseRedirect(reverse('lecturer:lect_error'))
+					return redirect('lecturer:lect_error')
 				else:
-					return HttpResponseRedirect(reverse('administrative:admin_error'))
+					return redirect('administrative:admin_error')
+			else:
+				return redirect('login:user_login')
 	return wrapper_func 
 	
 def is_lecturer(func):
@@ -28,7 +30,7 @@ def is_lecturer(func):
 		user = request.user
 		std = Student.objects.filter(user=user)
 		if std.exists():
-			return HttpResponseRedirect(reverse('student:student_error'))
+			return redirect('student:student_error')
 		else:
 			emp = Employee.objects.filter(user=user)
 			if emp.exists():
