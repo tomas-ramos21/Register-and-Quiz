@@ -219,7 +219,7 @@ def employee_creation(request):
 		return render(request, 'administrative/lectAccAdd.html', user_dict)
 
 	# Process to obtain CSV & create accounts
-	if request.method == "POST":
+	if request.method == "POST" and 'files' in request.FILES:
 		csv_file = request.FILES['files']
 		fs = FileSystemStorage()
 		filename = fs.save(csv_file.name, csv_file)
@@ -285,14 +285,14 @@ def attendance_stats(request):
 			graph = admin_attendance_graph(period, granularity, selection)
 			if graph == False:
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
-				return redirect('administrative:space_management')
+				return redirect('administrative:attendance_stats')
 			user_dict['graph'] = graph
 			return render(request, 'administrative/statisticsAttendance.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_attendance_csv(period, granularity, selection)
 			if response == False:
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
-				return redirect('administrative:space_management')
+				return redirect('administrative:attendance_stats')
 			return response
 	return render(request, 'administrative/statisticsAttendance.html', user_dict)
 
@@ -310,7 +310,6 @@ def space_stats(request):
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
 				return redirect('administrative:space_stats')
 			user_dict['graph'] = graph
-
 			return render(request, 'administrative/studentStats.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_space_csv(period, selection)
@@ -342,6 +341,7 @@ def user_view(request):
 	units = None
 	courses = None
 	user_object = None
+	
 	if student is not None:
 		classes, courses, units = extract_info_student(student)
 		user_object = student

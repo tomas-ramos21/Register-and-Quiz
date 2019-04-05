@@ -21,14 +21,14 @@
 </head>
 <body>
 {% block main %}
-    <main class="main">
+    <main class="main" style="padding:30px">
         <section class=" d-flex align-items-center justify-content-center flex-column">
             <table class="table">
                 <thead>
-                    <th scope="col"><h1 class="text-center">Error</h1></th>
+                    <th scope="col"><h1 class="text-center">{{msg}}</h1></th>
                 </thead>
                 <tbody>
-                    <td scope="row" class="table__body"><h1  class="text-center">(Error Msg Here)</h1></td>
+                    <td scope="row" class="table__body"><h1  class="text-center">{{desc}}</h1></td>
                 </tbody>
             </table>
         </section>

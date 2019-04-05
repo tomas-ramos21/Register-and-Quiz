@@ -15,6 +15,7 @@ from administrative.models import Building, Room, Employee, Unit, Course, Teachi
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from typing import Dict, Tuple
+from datetime import datetime, timezone
 
 from generic.statistics_generator import class_attendance_csv, class_attendance_csv_all, unit_attendance_csv, unit_attendance_csv_all, course_attendance_csv, course_attendance_csv_all, csv_transfer, room_usage_csv, room_usage_csv_all
 
@@ -47,13 +48,19 @@ def get_lecturer_context(user) -> Dict:
 					letter = ', '
 				period += letter
 			period_display.append(period)
-
+		
 		class_display = list(zip(unit_list, period_display))
+		
+		final_list = [] 
+		for num in class_display: 
+			if num not in final_list: 
+				final_list.append(num) 
+		
 		user_dict = {
 			'f_name': lect.user.first_name,
 			'fl_name': lect.user.first_name + ' ' + lect.user.last_name,
 			'position': lect.pstn.upper(),
-			'class_display': class_display,
+			'class_display': final_list,
 		}
 		return user_dict
 	else:
@@ -88,7 +95,17 @@ def get_std_context(user):
 	else:
 		return {}
 
-
+def is_expired(item):
+	diff = datetime.now(timezone.utc) - item.tm_stmp
+	seconds_passed = diff.total_seconds()
+	seconds_limit = item.minutes_limit * 60
+	print(seconds_limit)
+	print(seconds_passed)
+	if seconds_passed > seconds_limit : # If it has expired
+		return True
+	else:
+		return False
+		
 def register_employee(csv_path: str) -> None:
 	"""
 		Registers lecturers in the platform.
@@ -501,7 +518,7 @@ def publish_question(question, time: int, q_class) -> None:
 								 q_class=q_class,
 								 minutes_limit=time)
 	publish.save()
-	return code
+	return code, publish
 
 
 def register_class(user, csv_path: str):
@@ -566,8 +583,9 @@ def register_class(user, csv_path: str):
 	return new_class, msg
 
 
-def add_students(csv_path: str):
-	columns = ['class code','teaching period','time commitment','id']
+def add_students(user, csv_path: str):
+	msg = ""
+	columns = ['class code','teaching period','time commitment','id','action']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -597,18 +615,27 @@ def add_students(csv_path: str):
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				user = User.objects.filter(username=crt_dict['id']).first()
-				student = Student.objects.filter(user=user).first()
-				unit = crt_dict['class code'][:2]
-				print(unit)
-				code = crt_dict['class code'][-1]
-				print(code)
-				class_obj = Class.objects.filter(unit_id=unit, time_commi=crt_dict['time_commitment']).first()
-				act = crt_dict['action']
-				if act == 'remove':
-					continue
-				elif act == 'add':
-					student.s_class.add(class_obj)
+				user1 = User.objects.filter(username=crt_dict['id']).first()
+				if user1 is not None :
+					student = Student.objects.filter(user=user1).first()
+					if student is not None:
+						unit = crt_dict['class code'][:6]
+						unit_item = Unit.objects.filter(code=unit).first()
+						tp = Teaching_Period.objects.filter(id=crt_dict['teaching period']).first()
+						if unit_item is not None and tp is not None :
+							code = crt_dict['class code'][-1]
+							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time commitment'], code=code, t_period=tp).first()
+							emp = Employee.objects.filter(user=user).first()
+							if class_obj.staff_id == emp:
+								if class_obj is not None:
+									act = crt_dict['action']
+									if act == 'remove':
+										student.s_class.remove(class_obj)
+									elif act == 'add':
+										student.s_class.add(class_obj)
+									student.save()
+								else:
+									print('huhu')
 		return True, msg
 
 

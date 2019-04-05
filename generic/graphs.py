@@ -46,7 +46,7 @@ def attendance_graph(unit, period, student):
     question_count = {}
     answer_count = {}
     for question in published:
-        date = question.tm_stmp.date()
+        date = str(question.tm_stmp.date())
         ans = Answer.objects.filter(s_id=student).filter(q_id=question).first()
         if date not in question_count:
             question_count[date] = 1
@@ -76,7 +76,7 @@ def admin_attendance_graph(period, granularity, text_selection):
     y = []
 
     plot_div = False
-	
+
     if granularity == 'course':
         if text_selection.lower() == 'all':
             courses = list(Course.objects.all())
@@ -132,17 +132,10 @@ def admin_attendance_graph(period, granularity, text_selection):
                 graphs.append(Scatter(x=x_val,y=y_val,name=label))
             plot_div = plot(graphs, output_type='div')
         else:
-            print('oo')
             t_period = Teaching_Period.objects.filter(id=period).first()
             unit = Unit.objects.filter(code=text_selection[:len(text_selection)-1]).first()
             cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit_id=unit).first()
-            if cls == None:
-                print('oo2')
-            if unit == None:
-                print('003')
-            print(period)
-            if t_period == None:
-                print('yuy')
+           
             if cls == None or unit == None or t_period == None:
                 return False
 
@@ -172,7 +165,7 @@ def get_course_attendance(period, course):
         for question in published_questions:
             answers = Answer.objects.filter(q_id=question).count()
             attendance = answers/students
-            date = question.tm_stmp.date()
+            date = str(question.tm_stmp.date())
 
             # If records for the given date exist merge them, otherwise add entry
             if date in date_attendance:
@@ -204,7 +197,7 @@ def get_unit_attendance(period, unit):
         for question in published_questions:
             answers = Answer.objects.filter(q_id=question).count()
             attendance = answers/students
-            date = question.tm_stmp.date()
+            date = str(question.tm_stmp.date())
 
             # If records for the given date exist merge them, otherwise add entry
             if date in date_attendance:
@@ -234,7 +227,7 @@ def get_class_attendance(cls):
     for question in published_questions:
         answers = Answer.objects.filter(q_id=question).count()
         attendance = answers/students
-        date = question.tm_stmp.date()
+        date = str(question.tm_stmp.date())
 
         # If records for the given date exist merge them, otherwise add entry
         if date in date_attendance:

@@ -135,4 +135,12 @@ body {
   width: 100%;
 }
 */
+
+table,th,td, tr
+{
+		border:1px solid black;
+		font-size:13pt;
+		padding:10px;
+}
+
 /*# sourceMappingURL=lectQues.css.map */

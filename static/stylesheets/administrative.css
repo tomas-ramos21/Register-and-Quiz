@@ -146,5 +146,11 @@ body {
     bottom: 0;
   }
 }
-
+#whole-content{
+white-space:nowrap;
+}
+.stats{
+	flex-direction:row;
+	flex-wrap:nowrap;
+}
 /*# sourceMappingURL=administrative.css.map */

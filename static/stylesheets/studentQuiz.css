@@ -116,5 +116,15 @@ body {
     bottom: 0;
   }
 }
-
+.answer{
+font-size:20pt;
+}
+.form-group{
+	flex-grow:1;
+	align-self:flex-start;
+}
+.answer_container{
+background-color:#e2e2f2;
+padding:30px;
+}
 /*# sourceMappingURL=studentQuiz.css.map */

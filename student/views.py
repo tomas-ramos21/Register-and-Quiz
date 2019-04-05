@@ -17,7 +17,7 @@ from ipware import get_client_ip
 from django.http import HttpResponse, HttpResponseRedirect
 from lecturer.models import Class
 from generic.decorator import is_student
-from generic.utils import get_std_context
+from generic.utils import get_std_context, is_expired
 from generic.graphs import attendance_graph
 from django.contrib import messages
 
@@ -73,23 +73,11 @@ def student_codeinput(request):
 				if item.q_class in std.s_class.all():
 					ans = Answer.objects.filter(s_id=std, q_id=item).first()
 					if ans is None:
-						diff = datetime.now(timezone.utc) - item.tm_stmp
-						seconds_passed = diff.total_seconds()
-						seconds_limit = item.minutes_limit * 60
-						if seconds_passed > seconds_limit : # If it has expired
-							messages.error(request, 'Question has expired', extra_tags='alert-warning')  
+						if is_expired(item):
+							messages.error(request, 'Question has expired', extra_tags='alert-warning')
 							return redirect('student:student_codeinput')
 						else:
-							context = {
-							'unit_code' : item.question.topic_id.unit_id.code,
-							'unit_title' : item.question.topic_id.unit_id.title,
-							'ans1' : item.question.ans_1,
-							'ans2' : item.question.ans_2,
-							'ans3' : item.question.ans_3,
-							'ans4' : item.question.ans_4,
-							'question_code' : code
-							}
-							request.session['question_data'] = context
+							request.session['question_data'] = item.code
 							return redirect('student:student_answer')
 					else:
 						messages.error(request, 'Duplicate answer is not allowed for a question.', extra_tags='alert-warning')  
@@ -120,7 +108,6 @@ def student_answer(request):
 
 	if request.method == 'POST':
 		if 'choice' in request.POST:
-			selection = request.POST.get('choice')
 
 			# Get the student object who submitted the answer
 			user = request.user
@@ -128,45 +115,72 @@ def student_answer(request):
 			
 			# Get the details of the question answered
 			context = request.session.get('question_data')
-			question_answered = Published_Question.objects.filter(code=context['question_code']).first()
+			if context is not None:
+				question_answered = Published_Question.objects.filter(code=context).first()
+				if question_answered is not None:
+					if is_expired(question_answered):
+						messages.error(request, 'Question has expired', extra_tags='alert-warning')
+						return redirect('student:student_codeinput')
+					else:
+						selection = request.POST.get('choice')
 
-			# Get the details of the Teaching Day when the question was answered
-			t_period = ''
-			lecturer = None
-			class_item = None
+						class_item = question_answered.q_class
 
-			enrolled_class = std.s_class.all()
-			for x in enrolled_class:
-				if x.unit_id.code == context['unit_code']:
-					class_item = x
-					lecturer = x.staff_id
-					break
+						enrolled_class = std.s_class.all()
 
-			t_day = Teaching_Day.objects.filter(c_id=class_item, date_td=datetime.now(timezone.utc).date()).first()
-			if t_day is None:
-				return HttpResponse('Unexpected error')
+						if class_item in enrolled_class:
+							t_day = Teaching_Day.objects.filter(c_id=class_item, date_td=datetime.now(timezone.utc).date()).first()
 
-			# Get IP address of student
-			client_ip, is_routable = get_client_ip(request)
-			
-			if client_ip is None:
-				client_ip = '0.0.0.0'
-			
-			# Create a new Answer object and save it to the database
-			new_answer = Answer(s_id=std, q_id=question_answered, teach_day=t_day, ans=selection, ip_addr=client_ip)
-			new_answer.save()
-			
-			request.session['question_data'] = None 
-			
-			return redirect('student:student_index')
+							if t_day is None:
+								messages.error(request, 'No matching Teaching Day found.', extra_tags='alert-warning')
+								return redirect('student:student_codeinput')
+
+							# Get IP address of student
+							client_ip, is_routable = get_client_ip(request)
+
+							if client_ip is None:
+								client_ip = '0.0.0.0'
+
+							# Create a new Answer object and save it to the database
+							ans = Answer.objects.filter(s_id=std, q_id=question_answered)
+							if ans.exists() == False :
+								new_answer = Answer(s_id=std, q_id=question_answered, teach_day=t_day, ans=selection, ip_addr=client_ip)
+								new_answer.save()
+
+							request.session['question_data'] = None
+
+							messages.success(request, 'Successfully submitted answer on Question: ' + question_answered.question.title, extra_tags='alert-success')
+							return redirect('student:student_codeinput')
+						else:
+							messages.error(request, 'Not your class question.', extra_tags='alert-warning')
+							return redirect('student:student_codeinput')
 	else:
-		context1 = request.session.get('question_data')
-		if context1 is not None:
+		context = request.session.get('question_data')
+		if context is not None:
 			user = request.user
-			context2 = get_std_context(user)
-			user_dict = context1.copy()
-			user_dict.update(context2)
-			return render(request, 'student/studentQuestion.html', user_dict)
+			user_context = get_std_context(user)
+			item = Published_Question.objects.filter(code=context).first()
+			if item is not None:
+				if is_expired(item):
+					messages.error(request, 'Question has expired', extra_tags='alert-warning')
+					return redirect('student:student_codeinput')
+				else:
+					context = {
+						'unit_code' : item.question.topic_id.unit_id.code,
+						'unit_title' : item.question.topic_id.unit_id.title,
+						't_num' : item.question.topic_id.number,
+						't_name' : item.question.topic_id.name,
+						'q_title' : item.question.title,
+						'ans1' : item.question.ans_1,
+						'ans2' : item.question.ans_2,
+					 	'ans3' : item.question.ans_3,
+						'ans4' : item.question.ans_4,
+					}
+					user_dict = user_context.copy()
+					user_dict.update(context)
+					return render(request, 'student/studentQuestion.html', user_dict)
+			else:
+				return redirect('student:student_codeinput')
 		else:
 			messages.error(request, 'Input question code first.', extra_tags='alert-warning')  
 			return redirect('student:student_codeinput')

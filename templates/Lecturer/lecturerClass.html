@@ -89,6 +89,7 @@
 			<li> Make sure that there are no empty or missing cells. 
 			</ol>
                     <form method="post" class="upload" enctype="multipart/form-data">
+					{% csrf_token %}
             <center><label for="student_class_upload"  class="search__label">Upload CSV</label></center>
             <section class="form-group file">
                 <input type="file" name="student_file" accept=".csv" class="file__uploader">

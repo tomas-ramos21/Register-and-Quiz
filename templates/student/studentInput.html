@@ -35,26 +35,20 @@
 	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
 	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
 	<a itemprop="url" href="{% url 'student:student_dashboard' %}"><span itemprop="title">Dashboard</span></a></span></li>
-	<li><span tabindex="0">Question Code Input</span></li>
+	<li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" title="Question Code Input" aria-current="page" href="{% url 'student:student_codeinput' %}">
+	<span itemprop="title">Question Code Input</span></a></span></li>
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
 		<h1 class="unit-text my-3  unit" style="margin-top:0px; padding-top:0px;">Question Code Input</h1><center>
 		<span style="font-size:15pt">Please input question code (9 digits long)</span>
-                <section class="card" style="background-color:#f1ede3">
+                {% include 'messages.html' %}
+				<section class="card" style="background-color:#f1ede3">
                         <section class="card-body">
-								{% include 'messages.html' %}
                                 <form class="card__form" id="code-form" method="POST">
 								{% csrf_token %}
 								{{form.as_p}}
-								<input type="submit" class="btn btn-primary card__submit" id="submit_code">
-										<!--
-                                        <section class="card-submission">
-                                                <label class="mr-3 card__label" for="card__answer">Question Code:</label>
-                                                <input type="text" name="text" id="card__answer" required class="card__input form-control form-control-lg">
-                                                <input type="submit"  class="btn btn-primary card__submit">
-                                        </section>
-										-->
+								<input type="submit" class="btn btn-primary card__submit" id="submit_code" value="Submit">
                                 </form>
                         </section>
                 </section></center>

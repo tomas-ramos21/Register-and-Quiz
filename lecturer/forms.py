@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from . import models
-from administrative.models import Employee
+from administrative.models import Employee, Teaching_Period
 
 class classForm(forms.ModelForm):
     class Meta:
@@ -18,3 +18,6 @@ class classForm(forms.ModelForm):
         super(classForm, self).__init__(*args, **kwargs)
         emp = Employee.objects.filter(user=user).first()
         self.fields['unit_id'].queryset  = emp.units.all()
+
+
+
