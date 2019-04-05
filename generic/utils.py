@@ -497,6 +497,10 @@ def register_questions(csv_path: str) -> None:
 				topic = Topic.objects.filter(number=crt_dict['topic']).filter(unit_id=unit).first()
 				user = User.objects.filter(username=crt_dict['staff_id']).first()
 				lecturer = Employee.objects.filter(user=user).first()
+				
+				if unit is None or topic is None or user is None or lecturer is None:
+					continue
+				
 				question = Question(text=crt_dict['question'],
 									ans_1=crt_dict['answer_1'],
 									ans_2=crt_dict['answer_2'],
