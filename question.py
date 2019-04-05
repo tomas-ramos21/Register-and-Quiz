@@ -34,6 +34,7 @@ qn2.save()
 qn3 = Question(title='SA question 3',text='What is software?',ans_1='application', ans_2='program', topic_id=topic1, staff_id=e1)
 qn3.save()
 
+# for day 2
 qn4 = Question(title='SA question 4',text='What is architecture?',ans_1='framework', ans_2='blueprint', topic_id=topic1, staff_id=e1)
 qn4.save()
 
@@ -112,71 +113,126 @@ tp1 = Teaching_Day(r_id=room, c_id=class1, date_td=dt1.date())
 tp1.save()
 tp2 = Teaching_Day(r_id=room, c_id=class2, date_td=dt1.date())
 tp2.save()
-# for ICT167
-tp3 = Teaching_Day(r_id=room2, c_id=class2, date_td=dt5.date())
+# for
+tp3 = Teaching_Day(r_id=room2, c_id=class1, date_td=dt5.date())
 tp3.save()
 tp4 = Teaching_Day(r_id=room2, c_id=class2, date_td=dt5.date())
 tp4.save()
-"""
+
 # Question fot ICT373 - 2019-3-31
 qn1_p = Published_Question(code=1, question=qn1, q_class=class1, tm_stmp=dt1, minutes_limit=1)
 qn1_p.save() #3
 
-ans1_1 = Answer(s_id=std1, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans1_2 = Answer(s_id=std2, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans1_3 = Answer(s_id=std3, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
+ans1_1 = Answer(s_id=std1, q_id=qn1_p, teach_day=tp1,ans='Java',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans1_2 = Answer(s_id=std2, q_id=qn1_p, teach_day=tp1,ans='Python',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans1_3 = Answer(s_id=std3, q_id=qn1_p, teach_day=tp1,ans='Java',tm_stmp=dt1,ip_addr='0.0.0.0')
 
 qn2_p = Published_Question(code=2, question=qn2, q_class=class1, tm_stmp=dt2, minutes_limit=1)
 qn2_p.save() #5
 
-ans2_1 = Answer(s_id=std4, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans2_2 = Answer(s_id=std5, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans2_3 = Answer(s_id=std6, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans2_4 = Answer(s_id=std1, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans2_5 = Answer(s_id=std2, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
+ans2_1 = Answer(s_id=std4, q_id=qn2_p, teach_day=tp1,ans='0',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans2_2 = Answer(s_id=std5, q_id=qn2_p, teach_day=tp1,ans='1',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans2_3 = Answer(s_id=std6, q_id=qn2_p, teach_day=tp1,ans='0',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans2_4 = Answer(s_id=std1, q_id=qn2_p, teach_day=tp1,ans='1',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans2_5 = Answer(s_id=std2, q_id=qn2_p, teach_day=tp1,ans='1',tm_stmp=dt1,ip_addr='0.0.0.0')
 
 qn3_p = Published_Question(code=3, question=qn3, q_class=class1, tm_stmp=dt3, minutes_limit=1)
 qn3_p.save() #10
 
-ans3_1 = Answer(s_id=std1, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_2 = Answer(s_id=std2, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_3 = Answer(s_id=std3, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_4 = Answer(s_id=std1, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_5 = Answer(s_id=std2, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_6 = Answer(s_id=std3, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_7 = Answer(s_id=std1, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_8 = Answer(s_id=std2, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_9 = Answer(s_id=std3, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
-ans3_10 = Answer(s_id=std1, q_id=qn1_p, teach_day=,ans=,tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_1 = Answer(s_id=std1, q_id=qn3_p, teach_day=tp1,ans='application',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_2 = Answer(s_id=std2, q_id=qn3_p, teach_day=tp1,ans='program',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_3 = Answer(s_id=std3, q_id=qn3_p, teach_day=tp1,ans='program',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_4 = Answer(s_id=std4, q_id=qn3_p, teach_day=tp1,ans='application',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_5 = Answer(s_id=std5, q_id=qn3_p, teach_day=tp1,ans='program',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_6 = Answer(s_id=std6, q_id=qn3_p, teach_day=tp1,ans='program',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_7 = Answer(s_id=std7, q_id=qn3_p, teach_day=tp1,ans='application',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_8 = Answer(s_id=std8, q_id=qn3_p, teach_day=tp1,ans='application',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_9 = Answer(s_id=std9, q_id=qn3_p, teach_day=tp1,ans='program',tm_stmp=dt1,ip_addr='0.0.0.0')
+ans3_10 = Answer(s_id=std10, q_id=qn3_p, teach_day=tp1,ans='application',tm_stmp=dt1,ip_addr='0.0.0.0')
 
-# 2019-4-10
+# ICT373 2019-4-10
 qn4_p = Published_Question(code=4, question=qn4, q_class=class1, tm_stmp=dt5, minutes_limit=1)
 qn4_p.save() #10
 
+ans3_1 = Answer(s_id=std1, q_id=qn4_p, teach_day=tp3,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_2 = Answer(s_id=std2, q_id=qn4_p, teach_day=tp3,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_3 = Answer(s_id=std3, q_id=qn4_p, teach_day=tp3,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_4 = Answer(s_id=std4, q_id=qn4_p, teach_day=tp3,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_5 = Answer(s_id=std5, q_id=qn4_p, teach_day=tp3,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_6 = Answer(s_id=std6, q_id=qn4_p, teach_day=tp3,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_7 = Answer(s_id=std7, q_id=qn4_p, teach_day=tp3,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_8 = Answer(s_id=std8, q_id=qn4_p, teach_day=tp3,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_9 = Answer(s_id=std9, q_id=qn4_p, teach_day=tp3,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_10 = Answer(s_id=std10, q_id=qn4_p, teach_day=tp3,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+
 qn5_p = Published_Question(code=5, question=qn5, q_class=class1, tm_stmp=dt6, minutes_limit=1)
 qn5_p.save() #5
+ans3_5 = Answer(s_id=std5, q_id=qn5_p, teach_day=tp3,ans='0',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_6 = Answer(s_id=std6, q_id=qn5_p, teach_day=tp3,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_7 = Answer(s_id=std7, q_id=qn5_p, teach_day=tp3,ans='0',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_8 = Answer(s_id=std8, q_id=qn5_p, teach_day=tp3,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans3_9 = Answer(s_id=std9, q_id=qn5_p, teach_day=tp3,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
 
 qn6_p = Published_Question(code=6, question=qn6, q_class=class1, tm_stmp=dt7, minutes_limit=1)
 qn6_p.save() #7
+ans6_1 = Answer(s_id=std5, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans6_2 = Answer(s_id=std6, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans6_3 = Answer(s_id=std7, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans6_4 = Answer(s_id=std8, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans6_5 = Answer(s_id=std9, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans6_6 = Answer(s_id=std1, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans6_7 = Answer(s_id=std2, q_id=qn6_p, teach_day=tp3,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
 
-# Question for ICT167 - 2019-3-31
+# Question fot ICT167 - 2019-3-31
 qn7_p = Published_Question(code=7, question=qn7, q_class=class2, tm_stmp=dt3, minutes_limit=1)
 qn7_p.save() #2
+
+ans7_1 = Answer(s_id=std8, q_id=qn7_p, teach_day=tp2,ans='Java',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans7_2 = Answer(s_id=std9, q_id=qn7_p, teach_day=tp2,ans='Java',tm_stmp=dt5,ip_addr='0.0.0.0')
+
 
 qn8_p = Published_Question(code=8, question=qn8, q_class=class2, tm_stmp=dt4, minutes_limit=1)
 qn8_p.save() #5
 
-#2019-4-10
+ans8_1 = Answer(s_id=std8, q_id=qn8_p, teach_day=tp2,ans='0',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans8_2 = Answer(s_id=std9, q_id=qn8_p, teach_day=tp2,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+
+# Question fot ICT373 - 2019-4-10
 qn9_p = Published_Question(code=9, question=qn9, q_class=class2, tm_stmp=dt8, minutes_limit=1)
 qn9_p.save() #10
+
+ans9_1 = Answer(s_id=std1, q_id=qn9_p, teach_day=tp4,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_2 = Answer(s_id=std2, q_id=qn9_p, teach_day=tp4,ans='program',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_3 = Answer(s_id=std3, q_id=qn9_p, teach_day=tp4,ans='program',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_4 = Answer(s_id=std4, q_id=qn9_p, teach_day=tp4,ans='program',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_5 = Answer(s_id=std5, q_id=qn9_p, teach_day=tp4,ans='program',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_6 = Answer(s_id=std6, q_id=qn9_p, teach_day=tp4,ans='program',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_7 = Answer(s_id=std7, q_id=qn9_p, teach_day=tp4,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_8 = Answer(s_id=std8, q_id=qn9_p, teach_day=tp4,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_9 = Answer(s_id=std9, q_id=qn9_p, teach_day=tp4,ans='application',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans9_10 = Answer(s_id=std10, q_id=qn9_p, teach_day=tp4,ans='program',tm_stmp=dt5,ip_addr='0.0.0.0')
 
 qn10_p = Published_Question(code=10, question=qn10, q_class=class2, tm_stmp=dt9, minutes_limit=1)
 qn10_p.save() #10
 
+ans10_1 = Answer(s_id=std1, q_id=qn10_p, teach_day=tp4,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_2 = Answer(s_id=std2, q_id=qn10_p, teach_day=tp4,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_3 = Answer(s_id=std3, q_id=qn10_p, teach_day=tp4,ans='framework',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_4 = Answer(s_id=std4, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_5 = Answer(s_id=std5, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_6 = Answer(s_id=std6, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_7 = Answer(s_id=std7, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_8 = Answer(s_id=std8, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_9 = Answer(s_id=std9, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans10_10 = Answer(s_id=std10, q_id=qn10_p, teach_day=tp4,ans='blueprint',tm_stmp=dt5,ip_addr='0.0.0.0')
+
 qn11_p = Published_Question(code=11, question=qn11, q_class=class2, tm_stmp=dt10, minutes_limit=1)
 qn11_p.save() #7
 
-"""
-
-
-
+ans11_1 = Answer(s_id=std1, q_id=qn11_p, teach_day=tp4,ans='0',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans11_2 = Answer(s_id=std2, q_id=qn11_p, teach_day=tp4,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans11_3 = Answer(s_id=std3, q_id=qn11_p, teach_day=tp4,ans='0',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans11_4 = Answer(s_id=std4, q_id=qn11_p, teach_day=tp4,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans11_5 = Answer(s_id=std5, q_id=qn11_p, teach_day=tp4,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans11_6 = Answer(s_id=std6, q_id=qn11_p, teach_day=tp4,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
+ans11_7 = Answer(s_id=std7, q_id=qn11_p, teach_day=tp4,ans='1',tm_stmp=dt5,ip_addr='0.0.0.0')
