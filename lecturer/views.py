@@ -1,5 +1,6 @@
 import os
 import re
+from generic.utils import admin_attendance_csv
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.urls import reverse
@@ -256,8 +257,8 @@ def lect_stats(request, unit_t, period_id):
 			if class_item.exists():
 				user_dict['unit'] = unit_t
 				user_dict['period'] = period_id
-				if request.method == 'POST':
-					if request.POST.get('submit'):
+				if request.POST.get('submit'):
+					if request.method == 'POST':
 						code = request.POST.get('selection')
 						graph = admin_attendance_graph(period, 'class', code)
 						if graph == False:
@@ -270,7 +271,7 @@ def lect_stats(request, unit_t, period_id):
 						user_dict['code'] = code
 						return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
 					elif request.POST.get('download'):
-						response = admin_attendance_csv(period, 'class', selection)
+						response = admin_attendance_csv(period, 'class', code)
 						if response == False:
 							messages.error(request, 'Information provided is wrong or the request object does not exists.',
 										   extra_tags='alert-warning')
