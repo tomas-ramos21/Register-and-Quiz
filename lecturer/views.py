@@ -43,16 +43,18 @@ def lect_publish(request, q_id, topic_id, period_id):
 		room = request.POST.get('current_room')
 		room = Room.objects.filter(id=room).first()
 		curr_class = Class.objects.filter(unit_id=topic.unit_id).filter(t_period=period).filter(code=class_code).first()
+		if curr_class is not None:
+			if Teaching_Day.objects.filter(c_id=curr_class).filter(date_td=datetime.utcnow().date()).first() is None:
+				t_day = Teaching_Day(r_id=room, c_id=curr_class)
+				t_day.save()
 
-		if Teaching_Day.objects.filter(c_id=curr_class).filter(date_td=datetime.utcnow().date()).first() is None:
-			t_day = Teaching_Day(r_id=room, c_id=curr_class)
-			t_day.save()
+			code, question_item = publish_question(question, time, curr_class)
+			
+			request.session['question_data'] = question_item.code
 
-		code, question_item = publish_question(question, time, curr_class)
-		
-		request.session['question_data'] = question_item.code
-
-		return redirect('lecturer:lect_project')
+			return redirect('lecturer:lect_project')
+		else:
+			return redirect('lecturer:lect_error')
 
 	return render(request, "Lecturer/LecturerPublish.html", user_dict)
 
