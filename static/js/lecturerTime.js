@@ -1,7 +1,7 @@
 // github link for timer function https://github.com/husa/timer.js/ for vendor functions like .start() , .stop() details
 
 (function(){
-    let duration = parseInt(document.querySelector(".timer-time").textContent) * 60; // 5 minutes , timer set for lectuer
+    let duration = parseInt(document.querySelector(".timer-time").textContent);
 
     const lecturerTime = new Timer({
         tick:1,
@@ -21,12 +21,12 @@
             minutes = minutes < 10 ? `0${minutes}` : minutes;
             seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-            document.querySelector(".timer-display").textContent = `Time Left ${minutes}: ${seconds}`;
+            document.querySelector(".timer-display").textContent = `Time left ${minutes}: ${seconds}`;
 
 
          },
          onend:function(){
-            document.querySelector(".timer-display").textContent = `Times up 00:00`;
+            document.querySelector(".timer-display").textContent = `Time is up! 00:00`;
          }
     })
 
@@ -34,7 +34,7 @@
 
     document.querySelector(".stop").addEventListener("click",()=>{
         lecturerTime.stop(); // stops the timer
-        document.querySelector(".timer-display").textContent = `Time stopped`;
+        document.querySelector(".timer-display").textContent = `Timer stopped`;
 
     })
 

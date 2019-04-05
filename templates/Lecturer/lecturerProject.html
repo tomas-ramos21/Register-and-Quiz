@@ -33,16 +33,16 @@
 	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
 	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
 	<li><span tabindex="0">Publish Question</span></li>
-	<li><span tabindex="0">Question for Topic {{topic}}</span></li>
+	<li><span tabindex="0">Question for Topic {{question.topic_id.number}}: {{question.topic_id.name}}</span></li>
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
-              <h1 class="text-center my-3 main__text">{{question_text}}</h1>
-            <h5 class="text-center my-3 main__text">{{q_code}}</h5>
-			<h2 class="timer-time" style='display:none;'>{{q_time}}</h2>
-            <h1 class="main__text text-center timer-display"></h1> <!--For Timer-->
-            <a href="{% url 'lecturer:lect_q_stats' published_id=q_code %}">
-                    <button type="submit" class="btn btn-secondary stop">Stop Now</button>
+              <h1 class="text-center my-3 main__text">{{question.text}}</h1>
+            <h5 class="text-center my-3 main__text">{{code}}</h5>
+			<h2 class="timer-time" style='display:none;'>{{rem_time}}</h2>
+            <h3 class="main__text text-center timer-display"></h3> <!--For Timer-->
+            <a href="{% url 'lecturer:lect_q_stats' published_id=code %}">
+                    <button type="submit" class="btn btn-secondary stop" value="Stop Now">Stop Now</button>
             </a>
     </main>
 {% endblock main %}

@@ -1,12 +1,14 @@
+{% extends 'Lecturer/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
 {% load markup_tags %}
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lecturer</title>
+    <title>Answer Statistics</title>
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
@@ -19,63 +21,65 @@
 
 
     <link rel="stylesheet" href="{% static 'stylesheets/lectQues.css' %}">
+{% endblock head %}
 </head>
 <body>
-        <header>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                        <section class="container">
-                                <a class="navbar-brand" href="#"><img src="{% static 'images/murdochimage-dark.png' %}" width="150"  alt="logo brand"></a>
-                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list" aria-controls="navbarNav"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <section class="collapse navbar-collapse " id="navbar-list">
-                                        <ul class="navbar-nav ml-auto text-center">
-                                            <li class="nav-item">
-                                                    <img src="{% static 'images/loginicon.png' %}" class="navbar__icon" alt="">
-                                            </li>
-                                            <li class="nav-item dropdown">
-                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <h1 class="navbar__name text-white display-5 mt-4">{{name_header}}</h1>
-                                                    </a>
-
-                                                    <section class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                        <section>
-                                                             <a href="#" class="drop-options">
-                                                                        <span><i class="far fa-user"></i></span>
-                                                                        <span >{{name_menu}}</span>
-                                                             </a>
-                                                        </section>
-                                                        <section>
-                                                            <a href="{% url 'lecturer:user_logout' %}" class="drop-options">
-                                                                        <span><i class="fas fa-sign-out-alt"></i></span>
-                                                                        <span>Logout</span>
-                                                             </a>
-                                                        </section>
-                                                    </section>
-                                            </li>
-                                        </ul>
-                                </section>
-                        </section>
-                    </nav>
-        </header>
-    <main class="main">
+{% block main %}
+    <main class="main" style="padding-top:0px; margin-top:50px">
+<div id="page-top-header0" class="clearfix0" style="padding:0px; margin:0px; padding-left:10px; padding-top:10px; margin-left:13px;padding-bottom:20px">
+<div id="page-navbar0" class="clearfix0 row-fluid0" style="padding:0px; margin:0px">
+	<div class="breadcrumb-nav0 span9">
+	<span class="accesshide0" id="navbar-label0">Page path</span>
+	<nav aria-labelledby="navbar-label0"><ul class="breadcrumb0 style1"><li>
+	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
+	<li><span tabindex="0">Publish Question</span></li>
+	<li><span tabindex="0">Question for Topic {{t_num}}: {{t_name}}</span></li>
+	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
+</div>
+</div>
+<div style='background-color:#e2e2f2;'>
             <section class=" d-flex align-items-center justify-content-center flex-column barchart">
-            <h1 class="text-center">Bar Chart </h1>
+            <h1 class="text-center">Bar Chart on Question: {{q_title}}</h1>
+			<h2>{{q_text}}</h2>
             <div>
             {{graph|safe}}
-    </div>
+			</div>
             </section>
-
+</div>
+			<table style='margin:20px'>
+			<tr>
+			{% if ans1 != '' %}
+			<td>Answer A</td>
+			<td>{{ans1}}</td>
+			</tr>
+			{% endif %}
+			{% if ans2 != '' %}
+			<tr>
+			<td>Answer B</td>
+			<td>{{ans2}}</td>
+			</tr>
+			{% endif %}
+			{% if ans3 != '' %}
+			<tr>
+			<td>Answer C</td>
+			<td>{{ans3}}</td>
+			</tr>
+			{% endif %}
+			{% if ans4 != '' %}
+			<tr>
+			<td>Answer D</td>
+			<td>{{ans4}}</td>
+			</tr>
+			{% endif %}
+			</table>
     </main>
-    <footer class="footer">
-            <img class="footer__image" src="{% static 'images/Murdoch_University_Logo.svg.png' %}" width="100" height="100" alt="">
-            <h1 class="text-center my-3 footer__text">2019 Murdoch University | Copyright & Disclaimer</h1>
-    </footer>
-
+{% endblock main %}
+{% block script %}
     <!--BootStrap Scripts-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+{% endblock script %}
 </body>
 </html>

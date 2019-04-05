@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 from administrative.models import Unit, Course, Teaching_Period, Room, Employee
 from datetime import datetime
 
