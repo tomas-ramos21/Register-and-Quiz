@@ -15,6 +15,9 @@ building1.save()
 room = Room(id='WE302', bd_code=building1, level=3, capacity=20)
 room.save()
 
+room2 = Room(id='WE510', bd_code=building1, level=5, capacity=30)
+room2.save()
+
 un1 = Unit(code='ICT373', title='Software Architecture', credits=3)
 un1.save()
 un1.course_id.add(course1)
