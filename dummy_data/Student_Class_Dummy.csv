@@ -1,5 +1,5 @@
-class code,teaching period,time_commitment,id,action
-ICT302A,TJA-2019,FT,333502,add
-ICT302A,TJA-2019,FT,333212,add
-ICT302A,TJA-2019,FT,333838,add
-ICT302A,TJA-2019,FT,333270,remove
+class code,teaching_period,time_commitment,id,action
+ICT302A,TJA-2019,ft,333502,add
+ICT302A,TJA-2019,ft,333212,add
+ICT302A,TJA-2019,ft,333838,add
+ICT302A,TJA-2019,ft,333270,remove

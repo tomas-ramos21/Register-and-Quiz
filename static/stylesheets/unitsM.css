@@ -156,5 +156,9 @@ body {
     justify-content: flex-start;
   }
 }
+li.style_custom,select.style_custom,section.style_custom, p.style_custom{
+margin:20px;
+font-size:15pt;
+}
 
 /*# sourceMappingURL=unitsM.css.map */

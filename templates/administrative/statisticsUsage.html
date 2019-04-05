@@ -43,29 +43,29 @@
 </div>
 {% include 'messages.html' %}
 <div id="page-content" style="margin-top:30px; background-color:#e2e2f2;padding:30px;margin-top:10px;">
-        <section class="stats d-flex align-items-center justify-content-center flex-column">		
-            <h1 class="stats__heading">Teaching Space Statistics</h1>
-			<p>Instructions:</p>
+        <section class="stats d-flex">		
+            <h1 class="stats__heading" style='margin:20px' >Teaching Space Statistics</h1>
+			<section class="container">
+			<p class="style_custom">Instructions:
 			<ol>
-			<li>Pick a teaching period
-			<li>Enter the room code, e.g. WE210, PM710
+			<li class="style_custom">Pick a teaching period</li>
+			<li class="style_custom">Enter the room code, e.g. WE210, PM710</li>
+			<li class="style_custom">Click Submit to generate a graph or download to download a CSV</li>
 			</ol>
-            <section class="container">
+            </p>
                 <form class="row" method="post" action="{% url 'administrative:space_stats' %}">
                         {% csrf_token %}
+						<div>
                     <section class="col-12 col-sm-6 order-last">
-                            <div>{{graph|safe}}</div>
-                    </section>
-                    <section class="col-12 col-sm-6 order-first">
                                 <section class="m-3">
-                                        <select name="period">
+                                        <select name="period" class="style_custom" style="margin-left:0px;">
                                                 <!-- DYNAMICALLY RENDER ALL TEACHING PERIODS HERE -->
 												{% for x in t_period %}
 												<option value="{{x.id}}">{{ x.id }}</option> -->
                                                 {% endfor %}
                                         </select>
                                 </section>
-                                <section class="form-group m-3 stats__text">
+                                <section class="form-group m-3 stats__text style_custom">
                                     <input type="text" placeholder="Enter Room Code" name="room_code" required>
                                 </section>
                                 <section class="form-group d-flex align-content-around">
@@ -73,8 +73,10 @@
 									<input type="submit" name="download" value="Download" class="m-3 btn btn-primary btn-lg stats__btn">
                                 </section>
                     </section>
+					</div>
                 </form>
             </section>
+			<div>{{graph|safe}}</div>
         </section>
 		</div>
     </main>
