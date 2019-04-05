@@ -281,7 +281,7 @@ def lect_stats(request, unit_t, period_id):
 										   extra_tags='alert-warning')
 		return redirect('lecturer:lect_stats')
 				
-	return render(request, 'lecturer/statisticsAttendance.html', user_dict)
+	return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
 
 @login_required
 @is_lecturer
