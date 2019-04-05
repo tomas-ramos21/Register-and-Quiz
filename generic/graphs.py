@@ -235,11 +235,11 @@ def get_class_attendance(cls):
         else:
             date_attendance[date] = [attendance]
 
-        for key, val in date_attendance.items():
-            x.append(key)
-            y.append(sum(val)/len(val))
-
-        return x, y
+    for key, val in date_attendance.items():
+        x.append(key)
+        y.append(sum(val)/len(val))
+       
+    return x, y
 
 def admin_room_usage(period, selection):
     selected_period = Teaching_Period.objects.filter(id=period).first()

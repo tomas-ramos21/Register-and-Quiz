@@ -33,3 +33,6 @@ class Answer(models.Model):
 		if not self.tm_stmp:
 			self.tm_stmp = datetime.now(timezone.utc)
 		return super(Answer, self).save(*args, **kwargs)
+		
+	def __str__(self):
+		return self.s_id.user.username + ' ' + str(self.q_id.code) + ' ' + str(self.teach_day.date_td) + ' ' + self.ans + ' ' + str(self.tm_stmp) + self.q_id.question.topic_id.unit_id.code 

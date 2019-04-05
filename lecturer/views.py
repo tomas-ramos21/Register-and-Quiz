@@ -266,6 +266,8 @@ def lect_stats(request, unit_t, period_id):
 							return redirect('lecturer:lect_stats', unit_t=unit_t, period_id=period_id)
 						user_dict['code'] = code
 						user_dict['graph'] = graph
+						user_dict['p_period'] = period
+						user_dict['code'] = code
 						return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
 					elif request.POST.get('download'):
 						response = admin_attendance_csv(period, 'class', selection)

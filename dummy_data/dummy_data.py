@@ -28,14 +28,14 @@ un2.save()
 un2.course_id.add(course1)
 un2.save()
 
-u1 = User(username='33317512', first_name='Madyarini Grace', last_name='Ariel', password='toortoor')
+u1 = User.objects.create_user(username='33317512', first_name='Madyarini Grace', last_name='Ariel', password='toortoor')
 u1.save()
 std1 = Student(user=u1)
 std1.save()
 std1.s_course.add(course1)
 std1.save()
 
-u2 = User(username='33317513', first_name='Rodney Sim', last_name='Qui Young', password='toortoor')
+u2 = User.objects.create_user(username='33317513', first_name='Rodney Sim', last_name='Qui Young', password='toortoor')
 u2.save()
 std2 = Student(user=u2)
 std2.save()
@@ -43,21 +43,21 @@ std2.s_course.add(course1)
 std2.save()
 
 
-u3 = User(username='33317514', first_name='Tomas Aleixo', last_name='Ramos', password='toortoor')
+u3 = User.objects.create_user(username='33317514', first_name='Tomas Aleixo', last_name='Ramos', password='toortoor')
 u3.save()
 std3 = Student(user=u3)
 std3.save()
 std3.s_course.add(course1)
 std3.save()
 
-u4 = User(username='33317515', first_name='Kimberly Kim', last_name='Park', password='toortoor')
+u4 = User.objects.create_user(username='33317515', first_name='Kimberly Kim', last_name='Park', password='toortoor')
 u4.save()
 std4 = Student(user=u4)
 std4.save()
 std4.s_course.add(course1)
 std4.save()
 
-u5 = User(username='33317516', first_name='Hien Ngoc', last_name='Chung', password='toortoor')
+u5 = User.objects.create_user(username='33317516', first_name='Hien Ngoc', last_name='Chung', password='toortoor')
 u5.save()
 std5 = Student(user=u5)
 std5.save()
@@ -70,10 +70,6 @@ std6 = Student(user=u6)
 std6.save()
 std6.s_course.add(course1)
 std6.save()
-
-
-
-
 
 u7 = User.objects.create_user(username='33317518', first_name='Jonathan Williams', last_name='Wong', password='toortoor')
 u7.save()

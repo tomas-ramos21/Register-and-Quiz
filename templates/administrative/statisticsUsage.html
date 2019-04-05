@@ -76,8 +76,11 @@
 					</div>
                 </form>
             </section>
-			<div>{{graph|safe}}</div>
-        </section>
+			{% if period is not None %}
+			<div>{{graph|safe}}<h3 style='margin-left:30px;background-color:yellow;text-align:center'>{{period}} Room:{{selection}}</h3>
+			{% endif %}
+			</div>
+		</section>
 		</div>
     </main>
 {% endblock main %}
