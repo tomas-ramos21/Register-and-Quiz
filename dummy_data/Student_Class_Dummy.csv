@@ -1,4 +1,4 @@
-class code,teaching period,time commitment,id,action
+class code,teaching period,time_commitment,id,action
 ICT302A,TJA-2019,FT,333502,add
 ICT302A,TJA-2019,FT,333212,add
 ICT302A,TJA-2019,FT,333838,add

@@ -168,7 +168,7 @@ def lect_class(request):
 				period = data.get('t_period')
 				time_commi2 = data.get('time_commi')
 				code = data.get('code')
-				cl = Class.objects.filter(unit_id=unit, t_period=period, time_commi=time_commi, code=code)
+				cl = Class.objects.filter(unit_id=unit, t_period=period, time_commi=time_commi2, code=code)
 				if cl.exists():
 					messages.error(request, 'Class has existed', extra_tags='alert-warning')
 					return redirect('lecturer:lect_class')

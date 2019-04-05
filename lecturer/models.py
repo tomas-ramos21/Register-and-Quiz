@@ -30,10 +30,10 @@ class Class(models.Model):
         class in the MySQL database.
     """
     time_commitments = (
-        ('FT', 'Full-Time'),
-        ('PT', 'Part-Time'),
-		('internal', 'Internal'),
-		('external', 'External'),
+	('FT', 'FT'),
+	('PT', 'PT'),
+	('internal', 'internal'),
+	('external', 'external'),
     )
     id = models.AutoField(primary_key=True)
     unit_id	= models.ForeignKey(Unit, on_delete=models.PROTECT)
