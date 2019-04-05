@@ -287,6 +287,9 @@ def attendance_stats(request):
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
 				return redirect('administrative:attendance_stats')
 			user_dict['graph'] = graph
+			user_dict['period'] = period
+			user_dict['granularity'] = granularity
+			user_dict['selection'] = selection
 			return render(request, 'administrative/statisticsAttendance.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_attendance_csv(period, granularity, selection)
@@ -310,6 +313,8 @@ def space_stats(request):
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
 				return redirect('administrative:space_stats')
 			user_dict['graph'] = graph
+			user_dict['period'] = period
+			user_dict['selection'] = selection
 			return render(request, 'administrative/statisticsUsage.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_space_csv(period, selection)

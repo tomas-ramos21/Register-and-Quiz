@@ -83,7 +83,11 @@
 					</div>
 				</form>
 				 </section>
-				<div>{{graph|safe}}</div> 
+				<div>{{graph|safe}}
+				{% if period is not None %}
+				<h3 style='margin-left:30px;background-color:yellow;text-align:center'>{{period}} {{granularity}}: {{selection}}</h3>
+				{% endif %}
+				</div> 
 				 </section>
                         
 		</div>
