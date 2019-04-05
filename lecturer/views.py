@@ -166,7 +166,7 @@ def lect_class(request):
 				data = form.cleaned_data
 				unit = data.get('unit_id')
 				period = data.get('t_period')
-				time_commi = data.get('time_commi')
+				time_commi2 = data.get('time_commi')
 				code = data.get('code')
 				cl = Class.objects.filter(unit_id=unit, t_period=period, time_commi=time_commi, code=code)
 				if cl.exists():
@@ -174,7 +174,7 @@ def lect_class(request):
 					return redirect('lecturer:lect_class')
 				else:
 					emp = Employee.objects.filter(user=user).first()
-					new_class = Class(unit_id=unit, t_period=period, staff_id=emp, time_commi=time_commi, code=code)
+					new_class = Class(unit_id=unit, t_period=period, staff_id=emp, time_commi=time_commi2, code=code)
 					new_class.save()
 					msg = 'Class ' + unit.code + code + ' was created successfully.'
 					messages.success(request, msg, extra_tags='alert-warning')
