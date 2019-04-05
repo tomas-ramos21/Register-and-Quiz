@@ -126,8 +126,11 @@ def lect_units(request, unit_code):
 			status, msg = register_topics(file_path)
 			if status == False:
 				messages.error(request, msg, extra_tags='alert-warning')
-				return render(request, 'error_page.html', user_dict)
-
+				return redirect('lecturer:lect_units', unit_code=unit_code)
+			else:
+				messages.success(request, 'Topic records are updated.', extra_tags='alert-success')
+				return redirect('lecturer:lect_units', unit_code=unit_code)
+				
 		if request.method == 'POST' and 'question_file' in request.FILES:
 			csv_file = request.FILES['question_file']
 			fs = FileSystemStorage()
@@ -136,8 +139,11 @@ def lect_units(request, unit_code):
 			status, msg = register_questions( file_path)
 			if status == False:
 				messages.error(request, msg, extra_tags='alert-warning')
-				return render(request, 'error_page.html', user_dict)
-
+				return redirect('lecturer:lect_units', unit_code=unit_code)
+			else:
+				messages.success(request, 'Question records are updated.', extra_tags='alert-success')
+				return redirect('lecturer:lect_units', unit_code=unit_code)
+				
 		return render(request, "Lecturer/LecturerUnits.html", user_dict)
 	else:
 		return redirect('lecturer:lect_error')
@@ -260,7 +266,7 @@ def lect_stats(request, unit_t, period_id):
 							return redirect('lecturer:lect_stats', unit_t=unit_t, period_id=period_id)
 						user_dict['code'] = code
 						user_dict['graph'] = graph
-						return render(request, 'lecturer/statisticsAttendance.html', user_dict)
+						return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
 					elif request.POST.get('download'):
 						response = admin_attendance_csv(period, 'class', selection)
 						if response == False:
