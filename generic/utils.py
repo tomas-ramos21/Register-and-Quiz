@@ -287,8 +287,11 @@ def register_room(csv_path: str) -> None:
 				for column in columns:
 					crt_dict[column] = row[column]
 				building = Building.objects.filter(code=crt_dict['building_code']).first()
-				room = Room(id=crt_dict['id'], bd_code=building, level=crt_dict['level'], capacity=crt_dict['capacity'])
-				room.save()
+				if building is not None:
+					room1 = Room.objects.filter(id=crt_dict['id'])
+					if room1.exists() == False:
+						room = Room(id=crt_dict['id'], bd_code=building, level=crt_dict['level'], capacity=crt_dict['capacity'])
+						room.save()
 		return True, msg
 
 
@@ -324,8 +327,10 @@ def register_building(csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				building = Building(code=crt_dict['code'], name=crt_dict['name'])
-				building.save()
+				b1 = Building.objects.filter(code=crt_dict['code'])
+				if b1.exists() == False:
+					building = Building(code=crt_dict['code'], name=crt_dict['name'])
+					building.save()
 		return True, msg
 
 
@@ -361,9 +366,11 @@ def register_units(csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				unit = Unit(code=crt_dict['code'], title=crt_dict['title'], credits=crt_dict['credits'],
+				unit1 = Unit.objects.filter(code=crt_dict['code'])
+				if unit1.exists() == False:
+					unit = Unit(code=crt_dict['code'], title=crt_dict['title'], credits=crt_dict['credits'],
 							image=crt_dict['image'])
-				unit.save()
+					unit.save()
 		return True, msg
 
 
@@ -399,8 +406,10 @@ def register_courses(csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				course = Course(id=crt_dict['id'], title=crt_dict['title'], school=crt_dict['school'])
-				course.save()
+				course1 = Course.objects.filter(id=crt_dict['id'])
+				if course1.exists() == False:
+					course = Course(id=crt_dict['id'], title=crt_dict['title'], school=crt_dict['school'])
+					course.save()
 		return True, msg
 
 
@@ -436,9 +445,11 @@ def register_teaching_period(csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				teaching_period = Teaching_Period(id=crt_dict['id'], name=crt_dict['name'],
+				tp = Teaching_Period.objects.filter(id=crt_dict['id'])
+				if tp.exists() == False:
+					teaching_period = Teaching_Period(id=crt_dict['id'], name=crt_dict['name'],
 												  st_date=crt_dict['start_date'], en_date=crt_dict['end_date'])
-				teaching_period.save()
+					teaching_period.save()
 		return True, msg
 
 
@@ -639,8 +650,6 @@ def add_students(user, csv_path: str):
 									elif act == 'add':
 										student.s_class.add(class_obj)
 									student.save()
-								else:
-									print('huhu')
 		return True, msg
 
 
@@ -678,8 +687,9 @@ def register_topics( csv_path: str) -> None:
 				for column in columns:
 					crt_dict[column] = row[column]
 				unit = Unit.objects.filter(code=crt_dict['unit']).first()
-				topic = Topic(number=crt_dict['number'], name=crt_dict['name'], unit_id=unit)
-				topic.save()
+				if unit is not None:
+					topic = Topic(number=crt_dict['number'], name=crt_dict['name'], unit_id=unit)
+					topic.save()
 		return True, msg
 
 
@@ -742,12 +752,15 @@ def edit_units(csv_path: str):
 				for column in columns:
 					crt_dict[column] = row[column]
 				user = User.objects.filter(username=crt_dict['staff_id']).first()
-				lecturer = Employee.objects.filter(user=user).first()
-				unit = Unit.objects.filter(code=crt_dict['unit']).first()
-				if crt_dict['action'].lower() == 'add':
-					lecturer.units.add(unit)
-				elif crt_dict['action'].lower() == 'remove':
-					lecturer.units.remove(unit)
+				if user is not None:
+					lecturer = Employee.objects.filter(user=user).first()
+					if lecturer is not None and (lecturer.position.upper() == 'LECTURER' or lecturer.position.upper() == 'COORDINATOR'):
+						unit = Unit.objects.filter(code=crt_dict['unit']).first()
+						if unit.exists() == False:
+							if crt_dict['action'].lower() == 'add':
+								lecturer.units.add(unit)
+							elif crt_dict['action'].lower() == 'remove':
+								lecturer.units.remove(unit)
 		return True, msg
 
 
