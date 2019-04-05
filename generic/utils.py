@@ -754,9 +754,9 @@ def edit_units(csv_path: str):
 				user = User.objects.filter(username=crt_dict['staff_id']).first()
 				if user is not None:
 					lecturer = Employee.objects.filter(user=user).first()
-					if lecturer is not None and (lecturer.position.upper() == 'LECTURER' or lecturer.position.upper() == 'COORDINATOR'):
+					if lecturer is not None and (lecturer.pstn.upper() == 'LECTURER' or lecturer.pstn.upper() == 'COORDINATOR'):
 						unit = Unit.objects.filter(code=crt_dict['unit']).first()
-						if unit.exists() == False:
+						if unit is not None:
 							if crt_dict['action'].lower() == 'add':
 								lecturer.units.add(unit)
 							elif crt_dict['action'].lower() == 'remove':
