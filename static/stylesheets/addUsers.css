@@ -107,5 +107,8 @@ body {
 .font-increase {
   font-size: 1.5rem;
 }
+li.style_custom, .style_custom{
+margin:20px;
+}
 
 /*# sourceMappingURL=addUsers.css.map */
