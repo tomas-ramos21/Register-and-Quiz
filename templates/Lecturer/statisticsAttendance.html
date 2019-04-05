@@ -39,34 +39,17 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
+{% include 'messages.html' %}
 <div id="page-content" style="margin-top:30px;background-color:#e2e2f2;padding:30px">
-        <section class="stats d-flex align-items-center justify-content-center flex-column">
-		{% include 'messages.html' %}
+        <section class="stats d-flex">
+		
             <h1 class="stats__heading">Class Attendance Statistics <br> for {{unit}} {{period}}</h1>
             <section class="container">
                 <form class="row" action="{% url 'lecturer:lect_stats' unit_t=unit period_id=period %}" method="post">
                         {% csrf_token %}
-                    <section class="col-12 col-sm-6 order-last">
-                        <div>{{graph|safe}}</div>
-                    </section>
+                        <div>
                     <section class="col-12 col-sm-6 order-first">
-					<!--
-                                <section class="m-3">
-                                        <select name="period">
-										{% for x in t_period %}
-                                                <option value="{{x.id}}">{{x.id}}</option>
-										{% endfor %}
-                                        </select>
-                                </section>
-					
-                                <section class="m-3">
-                                        <select name="granularity">
-                                                <option value="Course">Course</option>
-                                                <option value="Unit">Unit</option>
-                                                <option value="Class">Class</option>
-                                        </select>
-                                </section>-->
-                                <section class="form-group m-3 stats__text">
+                                <section class="form-group m-3 stats__text style_custom">
                                     <input type="text" name="selection" placeholder="Insert Class Code" required>
                                 </section>
                                 <section class="form-group d-flex align-content-around">
@@ -74,8 +57,10 @@
 									<input type="submit" name="download" value="Download" class="m-3 btn btn-primary btn-lg stats__btn">
                                 </section>
                     </section>
-                </form>
+                </div>
+				</form>
             </section>
+			<div>{{graph|safe}}</div>
         </section>
 		</div>
     </main>

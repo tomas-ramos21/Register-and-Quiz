@@ -310,7 +310,7 @@ def space_stats(request):
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
 				return redirect('administrative:space_stats')
 			user_dict['graph'] = graph
-			return render(request, 'administrative/studentStats.html', user_dict)
+			return render(request, 'administrative/statisticsUsage.html', user_dict)
 		elif request.POST.get('download') :
 			response = admin_space_csv(period, selection)
 			if response == False:
@@ -332,7 +332,7 @@ def user_view(request):
 
 	if searched_user is None:
 		messages.error(request, 'User ID: ' + username + ' was not found', extra_tags='alert-warning')
-		return redirect('administrative:unit_management')
+		return redirect('administrative:user_view')
 
 	student = Student.objects.filter(user=searched_user).first()
 	lecturer = Employee.objects.filter(user=searched_user).first()

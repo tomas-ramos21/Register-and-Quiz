@@ -46,7 +46,9 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
+
 	<div id="page-content" style="margin-top:30px;text-align:center;">
+	{% include 'messages.html' %}
         <form method="post" class="upload" enctype="multipart/form-data">
           {% csrf_token %}
             <h1>Upload CSV Files To Add Students</h1>

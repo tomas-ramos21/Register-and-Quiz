@@ -146,11 +146,14 @@ body {
     bottom: 0;
   }
 }
-#whole-content{
-white-space:nowrap;
+li.style_custom,select.style_custom,section.style_custom, p.style_custom{
+margin:20px;
+font-size:15pt;
 }
-.stats{
-	flex-direction:row;
-	flex-wrap:nowrap;
+
+select.custom2{
+margin-top:5px;
+margin-left:0px;
 }
+
 /*# sourceMappingURL=administrative.css.map */

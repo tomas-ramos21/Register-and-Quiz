@@ -46,26 +46,34 @@
         <section class="stats d-flex">
             <h1 class="stats__heading" style="margin-left:10px">Attendance Statistics</h1>
             <section class="container">
+			<p class="style_custom">Instructions:
+			<ol>
+			<li class="style_custom">Pick a teaching period</li>
+			<li class="style_custom">Pick granularity: Course/Unit/Class</li>
+			<li class="style_custom">Insert field according to granularity selected, e.g. CS for Course, ICT302 for Unit, ICT302A for Class</li>
+			<li class="style_custom">Click Submit to generate a graph or download to download a CSV</li>
+			</ol>
+            </p>
                 <form class="row" action="{% url 'administrative:attendance_stats' %}" method="post">
                         {% csrf_token %}
 					<div>
 					 <section class="col-12 col-sm-6 order-first">
                                 <section class="m-3">
-                                        <select name="period" class=".menu-data">
+                                        <select name="period" class="style_custom custom2">
 										{% for x in t_period %}
                                                 <span style="font-size:100pt"><option value="{{x.id}}" size=50 >{{x.id}}</option></span>
 										{% endfor %}
                                         </select>
                                 </section>
                                 <section class="m-3">
-                                        <select name="granularity">
+                                        <select name="granularity" class="style_custom custom2">
                                                 <option value="Course">Course</option>
                                                 <option value="Unit">Unit</option>
                                                 <option value="Class">Class</option>
                                         </select>
                                 </section>
-                                <section class="form-group m-3 stats__text">
-                                    <input type="text" name="selection" placeholder="Insert Course/Unit/Class Code" class='.data_textbox' required>
+                                <section class="form-group m-3 stats__text style_custom" style='margin-top:5px'>
+                                    <input type="text" name="selection" placeholder="Insert Course/Unit/Class Code" class='style_custom' required>
                                 </section>
                                 <section class="form-group d-flex align-content-around">
                                     <input type="submit" name="submit" value="Submit" class="m-3 btn btn-primary btn-lg stats__btn">

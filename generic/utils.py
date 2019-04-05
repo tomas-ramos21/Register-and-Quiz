@@ -152,15 +152,17 @@ def register_employee(csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				user = User()
-				user.set_password(crt_dict['password'])
-				user.username = crt_dict['id']
-				user.first_name = crt_dict['first_name']
-				user.last_name = crt_dict['last_name']
-				user.email = crt_dict['email']
-				user.save()
-				employee = Employee(user=user, dpt=crt_dict['department'], pstn=crt_dict['position'])
-				employee.save()
+				user1 = User.objects.filter(username=crt_dict['id'])
+				if user1.exists() == False:
+					user = User()
+					user.set_password(crt_dict['password'])
+					user.username = crt_dict['id']
+					user.first_name = crt_dict['first_name']
+					user.last_name = crt_dict['last_name']
+					user.email = crt_dict['email']
+					user.save()
+					employee = Employee(user=user, dpt=crt_dict['department'], pstn=crt_dict['position'])
+					employee.save()
 		return True, msg
 
 
@@ -207,15 +209,18 @@ def register_student(csv_path: str) -> None:
 				crt_dict = {}
 				for column in columns:
 					crt_dict[column] = row[column]
-				user = User()
-				user.set_password(crt_dict['password'])
-				user.username = crt_dict['id']
-				user.first_name = crt_dict['first_name']
-				user.last_name = crt_dict['last_name']
-				user.email = crt_dict['email']
-				user.save()
-				student = Student(user=user)
-				student.save()
+				user1 = User.objects.filter(username=crt_dict['id'])
+				if user1.exists() == False:
+					user = User()
+					user.set_password(crt_dict['password'])
+					user.username = crt_dict['id']
+					user.first_name = crt_dict['first_name']
+					user.last_name = crt_dict['last_name']
+					user.email = crt_dict['email']
+					user.save()
+					student = Student(user=user)
+					student.save()
+	
 		return True, msg
 
 
@@ -761,7 +766,7 @@ def admin_attendance_csv(period, granularity, text_selection):
 
 	if granularity == 'unit':
 		if text_selection.lower() == 'all':
-			data = units_attendance_csv_all(selected_period)
+			data = unit_attendance_csv_all(selected_period)
 		else:
 			unit = Unit.objects.filter(code=text_selection).first()
 			if unit is None:
@@ -782,8 +787,11 @@ def admin_attendance_csv(period, granularity, text_selection):
 				return False
 
 			data = class_attendance_csv(cls)
-
-	return csv_transfer(data)
+	
+	if data is None or data is False:
+		return False
+	else:
+		return csv_transfer(data)
 
 def admin_space_csv(period, selection):
 	selected_period = Teaching_Period.objects.filter(id=period).first()
@@ -795,7 +803,10 @@ def admin_space_csv(period, selection):
 	else:
 		room = Room.objects.filter(id=selection).first()
 		if room is None:
-			return None
+			return False
 		data = room_usage_csv(selection, selected_period)
 
-	return csv_transfer(data)
+	if data is None or data is False:
+		return False
+	else:
+		return csv_transfer(data)

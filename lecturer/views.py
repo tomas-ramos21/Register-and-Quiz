@@ -253,8 +253,9 @@ def lect_stats(request, unit_t, period_id):
 						code = request.POST.get('selection')
 						graph = admin_attendance_graph(period, 'class', code)
 						if graph == False:
-							user_dict['msg'] = 'Information provided is wrong or the request object does not exists.'
-							return render(request, 'error_page.html', user_dict)
+							messages.error(request, 'Information provided is wrong or the request object does not exists.',
+										   extra_tags='alert-warning')
+							return redirect('lecturer:lect_stats', unit_t=unit_t, period_id=period_id)
 						user_dict['code'] = code
 						user_dict['graph'] = graph
 						return render(request, 'lecturer/statisticsAttendance.html', user_dict)
@@ -265,10 +266,20 @@ def lect_stats(request, unit_t, period_id):
 										   extra_tags='alert-warning')
 							return redirect('lecturer:lect_stats')
 						return response
-				else:
-					return render(request, 'Lecturer/statisticsAttendance.html', user_dict)
-
-	return redirect('lecturer:lect_error')
+			else:
+				messages.error(request, 'Information provided is wrong or the request object does not exists.',
+										   extra_tags='alert-warning')
+				return redirect('lecturer:lect_stats')
+		else:
+			messages.error(request, 'Information provided is wrong or the request object does not exists.',
+						   extra_tags='alert-warning')
+			return redirect('lecturer:lect_stats')
+	else:
+		messages.error(request, 'Information provided is wrong or the request object does not exists.',
+										   extra_tags='alert-warning')
+		return redirect('lecturer:lect_stats')
+				
+	return render(request, 'lecturer/statisticsAttendance.html', user_dict)
 
 @login_required
 @is_lecturer
@@ -292,4 +303,4 @@ def user_logout(request):
 			Contains the request type sent by the user.
 	"""
 	logout(request)
-	return HttpResponseRedirect(reverse('administrative:user_logout'))
+	return HttpResponseRedirect(reverse('lecturer:user_logout'))
