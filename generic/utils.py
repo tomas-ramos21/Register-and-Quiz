@@ -585,7 +585,7 @@ def register_class(user, csv_path: str):
 
 def add_students(user, csv_path: str):
 	msg = ""
-	columns = ['class code','teaching period','time commitment','id','action']
+	columns = ['class code','teaching_period','time_commitment','id','action']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -621,10 +621,10 @@ def add_students(user, csv_path: str):
 					if student is not None:
 						unit = crt_dict['class code'][:6]
 						unit_item = Unit.objects.filter(code=unit).first()
-						tp = Teaching_Period.objects.filter(id=crt_dict['teaching period']).first()
+						tp = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
 						if unit_item is not None and tp is not None :
 							code = crt_dict['class code'][-1]
-							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time commitment'], code=code, t_period=tp).first()
+							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time_commitment'], code=code, t_period=tp).first()
 							emp = Employee.objects.filter(user=user).first()
 							if class_obj.staff_id == emp:
 								if class_obj is not None:
