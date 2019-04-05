@@ -33,11 +33,11 @@
 	<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
 	<a itemprop="url" href="{% url 'lecturer:lect_home' %}"><span itemprop="title">Dashboard</span></a></span></li>
 	<li><span tabindex="0">Publish Question</span></li>
-	<li><span tabindex="0">Question for Topic {{question.topic_id.number}}: {{question.topic_id.name}}</span></li>
+	<li><span tabindex="0">Question for Topic {{t_num}}: {{t_name}}</span></li>
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
-              <h1 class="text-center my-3 main__text">{{question.text}}</h1>
+      <h1 class="text-center my-3 main__text">{{text}}</h1>
             <h5 class="text-center my-3 main__text">{{code}}</h5>
 			<h2 class="timer-time" style='display:none;'>{{rem_time}}</h2>
             <h3 class="main__text text-center timer-display"></h3> <!--For Timer-->
@@ -51,7 +51,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-	
+
     <!--Vendor Timer JS function-->
     <script src="{% static 'js/timer.js/src/timer.js' %}"></script>
 
