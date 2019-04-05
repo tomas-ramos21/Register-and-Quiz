@@ -48,13 +48,19 @@ def get_lecturer_context(user) -> Dict:
 					letter = ', '
 				period += letter
 			period_display.append(period)
-
+		
 		class_display = list(zip(unit_list, period_display))
+		
+		final_list = [] 
+		for num in class_display: 
+			if num not in final_list: 
+				final_list.append(num) 
+		
 		user_dict = {
 			'f_name': lect.user.first_name,
 			'fl_name': lect.user.first_name + ' ' + lect.user.last_name,
 			'position': lect.pstn.upper(),
-			'class_display': class_display,
+			'class_display': final_list,
 		}
 		return user_dict
 	else:
