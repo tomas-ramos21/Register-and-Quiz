@@ -75,3 +75,5 @@ class Teaching_Period(models.Model):
 	
 	def __str__(self):
 		return self.id
+
+
