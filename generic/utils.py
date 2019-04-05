@@ -645,15 +645,15 @@ def add_students(user, csv_path: str):
 						if unit_item is not None and tp is not None :
 							code = crt_dict['class code'][-1]
 							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time_commitment'], code=code, t_period=tp).first()
-							emp = Employee.objects.filter(user=user).first()
-							if class_obj.staff_id == emp:
-								if class_obj is not None:
-									act = crt_dict['action']
-									if act == 'remove':
-										student.s_class.remove(class_obj)
-									elif act == 'add':
-										student.s_class.add(class_obj)
-									student.save()
+							if class_obj is not None:
+								emp = Employee.objects.filter(user=user).first()
+								if class_obj.staff_id == emp:
+										act = crt_dict['action']
+										if act == 'remove':
+											student.s_class.remove(class_obj)
+										elif act == 'add':
+											student.s_class.add(class_obj)
+										student.save()
 		return True, msg
 
 
