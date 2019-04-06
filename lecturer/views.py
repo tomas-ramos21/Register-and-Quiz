@@ -257,13 +257,12 @@ def lect_stats(request, unit_t, period_id):
 			if class_item.exists():
 				user_dict['unit'] = unit_t
 				user_dict['period'] = period_id
-				if request.POST.get('submit'):
-					if request.method == 'POST':
-						code = request.POST.get('selection')
+				if request.method == 'POST':
+					code = request.POST.get('selection')
+					if request.POST.get('submit'):
 						graph = admin_attendance_graph(period, 'class', code)
 						if graph == False:
-							messages.error(request, 'Information provided is wrong or the request object does not exists.',
-										   extra_tags='alert-warning')
+							messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
 							return redirect('lecturer:lect_stats', unit_t=unit_t, period_id=period_id)
 						user_dict['code'] = code
 						user_dict['graph'] = graph
@@ -273,9 +272,8 @@ def lect_stats(request, unit_t, period_id):
 					elif request.POST.get('download'):
 						response = admin_attendance_csv(period, 'class', code)
 						if response == False:
-							messages.error(request, 'Information provided is wrong or the request object does not exists.',
-										   extra_tags='alert-warning')
-							return redirect('lecturer:lect_stats')
+							messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
+							return redirect('lecturer:lect_stats', unit_t=unit_t, period_id=period_id)
 						return response
 			else:
 				messages.error(request, 'Information provided is wrong or the request object does not exists.',

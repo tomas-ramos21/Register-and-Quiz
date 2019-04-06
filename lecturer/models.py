@@ -1,3 +1,9 @@
+# Author: Tomas Ramos
+# Date: 20-03-2019
+# Purpose: Render HTML pages for both static and dynamic types.
+# Last Modified By: Madyarini
+# Last Modified Date: 6-04-2019
+
 from django.db import models
 from administrative.models import Unit, Course, Teaching_Period, Room, Employee
 from datetime import datetime

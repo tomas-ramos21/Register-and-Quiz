@@ -188,6 +188,15 @@ def student_answer(request):
 @login_required
 @is_student
 def student_stats(request, unit_t, period_id):
+	"""
+		Handles request sent by the user when using the
+		student statistics page. 
+
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
 	user = request.user
 	period = "".join(period_id.split()).upper().replace(',','-')
 	unit = Unit.objects.filter(code=unit_t).first()
@@ -204,6 +213,14 @@ def student_stats(request, unit_t, period_id):
 @login_required
 @is_student
 def student_error(request):
+	"""
+		Renders error page. 
+
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
 	user = request.user
 	user_dict = get_std_context(user)
 	return render(request, 'student/error.html', user_dict)

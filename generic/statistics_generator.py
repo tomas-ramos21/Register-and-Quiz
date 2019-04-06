@@ -1,3 +1,9 @@
+# Author: Tomas Ramos
+# Date: 20-03-2019
+# Purpose: Generate statistics data in form of csv
+# Last Modified By: Tomas Ramos
+# Last Modified Date: 6-04-2019
+
 import csv
 import pandas as pd
 from django.http import StreamingHttpResponse
@@ -80,7 +86,7 @@ def room_usage_csv_all(period):
 def course_attendance_csv(period, course):
 
 	# CSV columns
-	unit               = []
+	units_list         = []
 	classes_r          = []
 	periods            = []
 	questions          = []
@@ -95,6 +101,7 @@ def course_attendance_csv(period, course):
 	for unit in units:
 		temp = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
 		for entry in temp:
+			print(entry)
 			classes.append(entry)
 
 	for cls in classes:
@@ -113,24 +120,23 @@ def course_attendance_csv(period, course):
 			answer_count.append(str(answers))
 			attendance_percent.append(str(attendance))
 			dates.append(str(date))
-			unit.append(str(cls.unit_id.code))
+			units_list.append(str(cls.unit_id.code))
 			classes_r.append(class_name)
 			periods.append(str(period.id))
 			student_count.append(str(students))
 
-		data = { 'Dates': dates,
-				 'Classes': classes_r,
-				 'Units': units,
-				 'Teaching Period': periods,
-				 'Question Code': questions,
-				 'Answer Count': answer_count,
-				 'Student Count': student_count,
-				 'Attendance Percent': attendance_percent }
-
-		df = pd.DataFrame(data)
-		rows = df.values.tolist()
-		rows.insert(0, df.columns.tolist())
-		return rows
+	data = { 'Dates': dates,
+			 'Classes': classes_r,
+			 'Units': units_list,
+			 'Teaching Period': periods,
+			 'Question Code': questions,
+			 'Answer Count': answer_count,
+			 'Student Count': student_count,
+			 'Attendance Percent': attendance_percent}
+	df = pd.DataFrame(data)
+	rows = df.values.tolist()
+	rows.insert(0, df.columns.tolist())
+	return rows
 
 def course_attendance_csv_all(period):
 
@@ -187,19 +193,19 @@ def unit_attendance_csv(period, unit):
 			periods.append(str(period.id))
 			student_count.append(str(students))
 
-		data = { 'Dates': dates,
-				 'Classes': classes_s,
-				 'Units': units,
-				 'Teaching Period': periods,
-				 'Question Code': questions,
-				 'Answer Count': answer_count,
-				 'Student Count': student_count,
-				 'Attendance Percent': attendance_percent }
+	data = { 'Dates': dates,
+			 'Classes': classes_s,
+			 'Units': units,
+			 'Teaching Period': periods,
+			 'Question Code': questions,
+			 'Answer Count': answer_count,
+			 'Student Count': student_count,
+			 'Attendance Percent': attendance_percent }
 
-		df = pd.DataFrame(data)
-		rows = df.values.tolist()
-		rows.insert(0, df.columns.tolist())
-		return rows
+	df = pd.DataFrame(data)
+	rows = df.values.tolist()
+	rows.insert(0, df.columns.tolist())
+	return rows
 
 def unit_attendance_csv_all(period):
 
@@ -268,16 +274,16 @@ def class_attendance_csv(cls):
 
 def class_attendance_csv_all(period):
 
-    data = []
-    classes = list(Class.objects.filter(t_period=period))
-    for cls in classes:
-        gen_data = class_attendance_csv(cls)
-        if gen_data is None:
-            continue
-        if len(data) == 0:
-            for row in gen_data:
-                data.append(row)
-        else:
-            for row in gen_data[1:]:    # Doesn't add the header
-                data.append(row)
-    return data
+	data = []
+	classes = list(Class.objects.filter(t_period=period))
+	for cls in classes:
+		gen_data = class_attendance_csv(cls)
+		if gen_data is None:
+			continue
+		if len(data) == 0:
+			for row in gen_data:
+				data.append(row)
+		else:
+			for row in gen_data[1:]:    # Doesn't add the header
+				data.append(row)
+	return data

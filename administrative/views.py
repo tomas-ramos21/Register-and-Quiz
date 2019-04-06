@@ -33,9 +33,6 @@ def admin_home(request):
 		----------
 		request: HTTP request object.
 			Contains the request type sent by the user.
-
-		name: Staff's name.
-			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = get_admin_context(user)
@@ -50,9 +47,6 @@ def acc_management(request):
 		----------
 		request: HTTP request object
 			Contains the request type sent by the user.
-
-		name: Staff's name
-			String with teh staff's name.
 	"""
 	user = request.user
 	user_dict = get_admin_context(user)
@@ -60,6 +54,15 @@ def acc_management(request):
 
 @login_required
 def admin_stats(request):
+	"""
+		Handles request sent by the user when using the
+		resource & attendance statistics page. 
+
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
 	user = request.user
 	user_dict = get_admin_context(user)
 	return render(request, 'administrative/statistics.html', user_dict)
@@ -73,9 +76,6 @@ def unit_management(request):
 		----------
 		request: HTTP request object
 			Contains the request type sent by the user.
-
-		name: Staff's name
-			String with teh staff's name.
 	"""
 	user = request.user
 	user_dict = get_admin_context(user)
@@ -146,9 +146,6 @@ def space_management(request):
 		----------
 		request: HTTP request object
 			Contains the request type sent by the user.
-
-		name: Staff's name
-			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = get_admin_context(user)
@@ -208,9 +205,6 @@ def employee_creation(request):
 		----------
 		request: HTTP request object
 			Contains the request type sent by the user.
-
-		name: Staff's name
-			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = get_admin_context(user)
@@ -238,16 +232,13 @@ def employee_creation(request):
 def student_creation(request):
 	"""
 		Handles request sent by the user when using the
-		staff creation page. The page may be re-rendered or
+		student creation page. The page may be re-rendered or
 		a file may be submitted.
 
 		Parameters
 		----------
 		request: HTTP request object
 			Contains the request type sent by the user.
-
-		name: Staff's name
-			String with the staff's name.
 	"""
 	user = request.user
 	user_dict = get_admin_context(user)
@@ -273,6 +264,15 @@ def student_creation(request):
 	return render(request, 'administrative/stuAccAdd.html', user_dict)
 
 def attendance_stats(request):
+	"""
+		Handles request sent by the user when using the
+		attendance statistics page.
+
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
 	user = request.user
 	user_dict = get_admin_context(user)
 	user_dict['t_period'] = Teaching_Period.objects.all()
@@ -330,6 +330,14 @@ def space_stats(request):
 	return render(request, 'administrative/statisticsUsage.html', user_dict)
 
 def user_view(request):
+	"""
+		Renders user view
+
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
 	user = request.user
 	username = request.POST.get('search_user')
 	searched_user = User.objects.filter(username=username).first()
@@ -363,6 +371,14 @@ def user_view(request):
 
 @login_required
 def admin_error(request):
+	"""
+		Renders error page
+
+		Parameters
+		----------
+		request: HTTP request object
+			Contains the request type sent by the user.
+	"""
 	user = request.user
 	user_dict = get_admin_context(user)
 	return render(request, 'administrative/error.html', user_dict)

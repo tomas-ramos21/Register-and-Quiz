@@ -1,3 +1,9 @@
+# Author: Tomas Ramos
+# Date: 20-03-2019
+# Purpose: Render graphs
+# Last Modified By: Tomas Ramos
+# Last Modified Date: 6-04-2019
+
 import datetime
 import itertools
 from plotly.offline import plot
