@@ -6,7 +6,7 @@
 
 from django.db import models
 from administrative.models import Unit, Course, Teaching_Period, Room, Employee
-from datetime import datetime
+from datetime import datetime, timezone
 
 def today_utc():
 	return datetime.utcnow().date()
@@ -96,5 +96,5 @@ class Published_Question(models.Model):
 	
 	def save(self, *args, **kwargs):
 		if not self.tm_stmp:
-			self.tm_stmp = datetime.utcnow()
+			self.tm_stmp = datetime.now(timezone.utc)
 		return super(Published_Question, self).save(*args, **kwargs)

@@ -19,10 +19,10 @@ def answer_graph(question_code):
     y = []       # Answers count
     x = []       # Answers
 
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_1).count())
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_2).count())
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_3).count())
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_4).count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_1').count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_2').count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_3').count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_4').count())
 
     x.append('A')
     x.append('B')
