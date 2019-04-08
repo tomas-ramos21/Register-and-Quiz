@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 class Student(models.Model):
 
     """
-        Django's Model to represent the student
+        Django's Model to represent the Student
 		class in the MySQL Database.
     """
 
@@ -18,14 +18,21 @@ class Student(models.Model):
 class Answer(models.Model):
 
 	"""
-		Django's Model to represent the Asnwer
+		Django's Model to represent the Answer
 		class in the MySQL.
 	"""
 
+	answers = (
+		('answer_1', 'Answer 1'),
+		('answer_2', 'Answer 2'),
+		('answer_3', 'Answer 3'),
+		('answer_4', 'Answer 4'),
+	)
+	
 	s_id		= models.ForeignKey(Student, on_delete=models.PROTECT)		# Student ID
 	q_id		= models.ForeignKey(Published_Question, on_delete=models.PROTECT)		# Question ID
 	teach_day	= models.ForeignKey(Teaching_Day, on_delete=models.PROTECT)	# Teaching Day ID
-	ans		= models.CharField(max_length=255)				# Answer Option
+	ans			= models.CharField(max_length=8, choices=answers)				# Answer Option
 	tm_stmp		= models.DateTimeField(editable=False)					# Time Stamp
 	ip_addr		= models.CharField(max_length=15)				# IP Type
 	

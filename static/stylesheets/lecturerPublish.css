@@ -154,4 +154,10 @@ body {
   min-height: 30px;
 }
 
+.form_custom{
+margin:20px;
+text-align:center;
+font-size:13pt;
+display:block;
+}
 /*# sourceMappingURL=lecturerPublish.css.map */

@@ -136,11 +136,17 @@ body {
 }
 */
 
-table,th,td, tr
+.table_custom td
 {
 		border:1px solid black;
 		font-size:13pt;
 		padding:10px;
 }
 
+.correct_ans{font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:red;}
+.correct_ans:before{content:"\f00c";}
+td.custom_td,.custom_td{padding-left:17px;border:none;}
+.table_custom td
+{
+		border-collapse:collapse;
 /*# sourceMappingURL=lectQues.css.map */

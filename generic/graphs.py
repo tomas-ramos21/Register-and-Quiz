@@ -1,3 +1,9 @@
+# Author: Tomas Ramos
+# Date: 20-03-2019
+# Purpose: Render graphs
+# Last Modified By: Tomas Ramos
+# Last Modified Date: 6-04-2019
+
 import datetime
 import itertools
 from plotly.offline import plot
@@ -13,10 +19,10 @@ def answer_graph(question_code):
     y = []       # Answers count
     x = []       # Answers
 
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_1).count())
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_2).count())
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_3).count())
-    y.append(Answer.objects.filter(q_id=published).filter(ans=published.question.ans_4).count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_1').count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_2').count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_3').count())
+    y.append(Answer.objects.filter(q_id=published).filter(ans='answer_4').count())
 
     x.append('A')
     x.append('B')
@@ -269,7 +275,6 @@ def admin_room_usage(period, selection):
 
 def get_room_attendance(room, period):
     t_days = list(Teaching_Day.objects.filter(r_id=room))
-    print(Teaching_Day.objects.filter(r_id=room).first())
     room_usage = {}
     for day in t_days:
         a_class = Class.objects.filter(id=day.c_id.id).first()

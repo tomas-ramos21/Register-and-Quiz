@@ -1,5 +1,5 @@
-code,title,credits,image
-ICT302,IT Professional Pratice Project,3,default.jpg
-ICT283,Data Structures & Algorithms,3,default.jpg
-ICT163,Systems Analysis & Design,3,default.jpg
-BRD209,Human Resource Economics,3,default.jpg
+code,title,credits,image,course id
+ICT302,IT Professional Practice Project,3,default.jpg,CS
+ICT283,Data Structures & Algorithms,3,default.jpg,CS
+ICT163,Systems Analysis & Design,3,default.jpg,CS/BIS
+BRD209,Human Resource Economics,3,default.jpg,BIS

@@ -1,4 +1,4 @@
 id,title,school
-1,Computer Science,Engineering & Information Technology
-2,Business Information Systems,Engineering & Information Technology
-3,Computer Security & Cyber Forensics,Engineering & Information Technology
+CS,Computer Science,Engineering & Information Technology
+BIS,Business Information Systems,Engineering & Information Technology
+CF,Cyber Security and Forensics,Engineering & Information Technology

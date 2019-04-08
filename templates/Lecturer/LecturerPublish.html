@@ -37,19 +37,17 @@
 	</ul></nav></div><nav class="breadcrumb-button0 span3"></nav>
 </div>
 </div>
+{% include 'messages.html' %}
         <h1 class="text-center main__text">{{question_title}}</h1>
         <form class="form" method="post">
                 {% csrf_token %}
-                <label class="text-center d-block  form__heading">Enter Timer & Class</label>
-                <input type="number" class="form-control p-3  text-center form__input"
-                    placeholder="Enter Time In Minutes" name="max_time" required>
-                <input type="text" class="form-control p-3  text-center form__input"
-                    placeholder="Enter The Class Code" name="current_class" required>
-                <input type="text" class="form-control p-3  text-center form__input"
-                    placeholder="Enter The Room" name="current_room" required>
+                <label class="text-center d-block  form__heading">Enter Timer, Class, and Room</label>
+					{{form.minutes_limit}}
+					{{form.q_class}}
+                <input type="text" class="form_custom" placeholder="Enter the room code" name="current_room" required>
             </section>
-            <section class="d-flex justify-content-center">
-                <input type="submit" class="btn btn-dark p-2 form__submit " value="Publish">
+            <section class="d-flex justify-content-center" style="margin-top:15px">
+                <input type="submit" class="btn btn-dark p-2 form__submit" value="Publish">
             </section>
 
         </form>

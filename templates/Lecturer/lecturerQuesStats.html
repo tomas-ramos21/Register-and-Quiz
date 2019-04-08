@@ -47,29 +47,41 @@
 			</div>
             </section>
 </div>
-			<table style='margin:20px'>
+			<table class="table_custom" style='margin:20px'>
 			<tr>
 			{% if ans1 != '' %}
 			<td>Answer A</td>
 			<td>{{ans1}}</td>
+				{% if correct_ans == 'answer_1' %}
+				<td class="custom_td"><span class="correct_ans"></span>&nbsp;Correct answer</td>
+				{% endif %}
 			</tr>
 			{% endif %}
 			{% if ans2 != '' %}
 			<tr>
 			<td>Answer B</td>
 			<td>{{ans2}}</td>
+				{% if correct_ans == 'answer_2' %}
+				<td class="custom_td"><span class="correct_ans"></span>&nbsp;Correct answer</td>
+				{% endif %}
 			</tr>
 			{% endif %}
 			{% if ans3 != '' %}
 			<tr>
 			<td>Answer C</td>
 			<td>{{ans3}}</td>
+				{% if correct_ans == 'answer_3' %}
+				<td class="custom_td"><span class="correct_ans"></span>&nbsp;Correct answer</td>
+				{% endif %}
 			</tr>
 			{% endif %}
 			{% if ans4 != '' %}
 			<tr>
 			<td>Answer D</td>
 			<td>{{ans4}}</td>
+				{% if correct_ans == 'answer_4' %}
+				<td class="custom_td"><span class="correct_ans"></span>&nbsp;Correct answer</td>
+				{% endif %}
 			</tr>
 			{% endif %}
 			</table>

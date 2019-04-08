@@ -1,19 +1,37 @@
+# Author: Tomas Ramos
+# Date: 20-03-2019
+# Purpose: Render HTML pages for both static and dynamic types.
+# Last Modified By: Madyarini
+# Last Modified Date: 6-04-2019
+
 from django.db import models
 from administrative.models import Unit, Course, Teaching_Period, Room, Employee
-from datetime import datetime
+from datetime import datetime, timezone
 
 def today_utc():
 	return datetime.utcnow().date()
 	
 class Topic(models.Model):
-
+	"""
+		Django's Model to represent the Topic
+		class in the MySQL database.
+	"""
 	id = models.AutoField(primary_key=True)
 	number = models.PositiveIntegerField()
 	name = models.CharField(max_length=255)
 	unit_id = models.ForeignKey(Unit, on_delete=models.PROTECT)
 
 class Question(models.Model):
-
+	"""
+		Django's Model to represent the Question
+		class in the MySQL database.
+	"""
+	answers = (
+		('answer_1', 'Answer 1'),
+		('answer_2', 'Answer 2'),
+		('answer_3', 'Answer 3'),
+		('answer_4', 'Answer 4'),
+	)
 	id = models.AutoField(primary_key=True)
 	title = models.CharField(max_length=255)
 	text = models.CharField(max_length=255)
@@ -23,6 +41,7 @@ class Question(models.Model):
 	ans_4 = models.CharField(max_length=255, blank=True, default='')
 	topic_id = models.ForeignKey(Topic, on_delete=models.PROTECT)
 	staff_id = models.ForeignKey(Employee, on_delete=models.PROTECT)
+	correct_answer = models.CharField(max_length=8, choices=answers)
 
 class Class(models.Model):
 	"""
@@ -65,6 +84,10 @@ class Teaching_Day(models.Model):
 	date_td = models.DateField(default=today_utc)
 
 class Published_Question(models.Model):
+	"""
+		Django's Model to represent the Published_Question
+		class in the MySQL database.
+	"""
 	code = models.PositiveIntegerField(primary_key=True)               # Code - 123-456-789
 	question = models.ForeignKey(Question, on_delete=models.PROTECT)   # Question object
 	q_class = models.ForeignKey(Class, on_delete=models.PROTECT)
@@ -73,5 +96,5 @@ class Published_Question(models.Model):
 	
 	def save(self, *args, **kwargs):
 		if not self.tm_stmp:
-			self.tm_stmp = datetime.utcnow()
+			self.tm_stmp = datetime.now(timezone.utc)
 		return super(Published_Question, self).save(*args, **kwargs)
