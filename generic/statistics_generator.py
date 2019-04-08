@@ -34,15 +34,15 @@ def room_usage_csv(room, period):
 	std_amnt = []
 	room_cap = []
 	usage    = []
-	period   = []
+	period_list   = []
 
-	t_days = list(Teaching_Day.objects.filter(r_id=Room))
+	t_days = list(Teaching_Day.objects.filter(r_id=room))
 	for day in t_days:
-		class_item = Class.objects.filter(id=day.c_id).filter(t_period=period).first()
-		if class_item == None:
+		class_item = Class.objects.filter(id=day.c_id.id).filter(t_period=period).first()
+		if class_item is None:
 			continue
 		student_amount = Student.objects.filter(s_class=class_item).count()
-		date = str(day.date_td.date())
+		date = str(day.date_td)
 		class_name = str(class_item.unit_id.code) + str(class_item.code)
 
 		dates.append(str(date))
@@ -50,7 +50,7 @@ def room_usage_csv(room, period):
 		room_cap.append(str(room.capacity))
 		std_amnt.append(str(student_amount))
 		class_id.append(str(class_name))
-		period.append(str(period.id))
+		period_list.append(str(period.id))
 		usage.append(str(student_amount/room.capacity))
 
 	data = { 'Date': dates,
@@ -59,7 +59,7 @@ def room_usage_csv(room, period):
 			 'Amount Students': std_amnt,
 			 'Room Capacity': room_cap,
 			 'Usage Percentage': usage,
-			 'Teaching Period': period }
+			 'Teaching Period': period_list }
 
 	df = pd.DataFrame(data)
 	rows = df.values.tolist()
@@ -101,7 +101,6 @@ def course_attendance_csv(period, course):
 	for unit in units:
 		temp = list(Class.objects.filter(t_period=period).filter(unit_id=unit))
 		for entry in temp:
-			print(entry)
 			classes.append(entry)
 
 	for cls in classes:
@@ -153,6 +152,7 @@ def course_attendance_csv_all(period):
 			else:
 				for row in gen_data[1:]:    # Doesn't add the header
 					data.append(row)
+	return data
 
 
 def unit_attendance_csv(period, unit):

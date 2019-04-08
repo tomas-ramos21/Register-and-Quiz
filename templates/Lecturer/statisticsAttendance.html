@@ -19,6 +19,11 @@
 
     <!--Administrative-->
     <link rel="stylesheet" href="{% static "stylesheets/administrative.css" %}">
+	<style type="text/css">
+	li.style_custom,.style_custom{
+	margin-left:50px;
+	}
+	</style>
 {% endblock head %}
 </head>
 <body>
@@ -45,6 +50,12 @@
 		
             <h1 class="stats__heading">Class Attendance Statistics <br> for {{unit}} {{period}}</h1>
             <section class="container">
+			<p class="style_custom">Instructions:
+			<ol>
+			<li class="style_custom">Insert class code, e.g. ICT302A</li>
+			<li class="style_custom">Click Submit to generate a graph or download to download a CSV</li>
+			</ol>
+            </p>
                 <form class="row" action="{% url 'lecturer:lect_stats' unit_t=unit period_id=period %}" method="post">
                         {% csrf_token %}
                         <div>

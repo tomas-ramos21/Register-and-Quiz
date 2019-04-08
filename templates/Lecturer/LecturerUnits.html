@@ -21,6 +21,12 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat" rel="stylesheet">
 
     <!--Lecturer CSS-->
+	<style type="text/css">
+	li.style_custom, .style_custom{
+	margin:20px;
+	margin-left:35px;
+	}
+	</style>
 
     <!--Vendor input file styling-->
     <link rel="stylesheet" href="{% static "input-file-master/input-file.css" %}">
@@ -85,13 +91,18 @@
                 Add Questions (+)
             </a>
             <section data-toggle="collapse text-center" id="collapseAdd2">
+			<span class="style_custom">Instructions:</span>
+			<ol>
+			<li class="style_custom"> Use these header(s) in the order : <b>unit, staff_id, title, question, answer_1, <br>answer_2, answer_3, answer_4, topic, correct_answer</b></li>
+			<li class="style_custom"> Make sure that there are no empty or missing cells.</li>
+			</ol>
                 <form method="post" class="upload" enctype="multipart/form-data" href="#collapseAdd2">
                     {% csrf_token %}
-                    <h1>Upload CSV Files To Add Questions</h1>
-                    <section class="form-group file">
+                    <h1 class="style_custom">Upload CSV Files To Add Questions</h1>
+                    <section class="form-group file style_custom">
                         <input type="file" name="question_file" accept=".csv" class="file__uploader">
                     </section>
-                    <div class="form-group">
+                    <div class="form-group style_custom">
                         <div class="d-flex justify-content-center">
                             <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
                                 Submit
@@ -105,13 +116,18 @@
                 Add Topics (+)
             </a>
             <section data-toggle="collapse text-center" id="collapseAdd3">
+			<span class="style_custom">Instructions:</span>
+			<ol>
+			<li class="style_custom"> Use these header(s) in the order : <b>number, name, unit</b></li>
+			<li class="style_custom"> Make sure that there are no empty or missing cells.</li>
+			</ol>
                 <form method="post" class="upload" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h1>Upload CSV Files To Add Topics</h1>
-                    <section class="form-group file">
+                    <h1 class="style_custom">Upload CSV Files To Add Topics</h1>
+                    <section class="form-group file style_custom">
                         <input type="file" name="topic_file" accept=".csv" class="file__uploader">
                     </section>
-                    <div class="form-group">
+                    <div class="form-group style_custom">
                         <div class="d-flex justify-content-center">
                             <button type="submit" id="singlebutton" name="singlebutton" class="btn btn-dark btn-lg">
                                 Submit

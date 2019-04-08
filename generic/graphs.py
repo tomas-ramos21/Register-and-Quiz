@@ -275,7 +275,6 @@ def admin_room_usage(period, selection):
 
 def get_room_attendance(room, period):
     t_days = list(Teaching_Day.objects.filter(r_id=room))
-    print(Teaching_Day.objects.filter(r_id=room).first())
     room_usage = {}
     for day in t_days:
         a_class = Class.objects.filter(id=day.c_id.id).first()

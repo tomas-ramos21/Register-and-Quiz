@@ -96,11 +96,12 @@ def get_std_context(user):
 		return {}
 
 def is_expired(item):
+	"""
+		Returns true if a question has expired, false if it is still valid. 
+	"""
 	diff = datetime.now(timezone.utc) - item.tm_stmp
 	seconds_passed = diff.total_seconds()
 	seconds_limit = item.minutes_limit * 60
-	print(seconds_limit)
-	print(seconds_passed)
 	if seconds_passed > seconds_limit : # If it has expired
 		return True
 	else:
@@ -136,13 +137,13 @@ def register_employee(csv_path: str) -> None:
 		for idx, row in enumerate(rows):
 			if is_empty(row):
 				msg = 'File has an empty cell at index: {}'.format(idx)
-				return False, user_dict
+				return False, msg
 
 		# Checks all cells exist
 		for idx, row in enumerate(rows):
 			if len(row) < len(columns):
 				msg = 'File has missing cells at index: {}'.format(idx)
-				return False, user_dict
+				return False, msg
 
 	with open(csv_path, 'r') as csv_file:
 		reader = csv.DictReader(csv_file, fieldnames=columns)
@@ -336,7 +337,7 @@ def register_building(csv_path: str) -> None:
 
 def register_units(csv_path: str) -> None:
 	msg = ""
-	columns = ['code', 'title', 'credits', 'image']
+	columns = ['code', 'title', 'credits', 'image', 'course id']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -368,9 +369,29 @@ def register_units(csv_path: str) -> None:
 					crt_dict[column] = row[column]
 				unit1 = Unit.objects.filter(code=crt_dict['code'])
 				if unit1.exists() == False:
+					course = []
+					code = ""
+
+					for letter in crt_dict['course id']:
+						if letter == '/':
+							course_item = Course.objects.filter(id=code).exists()
+							if course_item:
+								course.append(code)
+								code = ""
+						else:
+							code += letter
+
+					course_item = Course.objects.filter(id=code).exists()
+					if course_item:
+						course.append(code)
+						code = ""
+
 					unit = Unit(code=crt_dict['code'], title=crt_dict['title'], credits=crt_dict['credits'],
 							image=crt_dict['image'])
 					unit.save()
+					for x in course:
+						unit.course_id.add(x)
+						unit.save()
 		return True, msg
 
 
@@ -463,7 +484,8 @@ def register_questions(csv_path: str) -> None:
 			   'answer_2',
 			   'answer_3',
 			   'answer_4',
-			   'topic']
+			   'topic',
+			   'correct_answer']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -494,22 +516,23 @@ def register_questions(csv_path: str) -> None:
 				for column in columns:
 					crt_dict[column] = row[column]
 				unit = Unit.objects.filter(code=crt_dict['unit']).first()
-				topic = Topic.objects.filter(number=crt_dict['topic']).filter(unit_id=unit).first()
-				user = User.objects.filter(username=crt_dict['staff_id']).first()
-				lecturer = Employee.objects.filter(user=user).first()
-				
-				if unit is None or topic is None or user is None or lecturer is None:
-					continue
-				
-				question = Question(text=crt_dict['question'],
-									ans_1=crt_dict['answer_1'],
-									ans_2=crt_dict['answer_2'],
-									ans_3=crt_dict['answer_3'],
-									ans_4=crt_dict['answer_4'],
-									title=crt_dict['title'],
-									topic_id=topic,
-									staff_id=lecturer)
-				question.save()
+				if unit is not None:
+					topic = Topic.objects.filter(number=crt_dict['topic']).filter(unit_id=unit).first()
+					if topic is not None:
+						user = User.objects.filter(username=crt_dict['staff_id']).first()
+						if user is not None:
+							lecturer = Employee.objects.filter(user=user).first()
+							if lecturer is not None:
+								question = Question(text=crt_dict['question'],
+													ans_1=crt_dict['answer_1'],
+													ans_2=crt_dict['answer_2'],
+													ans_3=crt_dict['answer_3'],
+													ans_4=crt_dict['answer_4'],
+													title=crt_dict['title'],
+													topic_id=topic,
+													staff_id=lecturer,
+													correct_answer=crt_dict['correct_answer'])
+								question.save()
 		return True, msg
 
 
@@ -605,7 +628,7 @@ def register_class(user, csv_path: str):
 
 def add_students(user, csv_path: str):
 	msg = ""
-	columns = ['class code','teaching_period','time_commitment','id','action']
+	columns = ['class code','teaching period','time commitment','id','action']
 
 	with open(csv_path, 'r') as csv_file:
 		rows = list(csv.reader(csv_file))
@@ -641,19 +664,19 @@ def add_students(user, csv_path: str):
 					if student is not None:
 						unit = crt_dict['class code'][:6]
 						unit_item = Unit.objects.filter(code=unit).first()
-						tp = Teaching_Period.objects.filter(id=crt_dict['teaching_period']).first()
+						tp = Teaching_Period.objects.filter(id=crt_dict['teaching period']).first()
 						if unit_item is not None and tp is not None :
 							code = crt_dict['class code'][-1]
-							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time_commitment'], code=code, t_period=tp).first()
+							class_obj = Class.objects.filter(unit_id=unit_item, time_commi=crt_dict['time commitment'], code=code, t_period=tp).first()
 							if class_obj is not None:
 								emp = Employee.objects.filter(user=user).first()
 								if class_obj.staff_id == emp:
-										act = crt_dict['action']
-										if act == 'remove':
-											student.s_class.remove(class_obj)
-										elif act == 'add':
-											student.s_class.add(class_obj)
-										student.save()
+									act = crt_dict['action']
+									if act == 'remove':
+										student.s_class.remove(class_obj)
+									elif act == 'add':
+										student.s_class.add(class_obj)
+									student.save()
 		return True, msg
 
 
@@ -797,13 +820,19 @@ def admin_attendance_csv(period, granularity, text_selection):
 			data = class_attendance_csv_all(selected_period)
 		else:
 			t_period = Teaching_Period.objects.filter(id=period).first()
-			unit = Unit.objects.filter(code=text_selection[:len(text_selection) - 1]).first()
-			cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit_id=unit).first()
-
-			if cls is None or unit is None or t_period is None:
+			if t_period is not None:
+				unit = Unit.objects.filter(code=text_selection[:len(text_selection) - 1]).first()
+				if unit is not None:
+					cls = Class.objects.filter(code=text_selection[-1:]).filter(t_period=t_period).filter(unit_id=unit).first()
+					if cls is not None:
+						data = class_attendance_csv(cls)
+					else:
+						return False
+				else:
+					return False
+			else:
 				return False
-
-			data = class_attendance_csv(cls)
+				
 	
 	if data is None or data is False:
 		return False
@@ -821,7 +850,7 @@ def admin_space_csv(period, selection):
 		room = Room.objects.filter(id=selection).first()
 		if room is None:
 			return False
-		data = room_usage_csv(selection, selected_period)
+		data = room_usage_csv(room, selected_period)
 
 	if data is None or data is False:
 		return False

@@ -52,9 +52,14 @@
             </section>
             <section class="collapse text-center" id="collapseList3">
             <section class="text-left">
+			<span class="style_custom">Instructions:</span>
+			<ol>
+                <li class="style_custom"> Use these header(s) in the order : <b>code, name</b></li>
+			<li class="style_custom"> Make sure that there are no empty or missing cells.</li>
+			</ol>
                     <form method="post" class="upload" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <section class="form-group file">
+                            <section class="form-group file" style="text-align:center">
                                     <label for="building"  class="search__label">Upload CSV</label>
                                     <input type="file" name="building_file" accept=".csv" class="file__uploader">
                             </section>
@@ -75,9 +80,14 @@
             </section>
             <section class="collapse text-center" id="collapseList4">
             <section class="text-left">
+			<span class="style_custom">Instructions:</span>
+			<ol>
+                <li class="style_custom"> Use these header(s) in the order : <b>id, building_code, level, capacity</b></li>
+			<li class="style_custom"> Make sure that there are no empty or missing cells.</li>
+			</ol>
                     <form method="post" class="upload" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <section class="form-group file">
+                            <section class="form-group file" style="text-align:center">
                                     <label for="building"  class="search__label">Upload CSV</label>
                                     <input type="file" name="room_file" accept=".csv" class="file__uploader">
                             </section>

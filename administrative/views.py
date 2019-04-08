@@ -307,8 +307,8 @@ def space_stats(request):
 	if request.method == "POST":
 		period = request.POST.get('period')
 		selection = request.POST.get('room_code')
-		graph = admin_room_usage(period, selection)
 		if request.POST.get('submit') :
+			graph = admin_room_usage(period, selection)
 			if graph is None:
 				messages.error(request, 'Information provided is wrong or the request object does not exists.', extra_tags='alert-warning')
 				return redirect('administrative:space_stats')
