@@ -9,7 +9,7 @@ chardet==3.0.4
 cryptography==2.6.1
 cycler==0.10.0
 decorator==4.4.0
-Django==2.1.7
+Django==2.2.13
 django-ipware==2.1.0
 django-markup==1.4.1
 django-queryset-csv==1.0.1
