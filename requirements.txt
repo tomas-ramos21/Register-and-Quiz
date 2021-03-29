@@ -33,7 +33,7 @@ pandas==0.24.1+0.g1700680.dirty
 patsy==0.5.1
 plotly==3.7.0
 pycparser==2.19
-Pygments==2.3.1
+Pygments==2.7.4
 pyOpenSSL==19.0.0
 pyparsing==2.2.0
 pyrsistent==0.14.11
